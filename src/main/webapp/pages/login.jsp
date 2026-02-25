@@ -71,7 +71,7 @@
                     <p class="text-slate-500">Please enter your details to sign in.</p>
                 </div>
 
-                <form action="login" method="post" class="flex flex-col gap-6">
+                <form action="${pageContext.request.contextPath}/login" method="post" class="flex flex-col gap-6">
 
                     <div>
                         <label class="text-sm font-semibold">Email Address</label>
@@ -101,7 +101,7 @@
 
                 <p class="text-center text-sm text-slate-600">
                     Don't have an account?
-                    <a href="/pages/register.jsp" class="text-primary font-bold hover:underline">
+                    <a href="${pageContext.request.contextPath}/pages/register.jsp" class="text-primary font-bold hover:underline">
                         Create Account
                     </a>
                 </p>

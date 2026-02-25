@@ -1,3 +1,6 @@
-filter\EncodingFilter.class
+filter\AuthFilter.class
 configs\JPAConfig.class
+dao\UserDAO.class
+models\User.class
+filter\EncodingFilter.class
 dao\GenericDAO.class
