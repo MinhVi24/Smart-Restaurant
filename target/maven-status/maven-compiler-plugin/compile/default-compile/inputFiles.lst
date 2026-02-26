@@ -1,3 +1,8 @@
 D:\Smart-Restaurant\src\main\java\filter\EncodingFilter.java
 D:\Smart-Restaurant\src\main\java\dao\GenericDAO.java
+D:\Smart-Restaurant\src\main\java\Controller\AddFoodController.java
+D:\Smart-Restaurant\src\main\java\Controller\MenuController.java
 D:\Smart-Restaurant\src\main\java\configs\JPAConfig.java
+D:\Smart-Restaurant\src\main\java\dao\FoodDAO.java
+D:\Smart-Restaurant\src\main\java\model\Food.java
+D:\Smart-Restaurant\src\main\java\service\FoodService.java
