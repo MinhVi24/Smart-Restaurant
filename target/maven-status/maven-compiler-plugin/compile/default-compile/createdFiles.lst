@@ -1,6 +1,8 @@
-filter\AuthFilter.class
+dao\FoodDAO.class
 configs\JPAConfig.class
-dao\UserDAO.class
-models\User.class
+model\Food.class
+service\FoodService.class
 filter\EncodingFilter.class
+Controller\MenuController.class
+Controller\AddFoodController.class
 dao\GenericDAO.class
