@@ -143,7 +143,7 @@
                     </p>
                 </div>
 
-                <a href="${pageContext.request.contextPath}/views/custumer/checkout/checkout.jsp">
+                <a href="${pageContext.request.contextPath}/views/customer/checkout/checkout.jsp">
                     <button 
                         class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-105">
                         Checkout

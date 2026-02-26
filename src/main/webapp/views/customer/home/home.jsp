@@ -156,11 +156,11 @@
 
                 </main>
 
+                <jsp:include page="/views/includes/footer.jsp"/>
 
             </div>
 
         </div>
-                                                <jsp:include page="/views/includes/footer.jsp"/>
 
     </body>
 </html>
