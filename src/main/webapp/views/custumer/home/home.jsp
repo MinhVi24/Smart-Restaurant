@@ -146,7 +146,7 @@
                                 <button class="flex min-w-[200px] cursor-pointer items-center justify-center rounded-full h-14 px-8 bg-primary text-white text-lg font-bold shadow-xl hover:shadow-primary/40 transition-all">
                                     <span class="truncate">Make a Reservation</span>
                                 </button>
-                                <div class="flex items-center gap-2 text-primary font-semibold py-4 px-6 cursor-pointer hover:underline">
+                                <div class="2 text-primary font-semibold py-4 px-6 cursor-pointer hover:underline">
                                     <span class="material-symbols-outlined">call</span>
                                     <span>+1 (555) 123-4567</span>
                                 </div>

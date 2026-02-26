@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
-
-    <persistence-unit name="SmartRestaurantPU" transaction-type="RESOURCE_LOCAL">
-        
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-
-        <properties>
-            <property name="jakarta.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/> 
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=SmartRestaurantDB;encrypt=true;trustServerCertificate=true"/>       
-            <property name="jakarta.persistence.jdbc.user" value="sa"/>
-            <property name="jakarta.persistence.jdbc.password" value="123"/> 
-            <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/> 
-            <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.format_sql" value="true"/>    
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
-            
-        </properties>
-    </persistence-unit>
+<persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+  <persistence-unit name="SmartRestaurantPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>model.Payments</class>
+    <class>model.Predictions</class>
+    <class>model.MenuItems</class>
+    <class>model.Tables</class>
+    <class>model.Shifts</class>
+    <class>model.Suppliers</class>
+    <class>model.Staff</class>
+    <class>model.Users</class>
+    <class>model.MenuIngredients</class>
+    <class>model.StaffShifts</class>
+    <class>model.Sysdiagrams</class>
+    <class>model.OrderItems</class>
+    <class>model.Reservations</class>
+    <class>model.DailyStats</class>
+    <class>model.Inventory</class>
+    <class>model.Ingredients</class>
+    <class>model.Customers</class>
+    <class>model.Orders</class>
+    <class>model.QueueTickets</class>
+    <properties>
+      <property name="jakarta.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=SmartRestaurantDB;encrypt=true;trustServerCertificate=true"/>
+      <property name="jakarta.persistence.jdbc.user" value="sa"/>
+      <property name="jakarta.persistence.jdbc.password" value="123"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.format_sql" value="true"/>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+    </properties>
+  </persistence-unit>
 </persistence>
