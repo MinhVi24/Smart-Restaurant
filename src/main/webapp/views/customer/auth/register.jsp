@@ -130,15 +130,21 @@
                         <div class="flex gap-3">
 
                             <a href="${pageContext.request.contextPath}/google-login"
-                               class="flex-1 flex items-center justify-center gap-2
-                               h-11 bg-white border border-gray-300
-                               rounded-md hover:shadow-sm transition-all duration-200">
+                           class="flex-1 flex items-center justify-center gap-2
+                           h-11 bg-white border border-gray-300
+                           rounded-md hover:shadow-sm transition-all duration-200">
 
-                                <i class="fa-brands fa-google text-red-500"></i>
-                                <span class="text-sm font-medium text-gray-700">
-                                    Google
-                                </span>
-                            </a>
+                            <svg width="18" height="18" viewBox="0 0 48 48">
+                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.73 1.22 9.23 3.6l6.9-6.9C35.64 2.1 30.2 0 24 0 14.64 0 6.48 5.4 2.56 13.32l8.04 6.24C12.68 13.1 17.9 9.5 24 9.5z"/>
+                            <path fill="#4285F4" d="M46.1 24.5c0-1.64-.15-3.21-.43-4.73H24v9.01h12.42c-.54 2.9-2.18 5.36-4.66 7.01l7.2 5.6C43.8 37.2 46.1 31.3 46.1 24.5z"/>
+                            <path fill="#FBBC05" d="M10.6 28.56A14.48 14.48 0 0 1 9.5 24c0-1.58.27-3.1.75-4.56l-8.04-6.24A23.94 23.94 0 0 0 0 24c0 3.9.94 7.6 2.56 10.8l8.04-6.24z"/>
+                            <path fill="#34A853" d="M24 48c6.48 0 11.92-2.14 15.9-5.82l-7.2-5.6c-2 1.34-4.56 2.13-8.7 2.13-6.1 0-11.32-3.6-13.4-8.76l-8.04 6.24C6.48 42.6 14.64 48 24 48z"/>
+                            </svg>
+
+                            <span class="text-sm font-medium text-gray-700">
+                                Google
+                            </span>
+                        </a>
 
                             <a href="${pageContext.request.contextPath}/facebook-login"
                                class="flex-1 flex items-center justify-center gap-2

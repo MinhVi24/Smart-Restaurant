@@ -34,12 +34,12 @@
         <nav class="absolute left-1/2 -translate-x-1/2 
                     flex items-center gap-10 text-sm font-medium">
 
-            <a href="${pageContext.request.contextPath}/"
+            <a href="${pageContext.request.contextPath}/views/customer/home/home.jsp"
                class="text-slate-700 hover:text-primary transition">
                 Home
             </a>
 
-            <a href="${pageContext.request.contextPath}/menu"
+            <a href="${pageContext.request.contextPath}/views/customer/menu/menu.jsp"
                class="text-slate-700 hover:text-primary transition">
                 Menu
             </a>
@@ -49,7 +49,7 @@
                 Booking
             </a>
 
-            <a href="${pageContext.request.contextPath}/#about"
+            <a href="${pageContext.request.contextPath}/views/about-us/about-us.jsp"
                class="text-slate-700 hover:text-primary transition">
                 About Us
             </a>

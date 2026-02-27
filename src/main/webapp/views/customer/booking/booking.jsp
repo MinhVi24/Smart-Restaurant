@@ -5,7 +5,7 @@
         <meta charset="utf-8"/>
         <title>Table Reservation Form | RestaurantSmart</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/footer.css">      
-        
+
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -21,8 +21,8 @@
                     extend: {
                         colors: {
                             "primary": "#ee7c2b",
-             
-                    "background-light": "#f8f7f6",
+
+                            "background-light": "#f8f7f6",
                             "background-dark": "#221810",
                         },
                         fontFamily: {
@@ -52,8 +52,7 @@
                     Reserve Your Table
                 </h1>
 
-                <form class="space-y-6">
-
+                <form action="table-booking.jsp" method="get" class="space-y-6">
                     <div>
                         <label class="block text-sm font-medium mb-2">Full Name</label>
                         <input type="text" 

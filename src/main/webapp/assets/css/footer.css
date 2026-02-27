@@ -67,7 +67,7 @@
     justify-content: flex-end;
 }
 
-.social-icons i {
+.footer .social-icons i {
     width: 38px;
     height: 38px;
     display: flex;
@@ -86,9 +86,15 @@
     color: #fff;
 }
 
-.social-icons i:nth-child(1):hover { background: #1877F2; } /* Facebook */
-.social-icons i:nth-child(2):hover { background: #DB4437; } /* Google chuẩn */
-.social-icons i:nth-child(3):hover { background: #E1306C; } /* Instagram */
+.social-icons i:nth-child(1):hover {
+    background: #1877F2;
+} /* Facebook */
+.social-icons i:nth-child(2):hover {
+    background: #DB4437;
+} /* Google chuẩn */
+.social-icons i:nth-child(3):hover {
+    background: #E1306C;
+} /* Instagram */
 
 /* Footer bottom */
 .footer-bottom {

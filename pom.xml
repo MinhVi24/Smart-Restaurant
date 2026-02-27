@@ -65,16 +65,19 @@
             <version>2.10.1</version>
         </dependency>
 
+        
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
+        
     </dependencies>
+  
 
     <build>
-        <finalName>Smart-Restaurant</finalName>
+        <finalName>SmartRestaurantERP</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -113,7 +116,7 @@
                             <location>${project.build.directory}/${project.build.finalName}</location>
                             <type>exploded</type>
                             <properties>
-                                <context>Smart-Restaurant</context>
+                                <context>SmartRestaurantERP</context>
                             </properties>
                         </deployable>
                     </deployables>
