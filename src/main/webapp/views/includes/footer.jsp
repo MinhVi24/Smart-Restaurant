@@ -96,4 +96,4 @@
         © 2026 RestaurantSmart. All rights reserved.
     </div>
 </div>
-</footer>
+</footer> 
