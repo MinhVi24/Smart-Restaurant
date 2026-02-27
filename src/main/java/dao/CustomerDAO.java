@@ -3,27 +3,29 @@ package dao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
-import model.Users;
+import model.Customers;
 import configs.JPAConfig;
+import model.Users;
 
-public class UserDAO extends GenericDAO<Users> {
+public class CustomerDAO extends GenericDAO<Customers> {
 
-    public UserDAO() {
-        super(Users.class);
+    public CustomerDAO() {
+        super(Customers.class);
     }
 
-    public Users findByUsername(String username) {
+    public Customers findByPhone(String phone) {
         EntityManager em = JPAConfig.getEntityManager();
         try {
-            TypedQuery<Users> query = em.createNamedQuery("Users.findByUsername", Users.class);
-            query.setParameter("username", username);
+            TypedQuery<Customers> query = em.createNamedQuery("Customers.findByPhone", Customers.class);
+            query.setParameter("phone", phone);
             return query.getSingleResult();
         } catch (NoResultException e) {
-            return null; // Không tìm thấy user
+            return null; // Không tìm thấy customer
         } finally {
             em.close();
         }
     }
+
     public Users findByEmail(String email) {
         // Sử dụng JPAConfig giống như cách lớp cha GenericDAO đang làm
         EntityManager em = configs.JPAConfig.getEntityManager();
@@ -44,5 +46,6 @@ public class UserDAO extends GenericDAO<Users> {
             // Giống như các hàm create, update, findAll trong lớp cha của bạn
             em.close();
         }
+
     }
 }
