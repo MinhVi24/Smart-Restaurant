@@ -3,6 +3,7 @@ dao\CustomerDAO.class
 model\StaffShiftsPK.class
 model\Orders.class
 model\StaffShifts.class
+service\UserService.class
 model\Staff.class
 filter\AuthFilter.class
 model\DailyStats.class
@@ -27,6 +28,7 @@ model\OrderItems.class
 model\Tables.class
 model\Ingredients.class
 model\MenuItems.class
+service\CustomerService.class
 model\Reservations.class
 controller\auth\LogoutController.class
 configs\JPAConfig.class
