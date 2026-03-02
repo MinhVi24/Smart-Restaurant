@@ -79,4 +79,19 @@ public class UserService {
     public List<Users> getAll() {
         return userDAO.findAll();
     }
+
+    /**
+     * Cập nhật mật khẩu mới cho user theo email.
+     * @param email email của user cần đổi mật khẩu
+     * @param newRawPassword mật khẩu mới (chưa hash)
+     * @throws IllegalArgumentException nếu không tìm thấy user
+     */
+    public void updatePassword(String email, String newRawPassword) {
+        Users user = userDAO.findByEmail(email);
+        if (user == null) {
+            throw new IllegalArgumentException("Không tìm thấy tài khoản với email này.");
+        }
+        user.setPasswordHash(BCrypt.hashpw(newRawPassword, BCrypt.gensalt()));
+        userDAO.update(user);
+    }
 }
