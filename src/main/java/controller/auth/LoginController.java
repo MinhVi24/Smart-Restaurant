@@ -1,4 +1,4 @@
-package controller;
+package controller.auth;
 
 import configs.GoogleConfig;
 import service.UserService;

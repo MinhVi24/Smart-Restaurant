@@ -1,5 +1,6 @@
-package controller;
+package controller.auth;
 
+import controller.auth.ForgotPasswordController;
 import service.UserService;
 
 import jakarta.servlet.ServletException;

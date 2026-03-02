@@ -1,4 +1,4 @@
-package controller;
+package controller.auth;
 
 import service.UserService;
 import service.EmailService;
