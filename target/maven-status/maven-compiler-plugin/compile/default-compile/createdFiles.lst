@@ -23,6 +23,7 @@ controller\auth\RegisterController.class
 model\Customers.class
 model\Suppliers.class
 service\FoodService.class
+create\GenerateHash.class
 model\QueueTickets.class
 model\OrderItems.class
 model\Tables.class

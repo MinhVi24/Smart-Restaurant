@@ -39,7 +39,7 @@ public class LoginController extends HttpServlet {
 
             // Chuyển hướng dựa trên Role
             if ("ADMIN".equalsIgnoreCase(user.getRole()) || "STAFF".equalsIgnoreCase(user.getRole())) {
-                response.sendRedirect(request.getContextPath() + "/views/admin/food/admin-dashboard.jsp");
+                response.sendRedirect(request.getContextPath() + "/views/admin/home-admin/home-admin.jsp");
             } else {
                 response.sendRedirect(request.getContextPath() + "/");
             }
