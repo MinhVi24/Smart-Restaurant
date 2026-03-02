@@ -1,4 +1,4 @@
-package controller;
+package controller.auth;
 
 import service.FoodService;
 import jakarta.servlet.*;

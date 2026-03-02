@@ -1,4 +1,4 @@
-package controller.auth;
+package controller;
 
 import service.UserService;
 import service.CustomerService;

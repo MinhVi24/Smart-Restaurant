@@ -6,6 +6,7 @@
     <groupId>com.smartrestaurant</groupId>
     <artifactId>SmartRestaurantERP</artifactId>
     <version>1.0-SNAPSHOT</version>
+    
     <packaging>war</packaging>
 
     <properties>
@@ -15,6 +16,15 @@
     </properties>
 
     <dependencies>
+        
+        
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20240303</version>
+        </dependency>
+
+
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
@@ -32,7 +42,7 @@
             <artifactId>jakarta.servlet.jsp.jstl</artifactId>
             <version>3.0.1</version>
         </dependency>
-
+        
 
         <dependency>
             <groupId>org.hibernate.orm</groupId>
