@@ -10,6 +10,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import configs.GoogleConfig;
 
 @WebServlet(name = "RegisterController", urlPatterns = {"/register"})
 public class RegisterController extends HttpServlet {
@@ -20,6 +23,19 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        // Tạo Google OAuth URL động (giống LoginController)
+        String redirectUri = request.getScheme() + "://" + request.getServerName()
+                + ":" + request.getServerPort() + request.getContextPath() + "/login-google";
+
+        String googleLoginUrl = "https://accounts.google.com/o/oauth2/auth"
+                + "?client_id=" + URLEncoder.encode(GoogleConfig.GOOGLE_CLIENT_ID, StandardCharsets.UTF_8)
+                + "&redirect_uri=" + URLEncoder.encode(redirectUri, StandardCharsets.UTF_8)
+                + "&response_type=code"
+                + "&scope=" + URLEncoder.encode("email profile", StandardCharsets.UTF_8);
+
+        request.setAttribute("googleLoginUrl", googleLoginUrl);
+
         request.getRequestDispatcher("/views/custumer/auth/register.jsp").forward(request, response);
     }
 

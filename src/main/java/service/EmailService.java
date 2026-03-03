@@ -80,4 +80,67 @@ public class EmailService {
             throw new RuntimeException("Không thể gửi email. Vui lòng thử lại sau.", e);
         }
     }
+
+    /**
+     * Gửi email thông báo đăng nhập bằng Google.
+     * @param toEmail Email người nhận
+     * @param userName Tên người dùng
+     */
+    public void sendLoginNotificationEmail(String toEmail, String userName) {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", SMTP_HOST);
+        props.put("mail.smtp.port", String.valueOf(SMTP_PORT));
+        props.put("mail.smtp.ssl.trust", SMTP_HOST);
+
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(FROM_EMAIL, APP_PASSWORD);
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(FROM_EMAIL, "Maison D'Or"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject("Maison D'Or - Thông báo đăng nhập");
+
+            // Lấy thời gian hiện tại
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            String loginTime = sdf.format(new java.util.Date());
+
+            String htmlContent = """
+                <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background: #1a1a1a; border-radius: 12px; overflow: hidden;">
+                    <div style="background: linear-gradient(135deg, #d4af35, #b08d1e); padding: 30px; text-align: center;">
+                        <h1 style="color: #1a1a1a; margin: 0; font-size: 28px; letter-spacing: 3px;">MAISON D'OR</h1>
+                    </div>
+                    <div style="padding: 40px 30px; color: #e0e0e0;">
+                        <h2 style="color: #d4af35; margin-top: 0;">Thông báo đăng nhập</h2>
+                        <p style="line-height: 1.6;">Xin chào <strong>%s</strong>,</p>
+                        <p style="line-height: 1.6;">Tài khoản của bạn vừa được đăng nhập bằng Google vào lúc:</p>
+                        <div style="text-align: center; margin: 20px 0; padding: 15px; background: #232323; border-radius: 8px; border-left: 4px solid #d4af35;">
+                            <p style="margin: 0; font-size: 18px; color: #d4af35; font-weight: bold;">%s</p>
+                        </div>
+                        <p style="line-height: 1.6; color: #999; font-size: 13px;">Nếu đây không phải bạn, vui lòng đổi mật khẩu ngay hoặc liên hệ với chúng tôi.</p>
+                        <p style="line-height: 1.6; color: #999; font-size: 13px;">Nếu đây là bạn, bạn có thể bỏ qua email này.</p>
+                    </div>
+                    <div style="background: #111; padding: 20px; text-align: center; color: #666; font-size: 12px;">
+                        <p style="margin: 0;">© 2024 Maison D'Or. All rights reserved.</p>
+                    </div>
+                </div>
+                """.formatted(userName, loginTime);
+
+            message.setContent(htmlContent, "text/html; charset=UTF-8");
+            Transport.send(message);
+
+            System.out.println("Email thông báo đăng nhập đã gửi tới: " + toEmail);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Không throw exception - việc gửi email thông báo không nên chặn đăng nhập
+            System.err.println("Không thể gửi email thông báo đăng nhập tới: " + toEmail);
+        }
+    }
 }
