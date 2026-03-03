@@ -62,6 +62,9 @@ public class Orders implements Serializable {
     @JoinColumn(name = "table_id", referencedColumnName = "table_id")
     @ManyToOne
     private Tables tableId;
+    @JoinColumn(name = "reservation_id", referencedColumnName = "reservation_id")
+    @ManyToOne
+    private Reservations reservationId;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "orderId")
     private Payments payments;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId")
@@ -128,6 +131,14 @@ public class Orders implements Serializable {
 
     public void setTableId(Tables tableId) {
         this.tableId = tableId;
+    }
+
+    public Reservations getReservationId() {
+        return reservationId;
+    }
+
+    public void setReservationId(Reservations reservationId) {
+        this.reservationId = reservationId;
     }
 
     public Payments getPayments() {

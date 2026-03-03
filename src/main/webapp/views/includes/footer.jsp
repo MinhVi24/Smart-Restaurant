@@ -1,65 +1,87 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<footer class="bg-[#0a0a0a] border-t border-primary/20 pb-32">
-    <div class="max-w-7xl mx-auto px-6 py-20">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
-            <div class="flex flex-col gap-8">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 vesper-logo-motif">
-                        <span class="font-serif text-champagne-gold text-2xl z-10 font-medium">V</span>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
+<footer style="background: #0a0a0a; border-top: 1px solid var(--md-border); padding: 48px 20px 24px;">
+    <div class="md-container">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 48px; margin-bottom: 48px;">
+            <!-- Column 1: About -->
+            <div>
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+                    <div style="width: 32px; height: 32px; border-radius: 8px; background: radial-gradient(circle at 30% 0, #fff8da, #f0cf57 28%, #b48b20 65%, #765712 100%); color: #111; display: grid; place-items: center; font-weight: 800; letter-spacing: 0.16em; font-size: 11px;">
+                        M
                     </div>
-                    <h2 class="font-serif text-3xl font-bold tracking-[0.2em] text-champagne-gold uppercase">Vesper</h2>
+                    <h3 style="font-family: var(--md-font-serif); font-size: 1.25rem; color: var(--md-text); margin: 0;">SmartResto</h3>
                 </div>
-                <p class="text-white/40 text-sm leading-loose font-light tracking-widest max-w-sm uppercase">
-                    Nơi ánh hoàng hôn hội tụ cùng nghệ thuật ẩm thực đương đại. Vesper mang đến trải nghiệm tinh hoa trong từng khoảnh khắc.
+                <p style="color: var(--md-text-muted); font-size: 0.875rem; line-height: 1.6; margin-bottom: 16px;">
+                    Nơi hội tụ tinh hoa ẩm thực và công nghệ hiện đại, mang đến trải nghiệm 5 sao chuẩn mực mới.
                 </p>
             </div>
-            <div class="flex flex-col gap-8">
-                <h3 class="text-champagne-gold font-serif text-sm font-bold tracking-[0.3em] uppercase border-b border-primary/20 pb-4">Thông Tin Liên Hệ</h3>
-                <div class="flex flex-col gap-6 text-white/60 text-[13px] tracking-wide">
-                    <div class="flex items-start gap-4">
-                        <span class="material-symbols-outlined text-primary text-xl">location_on</span>
-                        <p>123 Lê Lợi, Quận 1, TP. Hồ Chí Minh</p>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <span class="material-symbols-outlined text-primary text-xl">call</span>
-                        <p>+84 28 3822 8888</p>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <span class="material-symbols-outlined text-primary text-xl">mail</span>
-                        <p>concierge@vesper.vn</p>
-                    </div>
-                </div>
+            
+            <!-- Column 2: Quick Links -->
+            <div>
+                <h4 style="color: var(--md-text); font-weight: 700; margin-bottom: 20px; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.1em;">Liên Kết Nhanh</h4>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 12px;">
+                        <a href="${pageContext.request.contextPath}/" style="color: var(--md-text-muted); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">Trang chủ</a>
+                    </li>
+                    <li style="margin-bottom: 12px;">
+                        <a href="${pageContext.request.contextPath}/menu" style="color: var(--md-text-muted); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">Thực đơn</a>
+                    </li>
+                    <li style="margin-bottom: 12px;">
+                        <a href="${pageContext.request.contextPath}/booking" style="color: var(--md-text-muted); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">Đặt bàn</a>
+                    </li>
+                    <li style="margin-bottom: 12px;">
+                        <a href="${pageContext.request.contextPath}/login" style="color: var(--md-text-muted); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">Đăng nhập</a>
+                    </li>
+                </ul>
             </div>
-            <div class="flex flex-col gap-8">
-                <h3 class="text-champagne-gold font-serif text-sm font-bold tracking-[0.3em] uppercase border-b border-primary/20 pb-4">Giờ Mở Cửa</h3>
-                <div class="text-white/60 text-[13px] tracking-wide mb-4">
-                    <div class="flex justify-between mb-4 border-b border-white/5 pb-2">
-                        <span class="font-medium">Thứ Hai - Thứ Sáu</span>
-                        <span>17:00 - 23:00</span>
-                    </div>
-                    <div class="flex justify-between border-b border-white/5 pb-2">
-                        <span class="font-medium">Thứ Bảy - Chủ Nhật</span>
-                        <span>11:00 - 23:30</span>
-                    </div>
-                </div>
-                <div class="flex gap-6">
-                    <a class="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center text-primary hover:bg-primary hover:text-background-dark transition-all duration-500" href="#">
-                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>
-                    </a>
-                    <a class="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center text-primary hover:bg-primary hover:text-background-dark transition-all duration-500" href="#">
-                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
-                    </a>
-                </div>
+            
+            <!-- Column 3: Contact -->
+            <div>
+                <h4 style="color: var(--md-text); font-weight: 700; margin-bottom: 20px; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.1em;">Liên Hệ</h4>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 12px;">
+                        <span class="material-symbols-outlined" style="color: var(--md-primary); font-size: 18px;">location_on</span>
+                        <span style="color: var(--md-text-muted); font-size: 0.875rem;">Tầng 64, Tòa Landmark, Quận 1, TP.HCM, Việt Nam</span>
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                        <span class="material-symbols-outlined" style="color: var(--md-primary); font-size: 18px;">call</span>
+                        <span style="color: var(--md-text-muted); font-size: 0.875rem;">+84 909 123 456</span>
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 8px;">
+                        <span class="material-symbols-outlined" style="color: var(--md-primary); font-size: 18px;">mail</span>
+                        <span style="color: var(--md-text-muted); font-size: 0.875rem;">booking@smartresto.vn</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Column 4: Hours -->
+            <div>
+                <h4 style="color: var(--md-text); font-weight: 700; margin-bottom: 20px; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.1em;">Giờ Mở Cửa</h4>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                        <span style="color: var(--md-text-muted); font-size: 0.875rem;">Thứ 2 - Thứ 5</span>
+                        <span style="color: var(--md-text); font-size: 0.875rem; font-weight: 600;">10:00 - 23:00</span>
+                    </li>
+                    <li style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                        <span style="color: var(--md-text-muted); font-size: 0.875rem;">Thứ 7 - Chủ Nhật</span>
+                        <span style="color: var(--md-text); font-size: 0.875rem; font-weight: 600;">09:00 - 00:00</span>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="border-t border-white/5 mt-20 pt-10 text-center md:text-left flex flex-col md:flex-row justify-between items-center text-white/20 text-[10px] tracking-[0.2em] uppercase font-bold">
-            <p>© 2024 Vesper Luxury Restaurant. Tinh hoa ẩm thực Việt.</p>
-            <div class="flex gap-10 mt-6 md:mt-0">
-                <a class="hover:text-primary transition-colors" href="#">Chính sách bảo mật</a>
-                <a class="hover:text-primary transition-colors" href="#">Điều khoản dịch vụ</a>
-            </div>
+        
+        <!-- Bottom Bar -->
+        <div style="padding-top: 24px; border-top: 1px solid var(--md-border); text-align: center;">
+            <p style="color: var(--md-text-muted); font-size: 0.75rem; margin: 0;">
+                © 2024 SmartResto. All rights reserved.
+            </p>
         </div>
     </div>
 </footer>
-</body>
-</html>
+
+<style>
+    footer a:hover {
+        color: var(--md-primary);
+    }
+</style>

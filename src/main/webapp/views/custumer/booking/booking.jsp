@@ -1,379 +1,567 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
-
-<html class="dark" lang="vi"><head>
-        <meta charset="utf-8"/>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-        <title>Luxury Restaurant Table Selection</title>
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com" rel="preconnect"/>
-        <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
-        <!-- Material Symbols -->
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-        <!-- Tailwind Configuration -->
-        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-        <script id="tailwind-config">
-            tailwind.config = {
-                darkMode: "class",
-                theme: {
-                    extend: {
-                        colors: {
-                            "primary": "#d4af35",
-                            "background-light": "#f8f7f6",
-                            "background-dark": "#171612",
-                            "surface-dark": "#201d16",
-                            "accent-gold": "#C6A34F",
-                        },
-                        fontFamily: {
-                            "display": ["Manrope", "sans-serif"],
-                            "serif": ["Playfair Display", "serif"],
-                        },
-                        borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
-                        boxShadow: {
-                            'glow': '0 0 15px rgba(212, 175, 53, 0.3)',
-                        }
-                    },
-                },
-            }
-        </script>
-        <style>
-            /* Custom styles for specific luxury effects */
-            .glass-panel {
-                background: rgba(32, 29, 22, 0.7);
-                backdrop-filter: blur(12px);
-                -webkit-backdrop-filter: blur(12px);
-                border: 1px solid rgba(212, 175, 53, 0.1);
-            }
-
-            .gold-gradient-text {
-                background: linear-gradient(135deg, #fff 0%, #d4af35 50%, #fff 100%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-            }
-
-            .table-shape {
-                transition: all 0.3s ease;
-            }
-
-            .table-shape:hover .tooltip {
-                opacity: 1;
-                transform: translateY(-8px) translateX(-50%);
-                visibility: visible;
-            }
-
-            /* Hide scrollbar for clean look */
-            .no-scrollbar::-webkit-scrollbar {
-                display: none;
-            }
-            .no-scrollbar {
-                -ms-overflow-style: none;
-                scrollbar-width: none;
-            }
-        </style>
-    </head>
-    <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
-        <!-- Header / Sticky Navbar -->
-        <header class="sticky top-0 z-50 glass-panel border-b border-white/5 w-full">
-            <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-                <!-- Logo -->
-                <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-primary text-3xl">diamond</span>
-                    <div>
-                        <h1 class="font-serif text-xl font-bold tracking-widest text-white uppercase">Lumina</h1>
-                        <p class="text-[10px] tracking-[0.3em] text-primary/80 uppercase">Fine Dining</p>
-                    </div>
-                </div>
-                <!-- Step Indicator -->
-                <nav class="hidden md:flex items-center gap-4">
-                    <a class="flex items-center gap-2 group" href="#">
-                        <span class="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-background-dark text-xs font-bold">1</span>
-                        <span class="text-primary font-medium text-sm tracking-wide border-b border-primary">Chọn Bàn</span>
-                    </a>
-                    <div class="w-8 h-[1px] bg-white/10"></div>
-                    <a class="flex items-center gap-2 group opacity-50" href="#">
-                        <span class="flex items-center justify-center w-6 h-6 rounded-full border border-white/30 text-white/50 text-xs font-bold">2</span>
-                        <span class="text-white/50 font-medium text-sm tracking-wide group-hover:text-white transition-colors">Chọn Thực Đơn</span>
-                    </a>
-                    <div class="w-8 h-[1px] bg-white/10"></div>
-                    <span class="flex items-center gap-2 opacity-50">
-                        <span class="flex items-center justify-center w-6 h-6 rounded-full border border-white/30 text-white/50 text-xs font-bold">3</span>
-                        <span class="text-white/50 font-medium text-sm tracking-wide">Hoàn Tất</span>
-                    </span>
-                </nav>
-                <!-- User/Menu -->
-                <div class="flex items-center gap-6">
-                    <button class="text-white/70 hover:text-primary transition-colors">
-                        <span class="material-symbols-outlined">search</span>
-                    </button>
-                    <button class="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/30 px-5 py-2 rounded-lg text-sm font-semibold tracking-wide transition-all">
-                        Đăng Nhập
-                    </button>
-                </div>
-            </div>
-        </header>
-        <!-- Main Content -->
-        <main class="flex-grow flex flex-col max-w-7xl mx-auto w-full px-4 sm:px-6 py-8 relative">
-            <!-- Filter Section -->
-            <section class="mb-10 w-full">
-                <h2 class="font-serif text-3xl md:text-4xl text-center mb-2 text-white">Đặt Bàn Thượng Hạng</h2>
-                <p class="text-center text-white/50 text-sm mb-8 tracking-wide font-light">Trải nghiệm ẩm thực đẳng cấp 5 sao tại không gian sang trọng bậc nhất</p>
-                <div class="glass-panel p-1 rounded-2xl max-w-4xl mx-auto">
-                    <div class="flex flex-col md:flex-row items-center gap-2 p-3">
-                        <!-- Date Picker -->
-                        <div class="flex-1 w-full relative group">
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <span class="material-symbols-outlined text-primary">calendar_today</span>
-                            </div>
-                            <select class="block w-full pl-12 pr-10 py-3 bg-surface-dark/50 border border-white/10 rounded-xl text-white focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm cursor-pointer hover:bg-white/5 transition-colors appearance-none">
-                                <option>Thứ Sáu, 24 Tháng 5</option>
-                                <option>Thứ Bảy, 25 Tháng 5</option>
-                                <option>Chủ Nhật, 26 Tháng 5</option>
-                            </select>
-                            <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                                <span class="material-symbols-outlined text-white/30 text-sm">expand_more</span>
-                            </div>
-                        </div>
-                        <div class="hidden md:block w-[1px] h-10 bg-white/10"></div>
-                        <!-- Time Picker -->
-                        <div class="flex-1 w-full relative">
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <span class="material-symbols-outlined text-primary">schedule</span>
-                            </div>
-                            <select class="block w-full pl-12 pr-10 py-3 bg-surface-dark/50 border border-white/10 rounded-xl text-white focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm cursor-pointer hover:bg-white/5 transition-colors appearance-none">
-                                <option>19:00 - Bữa Tối</option>
-                                <option>19:30 - Bữa Tối</option>
-                                <option>20:00 - Bữa Tối</option>
-                            </select>
-                            <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                                <span class="material-symbols-outlined text-white/30 text-sm">expand_more</span>
-                            </div>
-                        </div>
-                        <div class="hidden md:block w-[1px] h-10 bg-white/10"></div>
-                        <!-- Guest Picker -->
-                        <div class="flex-1 w-full relative">
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <span class="material-symbols-outlined text-primary">group</span>
-                            </div>
-                            <select class="block w-full pl-12 pr-10 py-3 bg-surface-dark/50 border border-white/10 rounded-xl text-white focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm cursor-pointer hover:bg-white/5 transition-colors appearance-none">
-                                <option>2 Khách</option>
-                                <option>4 Khách</option>
-                                <option>6 Khách</option>
-                                <option>VIP Private</option>
-                            </select>
-                            <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                                <span class="material-symbols-outlined text-white/30 text-sm">expand_more</span>
-                            </div>
-                        </div>
-                        <!-- Search Button -->
-                        <button class="w-full md:w-auto bg-primary text-surface-dark font-bold px-8 py-3 rounded-xl hover:bg-white transition-all shadow-glow">
-                            Tìm Bàn
-                        </button>
-                    </div>
-                </div>
-            </section>
-            <!-- Interactive Floor Plan -->
-            <section class="flex-1 relative overflow-hidden rounded-3xl border border-white/5 bg-surface-dark/30 shadow-2xl mb-24">
-                <!-- Background Texture/Image -->
-                <div class="absolute inset-0 z-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&amp;w=2574&amp;auto=format&amp;fit=crop')] bg-cover bg-center mix-blend-overlay" data-alt="Abstract luxurious marble texture background"></div>
-                <!-- Zone Tabs -->
-                <div class="relative z-10 flex border-b border-white/10 bg-surface-dark/80 backdrop-blur-sm">
-                    <button class="flex-1 py-4 text-center border-b-2 border-primary text-primary font-serif font-medium tracking-wider relative">
-                        <span class="block text-sm sm:text-base">Khu Vực Cửa Sổ</span>
-                        <span class="text-[10px] text-primary/60 uppercase tracking-widest">City View</span>
-                    </button>
-                    <button class="flex-1 py-4 text-center border-b-2 border-transparent text-white/40 hover:text-white font-serif font-medium tracking-wider transition-colors">
-                        <span class="block text-sm sm:text-base">Khu Vườn Nhiệt Đới</span>
-                        <span class="text-[10px] opacity-60 uppercase tracking-widest">Garden Lounge</span>
-                    </button>
-                    <button class="flex-1 py-4 text-center border-b-2 border-transparent text-white/40 hover:text-white font-serif font-medium tracking-wider transition-colors">
-                        <span class="block text-sm sm:text-base">Khu Vực VIP</span>
-                        <span class="text-[10px] opacity-60 uppercase tracking-widest">Private Dining</span>
-                    </button>
-                </div>
-                <!-- Map Layout -->
-                <div class="relative z-10 w-full h-[500px] p-8 overflow-auto no-scrollbar">
-                    <div class="relative min-w-[800px] h-full mx-auto max-w-[1000px]">
-                        <!-- Decorative Elements representing walls/windows -->
-                        <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-b from-white/10 to-transparent rounded-full"></div>
-                        <div class="absolute bottom-10 left-0 w-full text-center text-white/20 text-xs tracking-[0.5em] uppercase font-light">City Skyline View</div>
-                        <!-- Legend -->
-                        <div class="absolute top-4 right-4 flex flex-col gap-2 p-3 rounded-lg bg-black/40 backdrop-blur-md border border-white/5">
-                            <div class="flex items-center gap-2">
-                                <div class="w-3 h-3 rounded-full border border-primary/50 bg-primary/20"></div>
-                                <span class="text-[10px] text-white/70 uppercase tracking-wider">Trống</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <div class="w-3 h-3 rounded-full bg-primary shadow-glow"></div>
-                                <span class="text-[10px] text-white/70 uppercase tracking-wider">Đang chọn</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <div class="w-3 h-3 rounded-full bg-surface-dark border border-white/10 opacity-50"></div>
-                                <span class="text-[10px] text-white/70 uppercase tracking-wider">Đã đặt</span>
-                            </div>
-                        </div>
-                        <!-- Tables Grid (Organic Layout) -->
-                        <!-- Row 1: Window Seats -->
-                        <div class="absolute top-12 left-20">
-                            <button class="table-shape group relative w-16 h-16 rounded-full border border-primary/40 hover:border-primary hover:bg-primary/10 flex items-center justify-center">
-                                <div class="w-10 h-10 rounded-full bg-white/5"></div>
-                                <span class="absolute text-xs text-primary font-medium">A1</span>
-                                <!-- Tooltip -->
-                                <div class="tooltip invisible opacity-0 absolute bottom-full left-1/2 mb-3 w-40 bg-surface-dark/95 border border-primary/30 p-3 rounded-lg shadow-xl backdrop-blur-xl z-50 transition-all duration-300 pointer-events-none">
-                                    <p class="text-primary font-bold text-sm mb-1">Bàn số A1 - City View</p>
-                                    <p class="text-white/70 text-xs">Sức chứa: 2 người</p>
-                                    <p class="text-green-400 text-[10px] mt-1 uppercase tracking-wider">Đang Trống</p>
-                                </div>
-                            </button>
-                        </div>
-                        <div class="absolute top-8 left-60">
-                            <!-- Selected State -->
-                            <button class="table-shape group relative w-20 h-20 rounded-full bg-primary shadow-glow flex items-center justify-center transform scale-110">
-                                <div class="w-12 h-12 rounded-full bg-black/10"></div>
-                                <span class="absolute text-sm text-surface-dark font-bold">A2</span>
-                                <!-- Checkmark indicator for selected -->
-                                <div class="absolute -top-1 -right-1 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-lg">
-                                    <span class="material-symbols-outlined text-primary text-sm font-bold">check</span>
-                                </div>
-                                <!-- Tooltip -->
-                                <div class="tooltip invisible opacity-0 absolute bottom-full left-1/2 mb-3 w-40 bg-surface-dark/95 border border-primary/30 p-3 rounded-lg shadow-xl backdrop-blur-xl z-50 transition-all duration-300 pointer-events-none">
-                                    <p class="text-primary font-bold text-sm mb-1">Bàn số A2 - City View</p>
-                                    <p class="text-white/70 text-xs">Sức chứa: 4 người</p>
-                                    <p class="text-primary text-[10px] mt-1 uppercase tracking-wider">Đang Chọn</p>
-                                </div>
-                            </button>
-                        </div>
-                        <div class="absolute top-12 left-[28rem]">
-                            <!-- Booked State -->
-                            <button class="table-shape w-16 h-16 rounded-full bg-surface-dark border border-white/5 flex items-center justify-center opacity-40 cursor-not-allowed">
-                                <div class="w-10 h-10 rounded-full bg-white/5"></div>
-                                <span class="absolute text-xs text-white/30 font-medium">A3</span>
-                            </button>
-                        </div>
-                        <div class="absolute top-12 right-20">
-                            <button class="table-shape group relative w-16 h-16 rounded-full border border-primary/40 hover:border-primary hover:bg-primary/10 flex items-center justify-center">
-                                <div class="w-10 h-10 rounded-full bg-white/5"></div>
-                                <span class="absolute text-xs text-primary font-medium">A4</span>
-                                <!-- Tooltip -->
-                                <div class="tooltip invisible opacity-0 absolute bottom-full left-1/2 mb-3 w-40 bg-surface-dark/95 border border-primary/30 p-3 rounded-lg shadow-xl backdrop-blur-xl z-50 transition-all duration-300 pointer-events-none">
-                                    <p class="text-primary font-bold text-sm mb-1">Bàn số A4 - City View</p>
-                                    <p class="text-white/70 text-xs">Sức chứa: 2 người</p>
-                                    <p class="text-green-400 text-[10px] mt-1 uppercase tracking-wider">Đang Trống</p>
-                                </div>
-                            </button>
-                        </div>
-                        <!-- Row 2: Larger Tables -->
-                        <div class="absolute top-48 left-32">
-                            <button class="table-shape group relative w-32 h-20 rounded-2xl border border-primary/40 hover:border-primary hover:bg-primary/10 flex items-center justify-center">
-                                <div class="w-24 h-12 rounded-lg bg-white/5 border border-white/5"></div>
-                                <span class="absolute text-xs text-primary font-medium">B1</span>
-                                <!-- Chairs representation -->
-                                <div class="absolute -top-2 left-1/2 -translate-x-1/2 flex gap-4">
-                                    <div class="w-8 h-2 bg-white/10 rounded-full"></div>
-                                </div>
-                                <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 flex gap-4">
-                                    <div class="w-8 h-2 bg-white/10 rounded-full"></div>
-                                </div>
-                                <!-- Tooltip -->
-                                <div class="tooltip invisible opacity-0 absolute bottom-full left-1/2 mb-3 w-40 bg-surface-dark/95 border border-primary/30 p-3 rounded-lg shadow-xl backdrop-blur-xl z-50 transition-all duration-300 pointer-events-none">
-                                    <p class="text-primary font-bold text-sm mb-1">Bàn số B1 - Central</p>
-                                    <p class="text-white/70 text-xs">Sức chứa: 6 người</p>
-                                    <p class="text-green-400 text-[10px] mt-1 uppercase tracking-wider">Đang Trống</p>
-                                </div>
-                            </button>
-                        </div>
-                        <div class="absolute top-48 left-[24rem]">
-                            <button class="table-shape w-32 h-20 rounded-2xl bg-surface-dark border border-white/5 flex items-center justify-center opacity-40 cursor-not-allowed">
-                                <div class="w-24 h-12 rounded-lg bg-white/5 border border-white/5"></div>
-                                <span class="absolute text-xs text-white/30 font-medium">B2</span>
-                                <div class="absolute -top-2 left-1/2 -translate-x-1/2 flex gap-4">
-                                    <div class="w-8 h-2 bg-white/5 rounded-full"></div>
-                                </div>
-                                <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 flex gap-4">
-                                    <div class="w-8 h-2 bg-white/5 rounded-full"></div>
-                                </div>
-                            </button>
-                        </div>
-                        <div class="absolute top-48 right-32">
-                            <button class="table-shape group relative w-32 h-20 rounded-2xl border border-primary/40 hover:border-primary hover:bg-primary/10 flex items-center justify-center">
-                                <div class="w-24 h-12 rounded-lg bg-white/5 border border-white/5"></div>
-                                <span class="absolute text-xs text-primary font-medium">B3</span>
-                                <div class="absolute -top-2 left-1/2 -translate-x-1/2 flex gap-4">
-                                    <div class="w-8 h-2 bg-white/10 rounded-full"></div>
-                                </div>
-                                <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 flex gap-4">
-                                    <div class="w-8 h-2 bg-white/10 rounded-full"></div>
-                                </div>
-                                <!-- Tooltip -->
-                                <div class="tooltip invisible opacity-0 absolute bottom-full left-1/2 mb-3 w-40 bg-surface-dark/95 border border-primary/30 p-3 rounded-lg shadow-xl backdrop-blur-xl z-50 transition-all duration-300 pointer-events-none">
-                                    <p class="text-primary font-bold text-sm mb-1">Bàn số B3 - Central</p>
-                                    <p class="text-white/70 text-xs">Sức chứa: 6 người</p>
-                                    <p class="text-green-400 text-[10px] mt-1 uppercase tracking-wider">Đang Trống</p>
-                                </div>
-                            </button>
-                        </div>
-                        <!-- Row 3: Booths -->
-                        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-16">
-                            <button class="table-shape group relative w-24 h-24 rounded-t-3xl border-2 border-primary/20 hover:border-primary hover:bg-primary/5 flex flex-col items-center justify-end pb-2">
-                                <span class="absolute top-4 text-[10px] text-primary/50 font-serif tracking-widest uppercase">Booth</span>
-                                <div class="w-16 h-12 rounded-t-xl bg-white/5 border border-white/5 mb-1"></div>
-                                <span class="text-xs text-primary font-medium">C1</span>
-                                <!-- Tooltip -->
-                                <div class="tooltip invisible opacity-0 absolute bottom-full left-1/2 mb-3 w-40 bg-surface-dark/95 border border-primary/30 p-3 rounded-lg shadow-xl backdrop-blur-xl z-50 transition-all duration-300 pointer-events-none">
-                                    <p class="text-primary font-bold text-sm mb-1">Booth C1 - Private</p>
-                                    <p class="text-white/70 text-xs">Sức chứa: 4 người</p>
-                                    <p class="text-green-400 text-[10px] mt-1 uppercase tracking-wider">Đang Trống</p>
-                                </div>
-                            </button>
-                            <button class="table-shape group relative w-24 h-24 rounded-t-3xl border-2 border-primary/20 hover:border-primary hover:bg-primary/5 flex flex-col items-center justify-end pb-2">
-                                <span class="absolute top-4 text-[10px] text-primary/50 font-serif tracking-widest uppercase">Booth</span>
-                                <div class="w-16 h-12 rounded-t-xl bg-white/5 border border-white/5 mb-1"></div>
-                                <span class="text-xs text-primary font-medium">C2</span>
-                                <!-- Tooltip -->
-                                <div class="tooltip invisible opacity-0 absolute bottom-full left-1/2 mb-3 w-40 bg-surface-dark/95 border border-primary/30 p-3 rounded-lg shadow-xl backdrop-blur-xl z-50 transition-all duration-300 pointer-events-none">
-                                    <p class="text-primary font-bold text-sm mb-1">Booth C2 - Private</p>
-                                    <p class="text-white/70 text-xs">Sức chứa: 4 người</p>
-                                    <p class="text-green-400 text-[10px] mt-1 uppercase tracking-wider">Đang Trống</p>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-        <!-- Floating Footer Action Bar -->
-        <div class="fixed bottom-0 left-0 right-0 z-40 p-4">
-            <div class="max-w-4xl mx-auto glass-panel bg-[#171612]/95 border-t border-primary/30 rounded-2xl shadow-2xl p-4 md:p-6 transform translate-y-0 transition-transform duration-500">
-                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-                    <!-- Selected Info -->
-                    <div class="flex items-center gap-6 w-full md:w-auto">
-                        <div class="w-16 h-16 rounded-lg bg-[url('https://images.unsplash.com/photo-1550966871-3ed3c47e2ce2?q=80&amp;w=2670&amp;auto=format&amp;fit=crop')] bg-cover bg-center shrink-0 border border-white/10 hidden sm:block" data-alt="Close up of fine dining table setting"></div>
-                        <div>
-                            <div class="flex items-center gap-2 mb-1">
-                                <h3 class="text-primary font-serif font-bold text-lg">Bàn A2</h3>
-                                <span class="px-2 py-0.5 rounded-full bg-primary/20 text-primary text-[10px] font-bold uppercase tracking-wider border border-primary/20">Khu Vực Cửa Sổ</span>
-                            </div>
-                            <div class="flex items-center gap-4 text-sm text-white/70">
-                                <span class="flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-[16px]">calendar_month</span> 24/05
-                                </span>
-                                <span class="flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-[16px]">schedule</span> 19:30
-                                </span>
-                                <span class="flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-[16px]">group</span> 4 Người
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Action Button -->
-                    <button class="w-full md:w-auto flex items-center justify-center gap-2 bg-primary hover:bg-white text-surface-dark font-bold py-4 px-8 rounded-xl transition-all shadow-glow group">
-                        <span class="uppercase tracking-widest text-sm">Tiếp Tục Chọn Món</span>
-                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                    </button>
-                </div>
-            </div>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Bàn - Maison D'Or</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/maison-dor.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    
+    <style>
+        body {
+            background: #0a0a0a;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .booking-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 120px;
+        }
+        
+        .booking-title {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        
+        .booking-title h1 {
+            font-family: var(--md-font-serif);
+            font-size: 2.5rem;
+            color: var(--md-text);
+            margin: 0 0 8px 0;
+        }
+        
+        .booking-subtitle {
+            text-align: center;
+            color: var(--md-text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 40px;
+        }
+        
+        .booking-filters {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--md-border);
+            border-radius: var(--md-radius-lg);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 200px;
+        }
+        
+        .filter-item select,
+        .filter-item input {
+            background: transparent;
+            border: none;
+            color: var(--md-text);
+            font-size: 0.95rem;
+            flex: 1;
+            outline: none;
+        }
+        
+        .filter-item .material-symbols-outlined {
+            color: var(--md-primary);
+            font-size: 20px;
+        }
+        
+        .find-btn {
+            background: var(--md-primary);
+            color: #0a0a0a;
+            border: none;
+            padding: 12px 32px;
+            border-radius: var(--md-radius-lg);
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .find-btn:hover {
+            background: var(--md-primary-light);
+            transform: translateY(-2px);
+        }
+        
+        .zone-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--md-border);
+            margin-bottom: 48px;
+            gap: 8px;
+        }
+        
+        .zone-tab {
+            flex: 1;
+            padding: 16px;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--md-text-muted);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .zone-tab.active {
+            border-bottom-color: var(--md-primary);
+            color: var(--md-primary);
+        }
+        
+        .zone-tab:hover {
+            color: var(--md-primary);
+        }
+        
+        .zone-subtitle {
+            text-align: center;
+            color: var(--md-text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-top: 4px;
+        }
+        
+        .tables-area {
+            position: relative;
+            min-height: 500px;
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: var(--md-radius-lg);
+            padding: 60px 40px;
+            margin-bottom: 40px;
+        }
+        
+        .table-item {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .table-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--md-border);
+            background: rgba(255, 255, 255, 0.02);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--md-font-serif);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--md-text);
+            transition: all 0.3s;
+        }
+        
+        .table-rect {
+            width: 120px;
+            height: 80px;
+            border-radius: var(--md-radius);
+            border: 2px solid var(--md-border);
+            background: rgba(255, 255, 255, 0.02);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--md-font-serif);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--md-text);
+            transition: all 0.3s;
+        }
+        
+        .table-item.available .table-circle,
+        .table-item.available .table-rect {
+            border-color: rgba(40, 209, 124, 0.5);
+            background: radial-gradient(circle at 0 0, rgba(40, 209, 124, 0.1), transparent 55%);
+        }
+        
+        .table-item.available:hover .table-circle,
+        .table-item.available:hover .table-rect {
+            border-color: var(--md-primary);
+            background: radial-gradient(circle at 0 0, rgba(212, 175, 53, 0.2), transparent 55%);
+            transform: scale(1.1);
+            box-shadow: var(--md-glow);
+        }
+        
+        .table-item.selected .table-circle,
+        .table-item.selected .table-rect {
+            border-color: var(--md-primary);
+            background: var(--md-primary);
+            color: #0a0a0a;
+            transform: scale(1.15);
+            box-shadow: var(--md-glow);
+        }
+        
+        .table-item.occupied .table-circle,
+        .table-item.occupied .table-rect,
+        .table-item.reserved .table-circle,
+        .table-item.reserved .table-rect {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .table-status {
+            margin-top: 8px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .table-item.available .table-status {
+            color: #28d17c;
+        }
+        
+        .table-item.occupied .table-status {
+            color: #ef4444;
+        }
+        
+        .table-item.reserved .table-status {
+            color: #f59e0b;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 32px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.875rem;
+            color: var(--md-text-muted);
+        }
+        
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .legend-dot.available {
+            background: #28d17c;
+        }
+        
+        .legend-dot.selected {
+            background: var(--md-primary);
+        }
+        
+        .legend-dot.occupied {
+            background: #ef4444;
+        }
+        
+        .booking-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(23, 22, 17, 0.98);
+            border-top: 1px solid var(--md-border-gold);
+            padding: 20px;
+            backdrop-filter: blur(14px);
+            z-index: 40;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .selected-info {
+            display: none;
+        }
+        
+        .selected-info.show {
+            display: block;
+        }
+        
+        .selected-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--md-text-muted);
+            margin-bottom: 4px;
+        }
+        
+        .selected-table {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--md-primary);
+            font-family: var(--md-font-serif);
+        }
+        
+        .selected-details {
+            font-size: 0.875rem;
+            color: var(--md-text-muted);
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <jsp:include page="/views/includes/header.jsp"/>
+    
+    <!-- Main Content -->
+    <div class="booking-container">
+        <div class="booking-title">
+            <h1>Đặt Bàn Thượng Hạng</h1>
         </div>
-    </body></html>
+        <p class="booking-subtitle">Trải nghiệm ẩm thực đẳng cấp 5 sao tại không gian sang trọng bậc nhất</p>
+        
+        <!-- Filters -->
+        <form id="bookingForm" action="${pageContext.request.contextPath}/booking" method="post">
+            <input type="hidden" name="action" value="selectTable">
+            <input type="hidden" name="tableId" id="selectedTableId">
+            
+            <div class="booking-filters">
+                <div class="filter-item">
+                    <span class="material-symbols-outlined">calendar_today</span>
+                    <input type="date" name="date" required 
+                           min="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>"
+                           value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
+                </div>
+                
+                <div class="filter-item">
+                    <span class="material-symbols-outlined">schedule</span>
+                    <select name="time" required>
+                        <option value="">Chọn giờ</option>
+                        <option value="11:00">11:00 - Bữa Trưa</option>
+                        <option value="12:00">12:00 - Bữa Trưa</option>
+                        <option value="13:00">13:00 - Bữa Trưa</option>
+                        <option value="18:00">18:00 - Bữa Tối</option>
+                        <option value="19:00" selected>19:00 - Bữa Tối</option>
+                        <option value="20:00">20:00 - Bữa Tối</option>
+                        <option value="21:00">21:00 - Bữa Tối</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <span class="material-symbols-outlined">group</span>
+                    <select name="guestCount" required>
+                        <option value="">Số khách</option>
+                        <option value="2" selected>2 Khách</option>
+                        <option value="4">4 Khách</option>
+                        <option value="6">6 Khách</option>
+                        <option value="8">8 Khách</option>
+                    </select>
+                </div>
+                
+                <button type="button" class="find-btn" onclick="filterTables()">Tìm Bàn</button>
+            </div>
+            
+            <!-- Zone Tabs -->
+            <div class="zone-tabs">
+                <button type="button" class="zone-tab active" data-zone="Khu Vực Cửa Sổ" onclick="switchZone(this)">
+                    <div>Khu Vực Cửa Sổ</div>
+                    <div class="zone-subtitle">City View</div>
+                </button>
+                <button type="button" class="zone-tab" data-zone="Khu Vườn Nhiệt Đới" onclick="switchZone(this)">
+                    <div>Khu Vườn Nhiệt Đới</div>
+                    <div class="zone-subtitle">Garden Lounge</div>
+                </button>
+                <button type="button" class="zone-tab" data-zone="Khu Vực VIP" onclick="switchZone(this)">
+                    <div>Khu Vực VIP</div>
+                    <div class="zone-subtitle">Private Dining</div>
+                </button>
+            </div>
+            
+            <!-- Tables Area -->
+            <div class="tables-area" id="tablesArea">
+                <c:forEach var="table" items="${tables}">
+                    <div class="table-item ${table.status == 'AVAILABLE' ? 'available' : table.status == 'OCCUPIED' ? 'occupied' : 'reserved'}" 
+                         data-table-id="${table.tableId}"
+                         data-zone="${table.area}"
+                         data-capacity="${table.capacity}"
+                         style="display: none;"
+                         onclick="selectTable(this, ${table.tableId}, '${table.area}', ${table.capacity})">
+                        <c:choose>
+                            <c:when test="${table.capacity <= 4}">
+                                <div class="table-circle">${table.tableId}</div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="table-rect">${table.tableId}</div>
+                            </c:otherwise>
+                        </c:choose>
+                        <div class="table-status">
+                            <c:choose>
+                                <c:when test="${table.status == 'AVAILABLE'}">Trống</c:when>
+                                <c:when test="${table.status == 'OCCUPIED'}">Đang Dùng</c:when>
+                                <c:when test="${table.status == 'RESERVED'}">Đã Đặt</c:when>
+                            </c:choose>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+            
+            <!-- Legend -->
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-dot available"></div>
+                    <span>Trống</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot selected"></div>
+                    <span>Đang Chọn</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot occupied"></div>
+                    <span>Đã Đặt</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Footer -->
+    <div class="booking-footer">
+        <div class="footer-content">
+            <div class="selected-info" id="selectedInfo">
+                <div class="selected-label">Đã chọn</div>
+                <div class="selected-table" id="selectedTableText">Bàn A2</div>
+                <div class="selected-details" id="selectedDetails">Khu Vực Cửa Sổ • 4 Người</div>
+            </div>
+            <button type="submit" form="bookingForm" class="md-btn md-btn-primary" style="padding: 16px 32px;" disabled id="submitBtn">
+                <span class="material-symbols-outlined" style="font-size: 20px; margin-right: 8px;">arrow_forward</span>
+                Tiếp Tục Chọn Món
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        let selectedTableId = null;
+        let currentZone = 'Khu Vực Cửa Sổ';
+        
+        // Layout positions for tables
+        const tablePositions = {
+            'Khu Vực Cửa Sổ': {
+                1: {top: '50px', left: '100px'},
+                2: {top: '50px', left: '250px'},
+                3: {top: '50px', left: '450px'},
+                4: {top: '50px', left: '650px'},
+                5: {top: '200px', left: '175px'},
+                6: {top: '200px', left: '375px'},
+                7: {top: '200px', left: '575px'},
+                8: {top: '350px', left: '250px'},
+                9: {top: '350px', left: '450px'},
+                10: {top: '350px', left: '650px'}
+            },
+            'Khu Vườn Nhiệt Đới': {
+                11: {top: '50px', left: '150px'},
+                12: {top: '50px', left: '350px'},
+                13: {top: '50px', left: '550px'},
+                14: {top: '200px', left: '100px'},
+                15: {top: '200px', left: '300px'},
+                16: {top: '200px', left: '500px'},
+                17: {top: '200px', left: '700px'},
+                18: {top: '350px', left: '200px'},
+                19: {top: '350px', left: '400px'},
+                20: {top: '350px', left: '600px'}
+            },
+            'Khu Vực VIP': {
+                21: {top: '80px', left: '150px'},
+                22: {top: '80px', left: '400px'},
+                23: {top: '80px', left: '650px'},
+                24: {top: '250px', left: '150px'},
+                25: {top: '250px', left: '400px'},
+                26: {top: '250px', left: '650px'},
+                27: {top: '420px', left: '150px'},
+                28: {top: '420px', left: '400px'},
+                29: {top: '420px', left: '650px'},
+                30: {top: '300px', left: '275px'}
+            }
+        };
+        
+        function switchZone(button) {
+            // Update tabs
+            document.querySelectorAll('.zone-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            button.classList.add('active');
+            
+            currentZone = button.dataset.zone;
+            displayTables();
+        }
+        
+        function displayTables() {
+            const tables = document.querySelectorAll('.table-item');
+            tables.forEach(table => {
+                const tableZone = table.dataset.zone;
+                const tableId = parseInt(table.dataset.tableId);
+                
+                if (tableZone === currentZone && tablePositions[currentZone][tableId]) {
+                    const pos = tablePositions[currentZone][tableId];
+                    table.style.top = pos.top;
+                    table.style.left = pos.left;
+                    table.style.display = 'flex';
+                } else {
+                    table.style.display = 'none';
+                }
+            });
+        }
+        
+        function selectTable(element, tableId, zone, capacity) {
+            if (!element.classList.contains('available')) {
+                alert('Bàn này đã được đặt hoặc đang sử dụng');
+                return;
+            }
+            
+            // Remove previous selection
+            document.querySelectorAll('.table-item').forEach(t => {
+                t.classList.remove('selected');
+            });
+            
+            // Select this table
+            element.classList.add('selected');
+            selectedTableId = tableId;
+            
+            // Update hidden input
+            document.getElementById('selectedTableId').value = tableId;
+            
+            // Update footer
+            document.getElementById('selectedTableText').textContent = 'Bàn ' + tableId;
+            document.getElementById('selectedDetails').textContent = zone + ' • ' + capacity + ' Người';
+            document.getElementById('selectedInfo').classList.add('show');
+            document.getElementById('submitBtn').disabled = false;
+        }
+        
+        function filterTables() {
+            // This would filter tables based on date, time, guest count
+            // For now, just display current zone
+            displayTables();
+        }
+        
+        // Initialize
+        window.addEventListener('load', function() {
+            displayTables();
+        });
+        
+        // Form validation
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            if (!selectedTableId) {
+                e.preventDefault();
+                alert('Vui lòng chọn bàn');
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>

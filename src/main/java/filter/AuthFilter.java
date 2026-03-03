@@ -39,10 +39,14 @@ public class AuthFilter implements Filter {
         
         // Các đường dẫn cần role Admin/Staff
         boolean isAdminPath = path.startsWith("/views/admin/");
-        
-        // Các đường dẫn khách hàng (Customer) cần đăng nhập (ví dụ giỏ hàng, đặt bàn)
-        boolean isCustomerRestrictedPath = path.startsWith("/views/custumer/booking/") 
-                                        || path.startsWith("/views/custumer/checkout/");
+
+        // Các đường dẫn khách hàng (Customer) cần đăng nhập cho tính năng cá nhân
+        // LƯU Ý: Flow đặt bàn (/booking, /booking/menu, /checkout) không bị chặn ở đây,
+        // phần kiểm tra đăng nhập sẽ được xử lý trong CheckoutController (bước thanh toán).
+        boolean isCustomerRestrictedPath =
+                path.startsWith("/account/")
+             || path.startsWith("/orders/my")
+             || path.startsWith("/bookings/history");
 
         boolean loggedIn = (session != null && session.getAttribute("loggedInUser") != null);
         

@@ -1,0 +1,405 @@
+:root {
+  --lux-bg: #0b0b0b;
+  --lux-surface: #171612;
+  --lux-surface-2: #201d16;
+  --lux-border: rgba(255, 255, 255, 0.10);
+  --lux-border-gold: rgba(212, 175, 53, 0.45);
+  --lux-text: rgba(255, 255, 255, 0.96);
+  --lux-muted: rgba(255, 255, 255, 0.60);
+  --lux-gold: #d4af35;
+  --lux-gold-soft: #c6a34f;
+  --lux-success: #28d17c;
+  --lux-radius-md: 14px;
+  --lux-radius-lg: 20px;
+  --lux-shadow: 0 18px 55px rgba(0, 0, 0, 0.7);
+  --lux-glow: 0 0 24px rgba(212, 175, 53, 0.35);
+  --lux-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --lux-font-serif: "Playfair Display", "Times New Roman", serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body.lux-body {
+  margin: 0;
+  background:
+    radial-gradient(900px 600px at 15% 0, rgba(212, 175, 53, 0.22), transparent 60%),
+    radial-gradient(900px 600px at 90% 100%, rgba(154, 123, 40, 0.22), transparent 55%),
+    var(--lux-bg);
+  color: var(--lux-text);
+  font-family: var(--lux-font-sans);
+}
+
+.lux-container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.lux-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  background: radial-gradient(circle at 0 0, rgba(212, 175, 53, 0.12), transparent 55%),
+              rgba(10, 10, 10, 0.96);
+}
+
+.lux-header__inner {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.lux-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.lux-brand__mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  background: radial-gradient(circle at 30% 0, #fff8da, #f0cf57 28%, #b48b20 65%, #765712 100%);
+  color: #111;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  font-size: 13px;
+  box-shadow: var(--lux-glow);
+}
+
+.lux-brand__title {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.lux-brand__name {
+  font-family: var(--lux-font-serif);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 13px;
+}
+
+.lux-brand__sub {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  color: var(--lux-muted);
+}
+
+.lux-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.lux-nav a {
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  position: relative;
+}
+
+.lux-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 1px;
+  background: var(--lux-gold);
+  transition: width 160ms ease-out;
+}
+
+.lux-nav a[aria-current="page"],
+.lux-nav a:hover {
+  color: var(--lux-gold);
+}
+
+.lux-nav a[aria-current="page"]::after,
+.lux-nav a:hover::after {
+  width: 100%;
+}
+
+.lux-main {
+  padding: 26px 0 56px;
+}
+
+.lux-title {
+  font-family: var(--lux-font-serif);
+  font-size: clamp(24px, 3.4vw, 34px);
+  margin: 0 0 12px;
+  letter-spacing: 0.04em;
+}
+
+.lux-subtitle {
+  margin: 0 0 20px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lux-muted);
+}
+
+.lux-card {
+  border-radius: var(--lux-radius-lg);
+  background: radial-gradient(circle at 0 0, rgba(212, 175, 53, 0.1), transparent 55%),
+              rgba(16, 15, 13, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--lux-shadow);
+}
+
+.lux-card__body {
+  padding: 18px 18px 20px;
+}
+
+.lux-card__title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.84);
+  margin: 0 0 12px;
+}
+
+.lux-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.lux-grid--2 {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 880px) {
+  .lux-grid--2 {
+    grid-template-columns: 1.15fr 0.85fr;
+  }
+}
+
+.lux-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.10);
+  margin: 14px 0;
+}
+
+.lux-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.lux-muted {
+  color: var(--lux-muted);
+  font-size: 12px;
+}
+
+.lux-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lux-kpi__label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.lux-kpi__value {
+  font-family: var(--lux-font-serif);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--lux-gold);
+}
+
+.lux-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--lux-muted);
+}
+
+.lux-badge--gold {
+  border-color: var(--lux-border-gold);
+  background: rgba(212, 175, 53, 0.12);
+  color: var(--lux-gold);
+}
+
+.lux-btn {
+  appearance: none;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  padding: 11px 18px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 700;
+  cursor: pointer;
+  background: transparent;
+  color: var(--lux-text);
+  transition: transform 110ms ease, box-shadow 180ms ease, background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.lux-btn--primary {
+  background: linear-gradient(135deg, var(--lux-gold) 0%, var(--lux-gold-soft) 100%);
+  color: #18140c;
+  box-shadow: var(--lux-glow);
+}
+
+.lux-btn--primary:hover {
+  filter: brightness(1.06);
+}
+
+.lux-btn--ghost {
+  border-color: rgba(255, 255, 255, 0.20);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.lux-btn:active {
+  transform: scale(0.97);
+}
+
+.lux-input,
+.lux-select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(10, 10, 10, 0.85);
+  color: var(--lux-text);
+  font-size: 13px;
+}
+
+.lux-input:focus,
+.lux-select:focus {
+  outline: none;
+  border-color: var(--lux-border-gold);
+  box-shadow: 0 0 0 2px rgba(212, 175, 53, 0.22);
+}
+
+.lux-help {
+  font-size: 11px;
+  color: var(--lux-muted);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.lux-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.lux-table th,
+.lux-table td {
+  padding: 8px 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.lux-table th {
+  text-align: left;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.20em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.lux-qr {
+  width: 210px;
+  height: 210px;
+  border-radius: 18px;
+  border: 1px solid var(--lux-border-gold);
+  background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.08), transparent 60%),
+              #050505;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.lux-qr img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.lux-floor {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 12px;
+}
+
+.lux-tabletile {
+  position: relative;
+  border-radius: 18px;
+  padding: 10px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  text-align: left;
+  transition: transform 120ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+}
+
+.lux-tabletile__id {
+  font-family: var(--lux-font-serif);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  font-size: 17px;
+  margin-bottom: 4px;
+}
+
+.lux-tabletile__meta {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--lux-muted);
+  line-height: 1.5;
+}
+
+.lux-tabletile--available {
+  border-color: rgba(40, 209, 124, 0.7);
+  background: radial-gradient(circle at 0 0, rgba(40, 209, 124, 0.25), transparent 55%),
+              rgba(10, 17, 13, 0.96);
+}
+
+.lux-tabletile--reserved {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(15, 15, 15, 0.96);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.lux-tabletile--selected {
+  border-color: var(--lux-border-gold);
+  background: radial-gradient(circle at 0 0, rgba(212, 175, 53, 0.25), transparent 55%),
+              rgba(16, 15, 13, 1);
+  box-shadow: var(--lux-glow);
+}

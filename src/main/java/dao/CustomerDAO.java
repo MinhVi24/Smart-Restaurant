@@ -25,6 +25,26 @@ public class CustomerDAO extends GenericDAO<Customers> {
             em.close();
         }
     }
+    
+    /**
+     * Find customer by user_id
+     * Used for linking User to Customer after login
+     */
+    public Customers findByUserId(Integer userId) {
+        EntityManager em = JPAConfig.getEntityManager();
+        try {
+            TypedQuery<Customers> query = em.createQuery(
+                "SELECT c FROM Customers c WHERE c.userId.userId = :userId", 
+                Customers.class
+            );
+            query.setParameter("userId", userId);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null; // Customer not found
+        } finally {
+            em.close();
+        }
+    }
 
     public Users findByEmail(String email) {
         // Sử dụng JPAConfig giống như cách lớp cha GenericDAO đang làm
