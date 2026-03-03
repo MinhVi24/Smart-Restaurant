@@ -10,7 +10,9 @@ D:\git\Smart-Restaurant\src\main\java\controller\auth\LoginController.java
 D:\git\Smart-Restaurant\src\main\java\model\Food.java
 D:\git\Smart-Restaurant\src\main\java\dao\UserDAO.java
 D:\git\Smart-Restaurant\src\main\java\model\Suppliers.java
+D:\git\Smart-Restaurant\src\main\java\controller\admin\AdminHomeController.java
 D:\git\Smart-Restaurant\src\main\java\model\DailyStats.java
+D:\git\Smart-Restaurant\src\main\java\controller\admin\AdminInventoryController.java
 D:\git\Smart-Restaurant\src\main\java\service\MenuService.java
 D:\git\Smart-Restaurant\src\main\java\model\Reservations.java
 D:\git\Smart-Restaurant\src\main\java\model\MenuIngredientsPK.java
@@ -23,8 +25,10 @@ D:\git\Smart-Restaurant\src\main\java\controller\profile\ProfileController.java
 D:\git\Smart-Restaurant\src\main\java\model\Staff.java
 D:\git\Smart-Restaurant\src\main\java\dao\PaymentDAO.java
 D:\git\Smart-Restaurant\src\main\java\dao\GenericDAO.java
+D:\git\Smart-Restaurant\src\main\java\controller\admin\AdminMenuController.java
 D:\git\Smart-Restaurant\src\main\java\controller\MenuController.java
 D:\git\Smart-Restaurant\src\main\java\model\Users.java
+D:\git\Smart-Restaurant\src\main\java\controller\admin\AdminAccountController.java
 D:\git\Smart-Restaurant\src\main\java\model\MenuItems.java
 D:\git\Smart-Restaurant\src\main\java\model\Customers.java
 D:\git\Smart-Restaurant\src\main\java\model\OrderItems.java

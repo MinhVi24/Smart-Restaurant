@@ -1,328 +1,422 @@
-
-<%@ page contentType="text/html;charset=UTF-8" language="java" %><!DOCTYPE html>
-
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>All-in-One Restaurant Admin Control</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;family=Playfair+Display:wght@400;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<!DOCTYPE html>
+<html class="dark" lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Dashboard - Maison D'Or Executive Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Material+Icons+Round&display=swap" rel="stylesheet"/>
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                font-family: 'Inter', sans-serif;
+                background: #0D0D0D;
+            }
+        }
+        @layer components {
+            .font-display {
+                font-family: 'Playfair Display', serif;
+            }
+            .glass-card {
+                background: rgba(22, 22, 22, 0.7);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(212, 175, 55, 0.1);
+            }
+            .sidebar-active {
+                background: linear-gradient(90deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0) 100%);
+                border-left: 3px solid #D4AF37;
+            }
+        }
+    </style>
+    <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#f2b90d",
-                        "accent-burgundy": "#4a0404",
-                        "charcoal": "#1a1a1a",
-                        "background-light": "#f8f8f5",
-                        "background-dark": "#221e10",
-                    },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"],
-                        "serif": ["Playfair Display", "serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
+                        primary: "#D4AF37",
                     },
                 },
             },
-        }
+        };
     </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        h1, h2, h3, .serif-heading {
-            font-family: 'Playfair Display', serif;
-        }
-    </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex">
-<!-- Persistent Vertical Sidebar -->
-<aside class="w-72 bg-white dark:bg-charcoal border-r border-slate-200 dark:border-slate-800 flex flex-col h-screen sticky top-0">
-<div class="p-8 flex items-center gap-3">
-<div class="bg-primary size-10 flex items-center justify-center rounded-lg">
-<span class="material-symbols-outlined text-accent-burgundy font-bold">restaurant</span>
-</div>
-<div>
-<h1 class="text-xl font-bold tracking-tight text-charcoal dark:text-white leading-none">Luxe Bistro</h1>
-<p class="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-semibold mt-1">Management Console</p>
-</div>
-</div>
-<nav class="flex-1 px-4 space-y-1 overflow-y-auto">
-<a class="flex items-center gap-4 px-4 py-3 bg-primary/10 text-accent-burgundy rounded-lg border-l-4 border-primary" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-<span class="text-sm font-medium">Dashboard</span>
-</a>
-<a class="flex items-center gap-4 px-4 py-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
-<span class="material-symbols-outlined">calendar_month</span>
-<span class="text-sm font-medium">Reservations</span>
-</a>
-<a class="flex items-center gap-4 px-4 py-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
-<span class="material-symbols-outlined">receipt_long</span>
-<span class="text-sm font-medium">Order Management</span>
-</a>
-<a class="flex items-center gap-4 px-4 py-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
-<span class="material-symbols-outlined">menu_book</span>
-<span class="text-sm font-medium">Menu Editor</span>
-</a>
-<a class="flex items-center gap-4 px-4 py-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
-<span class="material-symbols-outlined">groups</span>
-<span class="text-sm font-medium">Customer Database</span>
-</a>
-<a class="flex items-center gap-4 px-4 py-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
-<span class="material-symbols-outlined">badge</span>
-<span class="text-sm font-medium">Staff Management</span>
-</a>
-<a class="flex items-center gap-4 px-4 py-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
-<span class="material-symbols-outlined">payments</span>
-<span class="text-sm font-medium">Financial Reports</span>
-</a>
-</nav>
-<div class="p-6 border-t border-slate-100 dark:border-slate-800">
-<div class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-xl mb-4">
-<div class="size-10 rounded-full bg-cover bg-center border-2 border-primary/20" data-alt="Administrator profile picture portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC1yGku7mOhKZjLXJQXeFQpi6krKEHfVHGSxtZQlul-6sUM6o15iPsoQhWdDRPFZf5gWHMn7bGUl3r3LohA_Hoy-qg6SC4OUCQLoLcIfHsXoiOOsi89OkLf19b4Obg7pSIzBHtSPg9i64gooKVgUxv-x6Wc4mBdINyLxpJY8gyxeMgDyzU8FZovoBf173EJ4XaxKnf1h9qz4-sCWuQhc_GMR5jDrGGmf7mreV1xASW5U9bjEI7zeaZY3OsUcW8gapkxcWeFZPuy3D8')"></div>
-<div class="flex-1 min-w-0">
-<p class="text-sm font-semibold truncate">Jameson Thorne</p>
-<p class="text-[10px] text-slate-400 truncate uppercase">Executive Admin</p>
-</div>
-</div>
-<button class="w-full flex items-center justify-center gap-2 py-2.5 bg-accent-burgundy text-white rounded-lg text-sm font-medium hover:bg-charcoal transition-colors">
-<span class="material-symbols-outlined text-sm">logout</span>
-                Logout
+<body class="text-stone-300 min-h-screen flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-black border-r border-stone-800 flex flex-col min-h-screen">
+        <div class="p-6">
+            <div class="flex items-center gap-3 mb-10">
+                <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-black font-bold text-xl font-display">
+                    M
+                </div>
+                <div>
+                    <h1 class="font-display text-base font-bold text-white uppercase tracking-tight">Maison D'Or</h1>
+                    <p class="text-[9px] tracking-[0.2em] uppercase text-primary font-bold">Executive Admin</p>
+                </div>
+            </div>
+            
+            <nav class="space-y-6">
+                <div>
+                    <p class="text-[10px] uppercase tracking-widest text-stone-500 mb-3 font-bold">Tổng Quan</p>
+                    <a class="flex items-center gap-3 px-4 py-2 sidebar-active text-primary rounded-r-lg" href="${pageContext.request.contextPath}/admin/home">
+                        <span class="material-icons-round text-xl">dashboard</span>
+                        <span class="font-medium">Dashboard</span>
+                    </a>
+                </div>
+                
+                <div>
+                    <p class="text-[10px] uppercase tracking-widest text-stone-500 mb-3 font-bold">Vận Hành</p>
+                    <div class="space-y-1">
+                        <a class="flex items-center gap-3 px-4 py-2 hover:text-primary transition-colors text-stone-400" href="${pageContext.request.contextPath}/admin/booking">
+                            <span class="material-icons-round text-xl">event_seat</span>
+                            <span>Đơn đặt bàn</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-4 py-2 hover:text-primary transition-colors text-stone-400" href="#">
+                            <span class="material-icons-round text-xl">shopping_bag</span>
+                            <span>Đơn Online</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-4 py-2 hover:text-primary transition-colors text-stone-400" href="${pageContext.request.contextPath}/admin/menu">
+                            <span class="material-icons-round text-xl">restaurant_menu</span>
+                            <span>Thực đơn</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-4 py-2 hover:text-primary transition-colors text-stone-400" href="${pageContext.request.contextPath}/admin/inventory">
+                            <span class="material-icons-round text-xl">inventory_2</span>
+                            <span>Kho & Nguyên liệu</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-4 py-2 hover:text-primary transition-colors text-stone-400" href="#">
+                            <span class="material-icons-round text-xl">receipt_long</span>
+                            <span>Recipe / BOM</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <p class="text-[10px] uppercase tracking-widest text-stone-500 mb-3 font-bold">Hệ Thống</p>
+                    <div class="space-y-1">
+                        <a class="flex items-center gap-3 px-4 py-2 hover:text-primary transition-colors text-stone-400" href="#">
+                            <span class="material-icons-round text-xl">group</span>
+                            <span>Nhân viên</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-4 py-2 hover:text-primary transition-colors text-stone-400" href="#">
+                            <span class="material-icons-round text-xl">psychology</span>
+                            <span>Cấu hình AI</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        
+        <div class="mt-auto p-6 border-t border-stone-800">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-full bg-stone-800 flex items-center justify-center font-bold text-xs text-primary border border-primary/20">
+                    MD
+                </div>
+                <div>
+                    <p class="text-sm font-semibold text-white">Admin Minh</p>
+                    <p class="text-[10px] text-stone-500 uppercase tracking-wider">Quản trị viên cấp cao</p>
+                </div>
+            </div>
+            <button onclick="window.location.href='${pageContext.request.contextPath}/logout'" class="w-full flex items-center justify-center gap-2 py-2.5 border border-stone-800 rounded-lg text-sm font-medium hover:bg-stone-900 transition-all">
+                <span class="material-icons-round text-sm">logout</span>
+                ĐĂNG XUẤT
             </button>
-</div>
-</aside>
-<!-- Main Content -->
-<main class="flex-1 flex flex-col h-screen overflow-y-auto">
-<!-- Header -->
-<header class="h-20 bg-white/80 dark:bg-charcoal/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-10 sticky top-0 z-10">
-<div class="flex flex-col">
-<h2 class="text-2xl font-bold text-charcoal dark:text-white leading-tight">Global Overview</h2>
-<p class="text-xs text-slate-500">Sunday, October 22, 2023 | Lunch Service Active</p>
-</div>
-<div class="flex items-center gap-6">
-<div class="relative">
-<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary transition-colors">search</span>
-</div>
-<div class="relative">
-<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary transition-colors">notifications</span>
-<span class="absolute -top-1 -right-1 size-2.5 bg-accent-burgundy border-2 border-white rounded-full"></span>
-</div>
-<button class="bg-primary px-5 py-2 rounded-lg text-accent-burgundy text-sm font-bold shadow-sm hover:shadow-md transition-all">
-                    New Reservation
-                </button>
-</div>
-</header>
-<!-- Dashboard Content -->
-<div class="p-10 space-y-10">
-<!-- Summary Cards -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-<!-- Revenue -->
-<div class="bg-white dark:bg-charcoal p-6 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm">
-<div class="flex items-center justify-between mb-4">
-<span class="text-slate-400 material-symbols-outlined">payments</span>
-<span class="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded">+12.5%</span>
-</div>
-<p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Daily Revenue</p>
-<h3 class="text-2xl font-black mt-1">$12,450.00</h3>
-</div>
-<!-- Reservations -->
-<div class="bg-white dark:bg-charcoal p-6 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm">
-<div class="flex items-center justify-between mb-4">
-<span class="text-slate-400 material-symbols-outlined">event_available</span>
-<span class="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded">+5.2%</span>
-</div>
-<p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">New Reservations</p>
-<h3 class="text-2xl font-black mt-1">24</h3>
-</div>
-<!-- Pending Orders -->
-<div class="bg-white dark:bg-charcoal p-6 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm">
-<div class="flex items-center justify-between mb-4">
-<span class="text-slate-400 material-symbols-outlined">hourglass_empty</span>
-<span class="text-[10px] font-bold text-accent-burgundy bg-red-50 px-2 py-1 rounded">-2.1%</span>
-</div>
-<p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Pending Orders</p>
-<h3 class="text-2xl font-black mt-1">08</h3>
-</div>
-<!-- Active Tables -->
-<div class="bg-white dark:bg-charcoal p-6 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm">
-<div class="flex items-center justify-between mb-4">
-<span class="text-slate-400 material-symbols-outlined">table_restaurant</span>
-<span class="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded">+10.3%</span>
-</div>
-<p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Active Tables</p>
-<h3 class="text-2xl font-black mt-1">15 <span class="text-sm font-normal text-slate-400">/ 25</span></h3>
-</div>
-</div>
-<!-- Main Widgets -->
-<div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
-<!-- Live Reservation Calendar -->
-<div class="xl:col-span-2 bg-white dark:bg-charcoal rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col overflow-hidden">
-<div class="p-6 border-b border-slate-50 dark:border-slate-800 flex items-center justify-between">
-<h3 class="text-xl font-bold">Live Reservation Calendar</h3>
-<div class="flex gap-2">
-<button class="p-2 rounded hover:bg-slate-50 transition-colors"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
-<span class="text-sm font-medium self-center">Oct 22, 2023</span>
-<button class="p-2 rounded hover:bg-slate-50 transition-colors"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
-</div>
-</div>
-<div class="flex-1 p-6 overflow-x-auto">
-<div class="min-w-[600px] grid grid-cols-7 gap-4 text-center">
-<div class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-4">Mon</div>
-<div class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-4">Tue</div>
-<div class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-4">Wed</div>
-<div class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-4">Thu</div>
-<div class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-4">Fri</div>
-<div class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-4">Sat</div>
-<div class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-4">Sun</div>
-<!-- Dummy Calendar Days -->
-<div class="aspect-square flex flex-col items-center justify-center rounded-lg text-slate-300">16</div>
-<div class="aspect-square flex flex-col items-center justify-center rounded-lg text-slate-300">17</div>
-<div class="aspect-square flex flex-col items-center justify-center rounded-lg text-slate-300">18</div>
-<div class="aspect-square flex flex-col items-center justify-center rounded-lg text-slate-300">19</div>
-<div class="aspect-square flex flex-col items-center justify-center rounded-lg text-slate-300">20</div>
-<div class="aspect-square flex flex-col items-center justify-center rounded-lg text-slate-300">21</div>
-<div class="aspect-square border border-primary bg-primary/5 flex flex-col items-center justify-center rounded-lg relative">
-<span class="text-sm font-bold text-accent-burgundy">22</span>
-<div class="flex gap-1 mt-1">
-<span class="size-1 rounded-full bg-accent-burgundy"></span>
-<span class="size-1 rounded-full bg-accent-burgundy"></span>
-<span class="size-1 rounded-full bg-accent-burgundy"></span>
-</div>
-<span class="absolute -top-1 -right-1 size-3 bg-primary rounded-full border-2 border-white"></span>
-</div>
-<!-- Upcoming service details -->
-<div class="col-span-7 mt-6 space-y-3">
-<div class="flex items-center justify-between p-4 bg-background-light dark:bg-background-dark rounded-lg">
-<div class="flex items-center gap-4">
-<span class="text-xs font-bold text-slate-400">12:30 PM</span>
-<p class="text-sm font-semibold">Table 04 — Mr. Harrison (4 guests)</p>
-</div>
-<span class="text-[10px] uppercase tracking-widest px-3 py-1 bg-primary text-accent-burgundy font-black rounded-full">Confirmed</span>
-</div>
-<div class="flex items-center justify-between p-4 bg-background-light dark:bg-background-dark rounded-lg">
-<div class="flex items-center gap-4">
-<span class="text-xs font-bold text-slate-400">01:00 PM</span>
-<p class="text-sm font-semibold">Table 12 — Sarah Jenkins (2 guests)</p>
-</div>
-<span class="text-[10px] uppercase tracking-widest px-3 py-1 bg-slate-200 text-slate-600 font-black rounded-full">Arriving</span>
-</div>
-<div class="flex items-center justify-between p-4 bg-background-light dark:bg-background-dark rounded-lg">
-<div class="flex items-center gap-4">
-<span class="text-xs font-bold text-slate-400">01:15 PM</span>
-<p class="text-sm font-semibold">Table 07 — VIP Private Party (8 guests)</p>
-</div>
-<span class="text-[10px] uppercase tracking-widest px-3 py-1 bg-accent-burgundy text-white font-black rounded-full">Priority</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Recent Orders Feed -->
-<div class="bg-white dark:bg-charcoal rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col">
-<div class="p-6 border-b border-slate-50 dark:border-slate-800">
-<h3 class="text-xl font-bold">Recent Orders</h3>
-</div>
-<div class="flex-1 p-0 overflow-y-auto max-h-[500px]">
-<!-- Order Item -->
-<div class="p-6 border-b border-slate-50 dark:border-slate-800 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
-<div class="flex justify-between items-start mb-2">
-<h4 class="font-bold text-sm">Order #8429</h4>
-<span class="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded">Preparing</span>
-</div>
-<p class="text-xs text-slate-500 mb-3">Table 04 • 3 Items • $142.00</p>
-<div class="flex items-center gap-2">
-<div class="size-6 bg-slate-100 rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined text-xs">restaurant</span>
-</div>
-<p class="text-[11px] font-medium italic">Wagyu Steak, Truffle Fries, Merlot</p>
-</div>
-</div>
-<!-- Order Item -->
-<div class="p-6 border-b border-slate-50 dark:border-slate-800 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer">
-<div class="flex justify-between items-start mb-2">
-<h4 class="font-bold text-sm">Order #8428</h4>
-<span class="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Served</span>
-</div>
-<p class="text-xs text-slate-500 mb-3">Table 11 • 2 Items • $68.50</p>
-<div class="flex items-center gap-2">
-<div class="size-6 bg-slate-100 rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined text-xs">restaurant</span>
-</div>
-<p class="text-[11px] font-medium italic">Seabass Al Cartoccio, Pinot Grigio</p>
-</div>
-</div>
-<!-- Order Item -->
-<div class="p-6 border-b border-slate-50 dark:border-slate-800 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer">
-<div class="flex justify-between items-start mb-2">
-<h4 class="font-bold text-sm">Order #8427</h4>
-<span class="text-[10px] font-bold text-accent-burgundy bg-red-50 px-2 py-1 rounded">Pending</span>
-</div>
-<p class="text-xs text-slate-500 mb-3">Bar • 5 Items • $85.00</p>
-<div class="flex items-center gap-2">
-<div class="size-6 bg-slate-100 rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined text-xs">local_bar</span>
-</div>
-<p class="text-[11px] font-medium italic">Cocktail Flight (x4), Oyster Platter</p>
-</div>
-</div>
-<!-- Order Item -->
-<div class="p-6 border-b border-slate-50 dark:border-slate-800 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer">
-<div class="flex justify-between items-start mb-2">
-<h4 class="font-bold text-sm">Order #8426</h4>
-<span class="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded">Served</span>
-</div>
-<p class="text-xs text-slate-500 mb-3">Table 09 • 1 Item • $24.00</p>
-<div class="flex items-center gap-2">
-<div class="size-6 bg-slate-100 rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined text-xs">restaurant</span>
-</div>
-<p class="text-[11px] font-medium italic">Caesar Salad</p>
-</div>
-</div>
-</div>
-<div class="p-4 bg-slate-50 dark:bg-slate-900 text-center">
-<button class="text-xs font-bold text-accent-burgundy uppercase tracking-widest hover:underline decoration-primary decoration-2 underline-offset-4">View All Active Orders</button>
-</div>
-</div>
-</div>
-<!-- Operational Status Footer/Quick Stats -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-slate-200 dark:border-slate-800">
-<div class="flex items-center gap-4">
-<div class="size-2 rounded-full bg-green-500 animate-pulse"></div>
-<div>
-<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Kitchen Status</p>
-<p class="text-xs font-semibold mt-1">Normal Operations (12m avg)</p>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<div class="size-2 rounded-full bg-primary animate-pulse"></div>
-<div>
-<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Bar Capacity</p>
-<p class="text-xs font-semibold mt-1">85% Occupied</p>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<div class="size-2 rounded-full bg-slate-300"></div>
-<div>
-<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Staffing</p>
-<p class="text-xs font-semibold mt-1">12 On Duty • 2 On Break</p>
-</div>
-</div>
-</div>
-</div>
-</main>
-</body></html>
+        </div>
+    </aside>
 
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col">
+        <!-- Header -->
+        <header class="border-b border-stone-800 px-8 py-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-4xl font-display font-bold text-white tracking-tight">Dashboard</h1>
+                    <div class="flex items-center gap-2 mt-2 text-stone-400 text-sm">
+                        <span class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
+                        Maison D'Or Executive Suite • Cập nhật realtime
+                    </div>
+                </div>
+                
+                <!-- Date Filter -->
+                <div class="flex items-center gap-4">
+                    <div class="flex bg-stone-900/50 p-1 rounded-xl">
+                        <button class="px-6 py-2 rounded-lg bg-primary text-black font-bold text-sm">Ngày</button>
+                        <button class="px-6 py-2 rounded-lg text-stone-500 text-sm font-medium hover:text-stone-200">Tuần</button>
+                        <button class="px-6 py-2 rounded-lg text-stone-500 text-sm font-medium hover:text-stone-200">Tháng</button>
+                        <button class="px-6 py-2 rounded-lg text-stone-500 text-sm font-medium hover:text-stone-200">Năm</button>
+                    </div>
+                    <div class="flex items-center gap-2 bg-stone-900 border border-stone-800 px-4 py-2 rounded-xl">
+                        <span class="material-icons-round text-primary text-xl">calendar_today</span>
+                        <span class="text-sm font-medium">24 Tháng 10, 2023</span>
+                    </div>
+                    <button class="w-10 h-10 flex items-center justify-center bg-stone-900 border border-stone-800 rounded-xl hover:rotate-180 transition-transform duration-500">
+                        <span class="material-icons-round text-primary">sync</span>
+                    </button>
+                </div>
+            </div>
+        </header>
 
+        <!-- Dashboard Content -->
+        <main class="flex-1 overflow-y-auto p-8">
+            <div class="grid grid-cols-12 gap-6">
+                <!-- Left Column -->
+                <div class="col-span-3 space-y-6">
+                    <!-- Revenue Card -->
+                    <div class="glass-card bg-stone-900 p-6 rounded-3xl">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <p class="text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1">DOANH THU (24H)</p>
+                                <h3 class="text-4xl font-display font-bold text-primary">
+                                    <c:choose>
+                                        <c:when test="${not empty todayRevenue}">
+                                            <c:set var="formattedRevenue" value="${String.format('%,.0f', todayRevenue)}" />
+                                            ${formattedRevenue}đ
+                                        </c:when>
+                                        <c:otherwise>
+                                            125.450.000đ
+                                        </c:otherwise>
+                                    </c:choose>
+                                </h3>
+                                <p class="text-[10px] text-stone-500 mt-2 italic">So với cùng giờ hôm qua</p>
+                            </div>
+                            <div class="bg-green-500/10 text-green-500 px-2 py-1 rounded text-xs font-bold flex items-center gap-1 border border-green-500/20">
+                                <span class="material-icons-round text-xs">trending_up</span>
+                                +18%
+                            </div>
+                        </div>
+                        <div class="h-20 mb-6 flex items-end gap-1">
+                            <div class="flex-1 bg-stone-800/50 rounded-t h-[40%]"></div>
+                            <div class="flex-1 bg-stone-800/50 rounded-t h-[60%]"></div>
+                            <div class="flex-1 bg-stone-800/50 rounded-t h-[50%]"></div>
+                            <div class="flex-1 bg-stone-800/50 rounded-t h-[80%]"></div>
+                            <div class="flex-1 bg-primary/40 rounded-t h-[90%]"></div>
+                            <div class="flex-1 bg-primary rounded-t h-[70%]"></div>
+                            <div class="flex-1 bg-primary/20 rounded-t h-[100%]"></div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 border-t border-stone-800 pt-4">
+                            <div class="text-center">
+                                <p class="text-[9px] uppercase text-stone-500 mb-1">VIP ROOM</p>
+                                <p class="text-lg font-display font-bold">45%</p>
+                            </div>
+                            <div class="text-center border-x border-stone-800">
+                                <p class="text-[9px] uppercase text-stone-500 mb-1">MAIN HALL</p>
+                                <p class="text-lg font-display font-bold">35%</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-[9px] uppercase text-stone-500 mb-1">TERRACE</p>
+                                <p class="text-lg font-display font-bold">20%</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Prediction -->
+                    <div class="glass-card bg-stone-900 p-6 rounded-3xl border-t-2 border-t-purple-500/50">
+                        <div class="flex items-center gap-2 mb-6">
+                            <span class="material-icons-round text-purple-400">auto_awesome</span>
+                            <p class="text-[11px] font-bold uppercase tracking-wider text-stone-400">AI Dự báo khách</p>
+                        </div>
+                        <div class="flex items-end gap-3 mb-6">
+                            <span class="text-5xl font-display font-bold text-white">128</span>
+                            <span class="text-xs text-stone-500 mb-1">khách dự kiến (19h-21h)</span>
+                        </div>
+                        <div class="h-24 mb-6">
+                            <svg class="w-full h-full opacity-50" preserveAspectRatio="none" viewBox="0 0 400 100">
+                                <path d="M0,80 C100,20 150,120 250,50 C300,10 350,80 400,30 L400,100 L0,100 Z" fill="url(#grad)"/>
+                                <defs>
+                                    <linearGradient id="grad" x1="0%" x2="0%" y1="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:rgba(168, 85, 247, 0.4);stop-opacity:1"/>
+                                        <stop offset="100%" style="stop-color:rgba(168, 85, 247, 0);stop-opacity:0"/>
+                                    </linearGradient>
+                                </defs>
+                                <path d="M0,80 C100,20 150,120 250,50 C300,10 350,80 400,30" fill="none" stroke="#A855F7" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <p class="text-[10px] text-stone-500 italic text-center">
+                            Dữ liệu từ SmartAI phân tích lịch sử & thời tiết
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Middle Column -->
+                <div class="col-span-6 space-y-6">
+                    <!-- Top Selling Items -->
+                    <div class="glass-card bg-stone-900 p-8 rounded-3xl">
+                        <div class="flex justify-between items-center mb-10">
+                            <h3 class="text-xl font-display font-bold tracking-tight">Món Bán Chạy <span class="text-stone-500 font-normal italic text-base">(Signature)</span></h3>
+                            <div class="flex items-center gap-2 bg-stone-800 px-3 py-1.5 rounded-full">
+                                <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                                <span class="text-[10px] font-bold text-stone-500 uppercase">DINING (18:00–22:00)</span>
+                            </div>
+                        </div>
+                        <div class="space-y-10">
+                            <div>
+                                <div class="flex justify-between items-end mb-2">
+                                    <div>
+                                        <h4 class="font-bold">Wagyu A5 Striploin</h4>
+                                        <p class="text-xs text-stone-500">Premium Marble Score 12</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-primary font-display font-bold text-lg">42</span>
+                                        <span class="text-[10px] text-stone-500 uppercase ml-1">orders</span>
+                                    </div>
+                                </div>
+                                <div class="h-1.5 bg-stone-800 rounded-full">
+                                    <div class="h-full bg-primary rounded-full w-[85%]"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-end mb-2">
+                                    <div>
+                                        <h4 class="font-bold">Thăn Nội Bò Angus</h4>
+                                        <p class="text-xs text-stone-500">Dry-aged 45 Days</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-primary font-display font-bold text-lg">35</span>
+                                        <span class="text-[10px] text-stone-500 uppercase ml-1">orders</span>
+                                    </div>
+                                </div>
+                                <div class="h-1.5 bg-stone-800 rounded-full">
+                                    <div class="h-full bg-primary rounded-full w-[70%]"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-end mb-2">
+                                    <div>
+                                        <h4 class="font-bold">Sườn Cừu New Zealand</h4>
+                                        <p class="text-xs text-stone-500">Grilled with Herb Crust</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-primary font-display font-bold text-lg">28</span>
+                                        <span class="text-[10px] text-stone-500 uppercase ml-1">orders</span>
+                                    </div>
+                                </div>
+                                <div class="h-1.5 bg-stone-800 rounded-full">
+                                    <div class="h-full bg-primary rounded-full w-[55%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VIP Table Status -->
+                    <div class="glass-card bg-stone-900 p-6 rounded-3xl">
+                        <div class="flex justify-between items-center mb-6">
+                            <p class="text-[10px] uppercase tracking-wider text-stone-500 font-bold">TRẠNG THÁI BÀN VIP</p>
+                            <button class="text-[10px] border border-stone-800 px-3 py-1 rounded-full text-stone-500 font-bold uppercase">CHI TIẾT</button>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4">
+                            <div class="bg-stone-800/50 p-4 rounded-2xl text-center">
+                                <p class="text-2xl font-display font-bold text-primary mb-1">04</p>
+                                <p class="text-[10px] text-stone-500">Reserved</p>
+                            </div>
+                            <div class="bg-stone-800/50 p-4 rounded-2xl text-center">
+                                <p class="text-2xl font-display font-bold text-blue-400 mb-1">08</p>
+                                <p class="text-[10px] text-stone-500">Seated</p>
+                            </div>
+                            <div class="bg-stone-800/50 p-4 rounded-2xl text-center border border-primary/20">
+                                <p class="text-2xl font-display font-bold text-green-400 mb-1">15</p>
+                                <p class="text-[10px] text-stone-500">Available</p>
+                            </div>
+                            <div class="bg-stone-800/50 p-4 rounded-2xl text-center">
+                                <p class="text-2xl font-display font-bold text-orange-400 mb-1">01</p>
+                                <p class="text-[10px] text-stone-500">Cleaning</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="col-span-3">
+                    <div class="glass-card bg-stone-900 p-6 rounded-3xl h-full">
+                        <div class="flex items-center justify-between mb-8">
+                            <div>
+                                <p class="text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1">CẢNH BÁO NGUYÊN LIỆU</p>
+                                <p class="text-[10px] text-stone-400 italic">Kho trung tâm - Wine Cellar</p>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center border border-red-500/20">
+                                <span class="material-icons-round text-red-500 text-sm">priority_high</span>
+                            </div>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="p-5 rounded-2xl border-l-4 border-l-red-500 bg-red-500/5">
+                                <div class="flex justify-between items-start mb-3">
+                                    <h4 class="font-display font-bold leading-tight">Bò wagyu</h4>
+                                    <div class="text-right">
+                                        <p class="text-xl font-display font-bold text-red-500">3K</p>
+                                        <p class="text-[10px] text-stone-500 font-bold uppercase">BTLS</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2 text-red-500">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                                    <span class="text-[10px] font-black uppercase tracking-widest">RESTOCK NOW</span>
+                                </div>
+                            </div>
+                            <div class="p-5 rounded-2xl border-l-4 border-l-orange-400 bg-orange-500/5">
+                                <div class="flex justify-between items-start mb-3">
+                                    <h4 class="font-display font-bold leading-tight">Truffle Đen (Pháp)</h4>
+                                    <div class="text-right">
+                                        <p class="text-xl font-display font-bold text-orange-400">250g</p>
+                                        <p class="text-[10px] text-stone-500 font-bold uppercase">WEIGHT</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2 text-orange-400">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-orange-400"></span>
+                                    <span class="text-[10px] font-black uppercase tracking-widest">LOW STOCK</span>
+                                </div>
+                            </div>
+                            <div class="p-5 rounded-2xl border-l-4 border-l-primary bg-primary/5">
+                                <div class="flex justify-between items-start mb-3">
+                                    <h4 class="font-display font-bold leading-tight">Gold Leaf Edible</h4>
+                                    <div class="text-right">
+                                        <p class="text-xl font-display font-bold text-primary">10</p>
+                                        <p class="text-[10px] text-stone-500 font-bold uppercase">SHEETS</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2 text-primary">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                    <span class="text-[10px] font-black uppercase tracking-widest">MONITOR</span>
+                                </div>
+                                <p class="text-[9px] text-stone-500 mt-2 italic">Dự kiến đủ cho 5 món tráng miệng</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Section -->
+            <div class="mt-6 glass-card bg-stone-900 p-8 rounded-3xl">
+                <div class="flex justify-between items-center mb-10">
+                    <h3 class="text-xl font-display font-bold tracking-tight">Hiệu quả đặt bàn Online</h3>
+                    <span class="text-xs text-stone-500 font-medium uppercase tracking-widest">TUẦN HIỆN TẠI</span>
+                </div>
+                <div class="grid grid-cols-2 gap-12">
+                    <div>
+                        <p class="text-[11px] font-bold text-stone-500 uppercase tracking-widest mb-4">TỶ LỆ GIỮ CỌC</p>
+                        <div class="flex items-end gap-4 mb-4">
+                            <span class="text-6xl font-display font-bold">98%</span>
+                            <div class="bg-green-500/10 text-green-500 px-2 py-1 rounded-lg text-sm font-bold mb-2">+ 2%</div>
+                        </div>
+                        <p class="text-xs text-stone-500 italic mb-6">Khách hàng cao cấp, uy tín cao. Không có trường hợp hủy cọc bất thường tại Vesper.</p>
+                        <div class="h-1 bg-stone-800 rounded-full">
+                            <div class="h-full bg-green-500 rounded-full w-[98%]"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-[11px] font-bold text-stone-500 uppercase tracking-widest mb-4">TỶ LỆ NO-SHOW</p>
+                        <div class="flex items-end gap-4 mb-4">
+                            <span class="text-6xl font-display font-bold">0.5%</span>
+                            <div class="bg-green-500/10 text-green-500 px-2 py-1 rounded-lg text-sm font-bold mb-2">- 0.8%</div>
+                        </div>
+                        <p class="text-xs text-stone-500 italic mb-6">Hệ thống nhắc hẹn tự động hoạt động tối ưu. Hầu như không có khách bỏ bàn.</p>
+                        <div class="h-1 bg-stone-800 rounded-full">
+                            <div class="h-full bg-primary rounded-full w-[5%]"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

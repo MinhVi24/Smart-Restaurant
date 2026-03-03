@@ -1129,6 +1129,7 @@ PRINT '- Payments: 5 deposit fields';
 PRINT '';
 GO
 
+
 UPDATE users 
 SET role = 'CUSTOMER' 
 WHERE user_id = 1;
@@ -1137,3 +1138,6 @@ WHERE user_id = 1;
 UPDATE users 
 SET role = 'STAFF' 
 WHERE user_id = 1;
+
+
+select * from users

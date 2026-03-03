@@ -17,6 +17,7 @@ model\Customers.class
 service\EmailService$1.class
 create\GenerateHash.class
 model\QueueTickets.class
+controller\admin\AdminInventoryController.class
 model\Ingredients.class
 controller\checkout\CheckoutController.class
 controller\auth\LogoutController.class
@@ -29,6 +30,7 @@ service\EmailService.class
 dao\TableDAO.class
 model\StaffShiftsPK.class
 service\UserService.class
+controller\admin\AdminAccountController.class
 dao\ReservationDAO.class
 model\Staff.class
 dao\MenuItemDAO.class
@@ -38,6 +40,7 @@ model\DailyStats.class
 model\Predictions.class
 model\Payments.class
 model\Sysdiagrams.class
+controller\admin\AdminMenuController.class
 controller\booking\BookingController.class
 controller\orders\MyOrdersController.class
 dao\GenericDAO.class
@@ -47,6 +50,7 @@ model\MenuIngredients.class
 model\MenuIngredientsPK.class
 model\Suppliers.class
 service\FoodService.class
+controller\admin\AdminHomeController.class
 model\OrderItems.class
 model\Tables.class
 controller\auth\ResetPasswordController.class
