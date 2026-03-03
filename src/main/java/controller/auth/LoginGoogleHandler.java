@@ -73,8 +73,12 @@ public class LoginGoogleHandler extends HttpServlet {
                 emailService.sendLoginNotificationEmail(finalEmail, finalName);
             }).start();
 
-            // 6. Redirect về trang chủ
-            response.sendRedirect(request.getContextPath() + "/");
+            // 6. Redirect theo role (giống LoginController)
+            if ("ADMIN".equalsIgnoreCase(user.getRole()) || "STAFF".equalsIgnoreCase(user.getRole())) {
+                response.sendRedirect(request.getContextPath() + "/views/admin/home-admin/home-admin.jsp");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

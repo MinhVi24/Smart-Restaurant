@@ -45,6 +45,7 @@ D:\GitHub\Smart-Restaurant\src\main\java\service\EmailService.java
 D:\GitHub\Smart-Restaurant\src\main\java\controller\auth\LoginGoogleHandler.java
 D:\GitHub\Smart-Restaurant\src\main\java\dao\GenericDAO.java
 D:\GitHub\Smart-Restaurant\src\main\java\service\MenuService.java
+D:\GitHub\Smart-Restaurant\src\main\java\models\User.java
 D:\GitHub\Smart-Restaurant\src\main\java\model\MenuIngredients.java
 D:\GitHub\Smart-Restaurant\src\main\java\model\Orders.java
 D:\GitHub\Smart-Restaurant\src\main\java\controller\orders\MyOrdersController.java

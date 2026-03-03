@@ -29,6 +29,7 @@ controller\profile\ProfileController.class
 service\EmailService.class
 dao\TableDAO.class
 model\StaffShiftsPK.class
+models\User.class
 service\UserService.class
 dao\ReservationDAO.class
 model\Staff.class
