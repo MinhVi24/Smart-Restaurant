@@ -16,6 +16,12 @@ import java.io.IOException;
 @WebFilter("/*")
 public class AuthFilter implements Filter {
 
+    // Constants
+    public static final String SESSION_USER = "loggedInUser";
+    public static final String ROLE_ADMIN = "ADMIN";
+    public static final String ROLE_STAFF = "STAFF";
+    public static final String ROLE_CUSTOMER = "CUSTOMER";
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         // Khởi tạo
@@ -48,7 +54,7 @@ public class AuthFilter implements Filter {
              || path.startsWith("/orders/my")
              || path.startsWith("/bookings/history");
 
-        boolean loggedIn = (session != null && session.getAttribute("loggedInUser") != null);
+        boolean loggedIn = (session != null && session.getAttribute(SESSION_USER) != null);
         
         // Nếu user đã logged in nhưng truy cập lại /login hay /register thì đá về trang chủ
         if (loggedIn && (isLoginRequest || isRegisterRequest)) {
@@ -63,8 +69,8 @@ public class AuthFilter implements Filter {
                 httpResponse.sendRedirect(loginURI);
                 return;
             } else {
-                Users user = (Users) session.getAttribute("loggedInUser");
-                if (!"ADMIN".equalsIgnoreCase(user.getRole()) && !"STAFF".equalsIgnoreCase(user.getRole())) {
+                Users user = (Users) session.getAttribute(SESSION_USER);
+                if (!ROLE_ADMIN.equalsIgnoreCase(user.getRole()) && !ROLE_STAFF.equalsIgnoreCase(user.getRole())) {
                     // Đăng nhập rồi nhưng không phải admin -> Lỗi 403 Forbidden
                     httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Bạn không có quyền truy cập trang này.");
                     return;

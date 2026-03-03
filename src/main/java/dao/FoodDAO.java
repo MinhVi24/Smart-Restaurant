@@ -52,4 +52,13 @@ public class FoodDAO {
         tx.commit();
         em.close();
     }
+
+    public List<Food> findByCategory(String category) {
+        EntityManager em = JPAConfig.getEntityManager();
+        List<Food> list = em.createQuery("SELECT f FROM Food f WHERE f.category = :category", Food.class)
+                            .setParameter("category", category)
+                            .getResultList();
+        em.close();
+        return list;
+    }
 }

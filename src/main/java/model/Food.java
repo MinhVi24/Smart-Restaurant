@@ -43,6 +43,12 @@ public class Food implements Serializable {
     @Column(name = "price")
     private double price;
 
+    @Column(name = "category")
+    private String category;
+
+    @Column(name = "description")
+    private String description;
+
     public Food() {
     }
 
@@ -86,6 +92,22 @@ public class Food implements Serializable {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

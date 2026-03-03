@@ -72,7 +72,7 @@
 <span class="material-symbols-outlined">receipt_long</span>
 <span class="text-sm font-medium">Order Management</span>
 </a>
-<a class="flex items-center gap-4 px-4 py-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<a class="flex items-center gap-4 px-4 py-3 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="${pageContext.request.contextPath}/admin/food">
 <span class="material-symbols-outlined">menu_book</span>
 <span class="text-sm font-medium">Menu Editor</span>
 </a>

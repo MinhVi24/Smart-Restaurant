@@ -45,4 +45,15 @@ public class UserDAO extends GenericDAO<Users> {
             em.close();
         }
     }
+
+    public Users login(String email, String password) {
+        Users user = findByEmail(email);
+        if (user != null) {
+            // Kiểm tra password (giả sử password đã được hash bằng BCrypt)
+            if (org.mindrot.jbcrypt.BCrypt.checkpw(password, user.getPasswordHash())) {
+                return user;
+            }
+        }
+        return null;
+    }
 }

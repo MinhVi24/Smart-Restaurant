@@ -12,10 +12,13 @@ dao\UserDAO.class
 filter\EncodingFilter.class
 model\Shifts.class
 controller\auth\LoginController.class
+controller\admin\AdminFoodDeleteController.class
 controller\admin\AdminBookingController.class
 controller\auth\RegisterController.class
 model\Customers.class
 service\EmailService$1.class
+controller\admin\AdminFoodUpdateController.class
+controller\admin\AdminFoodController.class
 create\GenerateHash.class
 model\QueueTickets.class
 model\Ingredients.class
@@ -29,7 +32,9 @@ controller\profile\ProfileController.class
 service\EmailService.class
 dao\TableDAO.class
 model\StaffShiftsPK.class
+models\User.class
 service\UserService.class
+controller\admin\AdminFoodApiController.class
 dao\ReservationDAO.class
 model\Staff.class
 dao\MenuItemDAO.class
@@ -46,6 +51,7 @@ model\Inventory.class
 controller\auth\ForgotPasswordController$TokenInfo.class
 model\MenuIngredients.class
 model\MenuIngredientsPK.class
+controller\admin\AdminFoodAddController.class
 model\Suppliers.class
 service\FoodService.class
 model\OrderItems.class
