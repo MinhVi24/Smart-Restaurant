@@ -13,11 +13,13 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Logger;
 
 @WebServlet(name = "LoginController", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
 
     private final UserService userService = new UserService();
+    private static final Logger logger = Logger.getLogger(LoginController.class.getName());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -69,17 +71,37 @@ public class LoginController extends HttpServlet {
                 }
             }
 
-            // Nếu có returnUrl hợp lệ -> ưu tiên redirect về đó
             if (returnUrl != null && !returnUrl.isBlank()) {
-                response.sendRedirect(returnUrl);
-                return;
+                String role = user.getRole() != null ? user.getRole().toUpperCase() : "";
+                String path = returnUrl;
+                if (path.startsWith(request.getContextPath())) {
+                    path = path.substring(request.getContextPath().length());
+                }
+                boolean allowed = false;
+                if ("ADMIN".equals(role)) {
+                    allowed = true;
+                } else if ("STAFF".equals(role)) {
+                    allowed = path.startsWith("/views/staff/") || path.startsWith("/staff/");
+                } else {
+                    allowed = !(path.startsWith("/views/admin/") || path.startsWith("/admin/") || path.startsWith("/views/staff/") || path.startsWith("/staff/"));
+                }
+                logger.info(String.format("login role=%s returnUrl=%s allowed=%s", role, returnUrl, allowed));
+                if (allowed) {
+                    logger.info(String.format("redirect -> %s", returnUrl));
+                    response.sendRedirect(returnUrl);
+                    return;
+                }
             }
 
-            // Ngược lại: chuyển hướng dựa trên Role
-            if ("ADMIN".equalsIgnoreCase(user.getRole()) || "STAFF".equalsIgnoreCase(user.getRole())) {
+            if ("ADMIN".equalsIgnoreCase(user.getRole())) {
+                logger.info("redirect -> /views/admin/home-admin/home-admin.jsp");
                 response.sendRedirect(request.getContextPath() + "/views/admin/home-admin/home-admin.jsp");
+            } else if ("STAFF".equalsIgnoreCase(user.getRole())) {
+                logger.info("redirect -> /views/staff/home.jsp");
+                response.sendRedirect(request.getContextPath() + "/views/staff/home.jsp");
             } else {
-                response.sendRedirect(request.getContextPath() + "/");
+                logger.info("redirect -> /views/custumer/home/home.jsp");
+                response.sendRedirect(request.getContextPath() + "/views/custumer/home/home.jsp");
             }
         } catch (IllegalArgumentException e) {
             request.setAttribute("error", e.getMessage());

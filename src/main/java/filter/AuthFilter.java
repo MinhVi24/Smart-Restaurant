@@ -37,16 +37,15 @@ public class AuthFilter implements Filter {
         boolean isRegisterRequest = path.equals("/register");
         boolean isPublicResource = path.startsWith("/assets/") || path.startsWith("/css/") || path.startsWith("/js/");
         
-        // Các đường dẫn cần role Admin/Staff
-        boolean isAdminPath = path.startsWith("/views/admin/");
+        boolean isAdminPath = path.startsWith("/views/admin/") || path.startsWith("/admin/");
+        boolean isStaffPath = path.startsWith("/views/staff/") || path.startsWith("/staff/");
 
-        // Các đường dẫn khách hàng (Customer) cần đăng nhập cho tính năng cá nhân
-        // LƯU Ý: Flow đặt bàn (/booking, /booking/menu, /checkout) không bị chặn ở đây,
-        // phần kiểm tra đăng nhập sẽ được xử lý trong CheckoutController (bước thanh toán).
         boolean isCustomerRestrictedPath =
                 path.startsWith("/account/")
              || path.startsWith("/orders/my")
-             || path.startsWith("/bookings/history");
+             || path.startsWith("/bookings/history")
+             || path.startsWith("/booking")
+             || path.startsWith("/checkout");
 
         boolean loggedIn = (session != null && session.getAttribute("loggedInUser") != null);
         
@@ -56,16 +55,26 @@ public class AuthFilter implements Filter {
             return;
         }
 
-        // Kiểm tra quyền truy cập Admin
         if (isAdminPath) {
             if (!loggedIn) {
-                // Chưa đăng nhập -> sang login
                 httpResponse.sendRedirect(loginURI);
                 return;
             } else {
                 Users user = (Users) session.getAttribute("loggedInUser");
-                if (!"ADMIN".equalsIgnoreCase(user.getRole()) && !"STAFF".equalsIgnoreCase(user.getRole())) {
-                    // Đăng nhập rồi nhưng không phải admin -> Lỗi 403 Forbidden
+                if (!"ADMIN".equalsIgnoreCase(user.getRole())) {
+                    httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Bạn không có quyền truy cập trang này.");
+                    return;
+                }
+            }
+        }
+        
+        if (isStaffPath) {
+            if (!loggedIn) {
+                httpResponse.sendRedirect(loginURI);
+                return;
+            } else {
+                Users user = (Users) session.getAttribute("loggedInUser");
+                if (!"STAFF".equalsIgnoreCase(user.getRole()) && !"ADMIN".equalsIgnoreCase(user.getRole())) {
                     httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Bạn không có quyền truy cập trang này.");
                     return;
                 }

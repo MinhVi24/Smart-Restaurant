@@ -65,6 +65,24 @@ public class ReservationDAO extends GenericDAO<Reservations> {
     }
 
     /**
+     * Find reservations with a given status whose reservationTime is before cutoff
+     */
+    public List<Reservations> findByStatusBefore(String status, Date cutoff) {
+        EntityManager em = JPAConfig.getEntityManager();
+        try {
+            TypedQuery<Reservations> query = em.createQuery(
+                "SELECT r FROM Reservations r WHERE r.status = :status AND r.reservationTime <= :cutoff",
+                Reservations.class
+            );
+            query.setParameter("status", status);
+            query.setParameter("cutoff", cutoff);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
      * Create new reservation with table
      */
     public Reservations createReservation(Customers customer, Tables table, Date reservationTime, int guestCount) {

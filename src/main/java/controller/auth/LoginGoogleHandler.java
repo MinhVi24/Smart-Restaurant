@@ -73,11 +73,13 @@ public class LoginGoogleHandler extends HttpServlet {
                 emailService.sendLoginNotificationEmail(finalEmail, finalName);
             }).start();
 
-            // 6. Redirect theo role (giống LoginController)
-            if ("ADMIN".equalsIgnoreCase(user.getRole()) || "STAFF".equalsIgnoreCase(user.getRole())) {
+            // 6. Redirect theo role (đồng bộ với LoginController)
+            if ("ADMIN".equalsIgnoreCase(user.getRole())) {
                 response.sendRedirect(request.getContextPath() + "/views/admin/home-admin/home-admin.jsp");
+            } else if ("STAFF".equalsIgnoreCase(user.getRole())) {
+                response.sendRedirect(request.getContextPath() + "/views/staff/home.jsp");
             } else {
-                response.sendRedirect(request.getContextPath() + "/");
+                response.sendRedirect(request.getContextPath() + "/views/custumer/home/home.jsp");
             }
 
         } catch (Exception e) {

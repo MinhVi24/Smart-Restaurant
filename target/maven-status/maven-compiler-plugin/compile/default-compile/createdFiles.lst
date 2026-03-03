@@ -16,13 +16,18 @@ controller\admin\AdminBookingController.class
 controller\auth\RegisterController.class
 model\Customers.class
 service\EmailService$1.class
+controller\staff\StaffBookingsController.class
 create\GenerateHash.class
+listener\ScheduledTasksListener.class
 model\QueueTickets.class
 model\Ingredients.class
 controller\checkout\CheckoutController.class
 controller\auth\LogoutController.class
+controller\staff\KitchenBoardController.class
 controller\AddFoodController.class
 model\Food.class
+controller\staff\StaffTablesController.class
+controller\staff\StaffPaymentsController.class
 controller\MenuController.class
 dao\FoodDAO.class
 controller\profile\ProfileController.class
@@ -30,6 +35,7 @@ service\EmailService.class
 dao\TableDAO.class
 model\StaffShiftsPK.class
 models\User.class
+controller\staff\StaffOrdersController.class
 service\UserService.class
 dao\ReservationDAO.class
 model\Staff.class

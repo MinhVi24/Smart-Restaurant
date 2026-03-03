@@ -1,0 +1,20 @@
+<div class="staff-topbar">
+  <div class="staff-brand">
+    <span class="dot"></span>
+    <span>VESPER • Staff</span>
+  </div>
+  <a class="staff-logout" href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
+</div>
+<div class="vesper-mark"><span>VESPER</span></div>
+<div class="staff-shell">
+  <aside class="staff-sidebar">
+    <ul class="staff-nav">
+      <li><a href="${pageContext.request.contextPath}/views/staff/home.jsp">Tổng quan</a></li>
+      <li><a href="${pageContext.request.contextPath}/staff/bookings">Đặt bàn</a></li>
+      <li><a href="${pageContext.request.contextPath}/staff/orders">Đơn hàng</a></li>
+      <li><a href="${pageContext.request.contextPath}/staff/tables">Quản lý bàn</a></li>
+      <li><a href="${pageContext.request.contextPath}/staff/kitchen-board">Bảng bếp</a></li>
+      <li><a href="${pageContext.request.contextPath}/staff/payments">Thanh toán</a></li>
+    </ul>
+  </aside>
+  <main class="staff-main">
