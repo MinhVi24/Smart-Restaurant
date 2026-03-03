@@ -14,6 +14,8 @@ CREATE TABLE Users (
     status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE'
         CHECK (status IN ('ACTIVE', 'INACTIVE', 'BANNED')),
     created_at DATETIME NOT NULL DEFAULT GETDATE()
+
+
 );
 
 
