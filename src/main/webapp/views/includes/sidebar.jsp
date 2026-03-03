@@ -23,7 +23,7 @@
 
             <a href="home.jsp" class="hover:text-primary">Home</a>
             <a href="menu.jsp" class="hover:text-primary">Menu</a>
-            <a href="booking.jsp" class="hover:text-primary">Booking</a>
+            <a href="${pageContext.request.contextPath}/booking" class="hover:text-primary">Booking</a>
             <a href="#" class="hover:text-primary">My Orders</a>
 
         <% } %>

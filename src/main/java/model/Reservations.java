@@ -56,6 +56,9 @@ public class Reservations implements Serializable {
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
     @ManyToOne(optional = false)
     private Customers customerId;
+    @JoinColumn(name = "table_id", referencedColumnName = "table_id")
+    @ManyToOne
+    private Tables tableId;
 
     public Reservations() {
     }
@@ -116,6 +119,14 @@ public class Reservations implements Serializable {
 
     public void setCustomerId(Customers customerId) {
         this.customerId = customerId;
+    }
+
+    public Tables getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(Tables tableId) {
+        this.tableId = tableId;
     }
 
     @Override

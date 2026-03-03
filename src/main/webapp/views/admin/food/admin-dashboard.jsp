@@ -1,61 +1,115 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Admin Dashboard</title>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css">
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-        <script src="https://cdn.tailwindcss.com"></script>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>VESPER • Admin Dashboard</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/lux.css">
+  </head>
+  <body class="lux-body">
+    <header class="lux-header">
+      <div class="lux-container lux-header__inner">
+        <a class="lux-brand" href="${pageContext.request.contextPath}/">
+          <span class="lux-brand__mark">V</span>
+          <span class="lux-brand__title">
+            <span class="lux-brand__name">VESPER</span>
+            <span class="lux-brand__sub">Executive Admin</span>
+          </span>
+        </a>
+        <nav class="lux-nav" aria-label="Admin navigation">
+          <a aria-current="page" href="${pageContext.request.contextPath}/views/admin/food/admin-dashboard.jsp">Dashboard</a>
+          <a href="${pageContext.request.contextPath}/menu">Thực đơn</a>
+          <a href="${pageContext.request.contextPath}/booking">Đặt bàn</a>
+          <a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
+        </nav>
+      </div>
+    </header>
 
-        <script>
-            tailwind.config = {
-                theme: {
-                    extend: {
-                        colors: {
-                            primary: "#ee7c2b"
-                        }
-                    }
-                }
-            }
-        </script>
-
-    </head>
-
-    <body class="flex min-h-screen bg-gray-100">
-
-        <jsp:include page="/includes/sidebar.jsp" />
-
-        <div class="flex-1 flex flex-col">
-
-            <jsp:include page="/includes/header.jsp" />
-
-            <main class="flex-1 p-10 bg-gray-100">
-                <h1 class="text-3xl font-bold text-primary mb-6">
-                    Dashboard Overview
-                </h1>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-white p-6 rounded-xl shadow">
-                        <h3 class="text-lg font-semibold">Total Orders</h3>
-                        <p class="text-2xl font-bold mt-2">120</p>
-                    </div>
-
-                    <div class="bg-white p-6 rounded-xl shadow">
-                        <h3 class="text-lg font-semibold">Reservations</h3>
-                        <p class="text-2xl font-bold mt-2">45</p>
-                    </div>
-
-                    <div class="bg-white p-6 rounded-xl shadow">
-                        <h3 class="text-lg font-semibold">Revenue</h3>
-                        <p class="text-2xl font-bold mt-2">$8,540</p>
-                    </div>
-                </div>
-
-            </main>
-
+    <main class="lux-main">
+      <div class="lux-container">
+        <div class="lux-row" style="align-items:flex-end;">
+          <div>
+            <h1 class="lux-title">Tổng quan vận hành</h1>
+            <p class="lux-subtitle">Theo dõi bàn, booking và doanh thu theo thời gian thực.</p>
+          </div>
+          <span class="lux-badge lux-badge--gold">Admin panel</span>
         </div>
 
-    </body>
+        <div class="lux-grid" style="grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-top:14px;">
+          <section class="lux-card">
+            <div class="lux-card__body">
+              <div class="lux-kpi">
+                <span class="lux-kpi__label">Tổng đơn</span>
+                <span class="lux-kpi__value"><c:out value="${kpiTotalOrders != null ? kpiTotalOrders : 0}"/></span>
+              </div>
+            </div>
+          </section>
+          <section class="lux-card">
+            <div class="lux-card__body">
+              <div class="lux-kpi">
+                <span class="lux-kpi__label">Reservations</span>
+                <span class="lux-kpi__value"><c:out value="${kpiReservations != null ? kpiReservations : 0}"/></span>
+              </div>
+            </div>
+          </section>
+          <section class="lux-card">
+            <div class="lux-card__body">
+              <div class="lux-kpi">
+                <span class="lux-kpi__label">Doanh thu</span>
+                <span class="lux-kpi__value"><c:out value="${kpiRevenue != null ? kpiRevenue : 0}"/></span>
+              </div>
+            </div>
+          </section>
+        </div>
 
+        <div class="lux-grid lux-grid--2" style="margin-top:18px;">
+          <section class="lux-card">
+            <div class="lux-card__body">
+              <h2 class="lux-card__title">Sơ đồ bàn</h2>
+              <p class="lux-help">Sử dụng chung component với màn hình khách hàng, mapping trạng thái: AVAILABLE → trống, RESERVED/OCCUPIED → đã đặt.</p>
+              <div class="lux-divider"></div>
+              <c:set var="includeMode" value="admin"/>
+              <jsp:include page="/views/includes/floor-plan.jsp">
+                <jsp:param name="includeMode" value="admin"/>
+              </jsp:include>
+            </div>
+          </section>
+
+          <section class="lux-card">
+            <div class="lux-card__body">
+              <h2 class="lux-card__title">Reservations đang diễn ra</h2>
+              <table class="lux-table" aria-label="Active reservations">
+                <thead>
+                  <tr>
+                    <th>Mã</th>
+                    <th>Bàn</th>
+                    <th>Trạng thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <c:choose>
+                    <c:when test="${empty activeReservations}">
+                      <tr><td colspan="3" class="lux-muted">Chưa có dữ liệu.</td></tr>
+                    </c:when>
+                    <c:otherwise>
+                      <c:forEach var="r" items="${activeReservations}">
+                        <tr>
+                          <td>#<c:out value="${r.reservationId}"/></td>
+                          <td><c:out value="${r.tableId != null ? r.tableId.tableId : '-'}"/></td>
+                          <td><c:out value="${r.status}"/></td>
+                        </tr>
+                      </c:forEach>
+                    </c:otherwise>
+                  </c:choose>
+                </tbody>
+              </table>
+              <p class="lux-help">Controller Admin sẽ gán danh sách `activeReservations` khi load trang.</p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>

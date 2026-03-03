@@ -50,6 +50,14 @@ public class Payments implements Serializable {
     @Column(name = "payment_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date paymentTime;
+    @Column(name = "deposit_percentage")
+    private Integer depositPercentage;
+    @Column(name = "deposit_amount")
+    private BigDecimal depositAmount;
+    @Column(name = "remaining_amount")
+    private BigDecimal remainingAmount;
+    @Column(name = "payment_status")
+    private String paymentStatus;
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")
     @OneToOne(optional = false)
     private Orders orderId;
@@ -96,6 +104,38 @@ public class Payments implements Serializable {
 
     public void setPaymentTime(Date paymentTime) {
         this.paymentTime = paymentTime;
+    }
+
+    public Integer getDepositPercentage() {
+        return depositPercentage;
+    }
+
+    public void setDepositPercentage(Integer depositPercentage) {
+        this.depositPercentage = depositPercentage;
+    }
+
+    public BigDecimal getDepositAmount() {
+        return depositAmount;
+    }
+
+    public void setDepositAmount(BigDecimal depositAmount) {
+        this.depositAmount = depositAmount;
+    }
+
+    public BigDecimal getRemainingAmount() {
+        return remainingAmount;
+    }
+
+    public void setRemainingAmount(BigDecimal remainingAmount) {
+        this.remainingAmount = remainingAmount;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     public Orders getOrderId() {
