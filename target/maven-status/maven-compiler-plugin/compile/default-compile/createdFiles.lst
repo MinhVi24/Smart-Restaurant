@@ -1,3 +1,4 @@
+service\EmailService$2.class
 dao\OrderDAO.class
 service\BookingService.class
 service\BookingService$BookingResult.class
