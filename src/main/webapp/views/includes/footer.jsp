@@ -1,95 +1,65 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<footer class="bg-[#0a0a0a] border-t border-primary/20 w-full">
-
-    <!-- PHẦN TRÊN -->
-    <div class="w-full px-16 pt-10 pb-6">
-
-        <div class="grid grid-cols-1 md:grid-cols-3 items-start gap-12">
-
-            <!-- Logo -->
-            <div class="flex flex-col gap-5">
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<footer class="bg-[#0a0a0a] border-t border-primary/20 pb-32">
+    <div class="max-w-7xl mx-auto px-6 py-20">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+            <div class="flex flex-col gap-8">
                 <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 vesper-logo-motif flex items-center justify-center">
-                        <span class="font-serif text-champagne-gold text-xl font-medium">V</span>
+                    <div class="w-12 h-12 vesper-logo-motif">
+                        <span class="font-serif text-champagne-gold text-2xl z-10 font-medium">V</span>
                     </div>
-                    <h2 class="font-serif text-2xl font-bold tracking-[0.2em] text-champagne-gold uppercase">
-                        Vesper
-                    </h2>
+                    <h2 class="font-serif text-3xl font-bold tracking-[0.2em] text-champagne-gold uppercase">Vesper</h2>
                 </div>
-
-                <p class="text-white/50 text-sm leading-relaxed max-w-xs">
-                    Nơi ánh hoàng hôn hội tụ cùng nghệ thuật ẩm thực đương đại. 
-                    Vesper mang đến trải nghiệm tinh hoa trong từng khoảnh khắc, 
-                    nơi vị giác và cảm xúc được đánh thức.                 </p>
+                <p class="text-white/40 text-sm leading-loose font-light tracking-widest max-w-sm uppercase">
+                    Nơi ánh hoàng hôn hội tụ cùng nghệ thuật ẩm thực đương đại. Vesper mang đến trải nghiệm tinh hoa trong từng khoảnh khắc.
+                </p>
             </div>
-
-            <!-- Thông tin liên hệ -->
-            <div class="flex flex-col items-center gap-6">
-                <h3 class="text-champagne-gold font-serif text-xs tracking-[0.3em] uppercase">
-                    Thông Tin Liên Hệ
-                </h3>
-
-                <div class="flex flex-col gap-4 text-white/60 text-sm">
-
-                    <a href="https://maps.google.com/?q=123+Lê+Lợi+Quận+1+HCM"
-                       target="_blank"
-                       class="flex items-center gap-3 hover:text-primary transition">
-                        <span class="material-symbols-outlined text-primary text-lg">
-                            location_on
-                        </span>
-                        <span>123 Lê Lợi, Quận 1, TP. Hồ Chí Minh</span>
-                    </a>
-
-                    <a href="tel:+842838228888"
-                       class="flex items-center gap-3 hover:text-primary transition">
-                        <span class="material-symbols-outlined text-primary text-lg">
-                            call
-                        </span>
-                        <span>+84 28 3822 8888</span>
-                    </a>
-
-                    <a href="mailto:concierge@vesper.vn"
-                       class="flex items-center gap-3 hover:text-primary transition">
-                        <span class="material-symbols-outlined text-primary text-lg">
-                            mail
-                        </span>
-                        <span>concierge@vesper.vn</span>
-                    </a>
-
+            <div class="flex flex-col gap-8">
+                <h3 class="text-champagne-gold font-serif text-sm font-bold tracking-[0.3em] uppercase border-b border-primary/20 pb-4">Thông Tin Liên Hệ</h3>
+                <div class="flex flex-col gap-6 text-white/60 text-[13px] tracking-wide">
+                    <div class="flex items-start gap-4">
+                        <span class="material-symbols-outlined text-primary text-xl">location_on</span>
+                        <p>123 Lê Lợi, Quận 1, TP. Hồ Chí Minh</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="material-symbols-outlined text-primary text-xl">call</span>
+                        <p>+84 28 3822 8888</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="material-symbols-outlined text-primary text-xl">mail</span>
+                        <p>concierge@vesper.vn</p>
+                    </div>
                 </div>
             </div>
-
-            <!-- Giờ mở cửa -->
-            <div class="flex flex-col items-end gap-4 text-sm text-white/60">
-                <h3 class="text-champagne-gold font-serif text-xs tracking-[0.3em] uppercase">
-                    Giờ Mở Cửa
-                </h3>
-
-                <div class="text-right space-y-1">
-                    <div>Thứ Hai - Thứ Sáu: 17:00 - 23:00</div>
-                    <div>Thứ Bảy - Chủ Nhật: 11:00 - 23:30</div>
+            <div class="flex flex-col gap-8">
+                <h3 class="text-champagne-gold font-serif text-sm font-bold tracking-[0.3em] uppercase border-b border-primary/20 pb-4">Giờ Mở Cửa</h3>
+                <div class="text-white/60 text-[13px] tracking-wide mb-4">
+                    <div class="flex justify-between mb-4 border-b border-white/5 pb-2">
+                        <span class="font-medium">Thứ Hai - Thứ Sáu</span>
+                        <span>17:00 - 23:00</span>
+                    </div>
+                    <div class="flex justify-between border-b border-white/5 pb-2">
+                        <span class="font-medium">Thứ Bảy - Chủ Nhật</span>
+                        <span>11:00 - 23:30</span>
+                    </div>
+                </div>
+                <div class="flex gap-6">
+                    <a class="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center text-primary hover:bg-primary hover:text-background-dark transition-all duration-500" href="#">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>
+                    </a>
+                    <a class="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center text-primary hover:bg-primary hover:text-background-dark transition-all duration-500" href="#">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+                    </a>
                 </div>
             </div>
-
         </div>
-
-    </div>
-
-    <!-- BOTTOM FULL WIDTH SÁT ĐÁY -->
-    <div class="border-t border-white/10 py-4 text-white/40 text-xs">
-        <div class="px-16 flex justify-between items-center">
+        <div class="border-t border-white/5 mt-20 pt-10 text-center md:text-left flex flex-col md:flex-row justify-between items-center text-white/20 text-[10px] tracking-[0.2em] uppercase font-bold">
             <p>© 2024 Vesper Luxury Restaurant. Tinh hoa ẩm thực Việt.</p>
-
-            <div class="flex gap-8">
-                <a href="#" class="hover:text-primary transition">
-                    Chính sách bảo mật
-                </a>
-                <a href="#" class="hover:text-primary transition">
-                    Điều khoản dịch vụ
-                </a>
+            <div class="flex gap-10 mt-6 md:mt-0">
+                <a class="hover:text-primary transition-colors" href="#">Chính sách bảo mật</a>
+                <a class="hover:text-primary transition-colors" href="#">Điều khoản dịch vụ</a>
             </div>
         </div>
     </div>
-
 </footer>
+</body>
+</html>
