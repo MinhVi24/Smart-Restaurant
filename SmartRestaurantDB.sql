@@ -445,7 +445,13 @@ BEGIN
     (N'Nước Ép Cam Tươi', 80000, 'AVAILABLE'),
     (N'Trà Oolong Đài Loan', 120000, 'AVAILABLE');
     
-    PRINT 'Inserted 23 menu items!';
+    -- TEST ITEMS (for testing)
+    INSERT INTO Menu_Items (name, price, status) VALUES
+    (N'[TEST] Bánh Mì Bơ Tỏi', 10000, 'AVAILABLE'),
+    (N'[TEST] Nước Suối', 10000, 'AVAILABLE'),
+    (N'[TEST] Cơm Trắng', 10000, 'AVAILABLE');
+    
+    PRINT 'Inserted 26 menu items (including 3 test items)!';
 END
 ELSE
     PRINT 'Menu items already exist';

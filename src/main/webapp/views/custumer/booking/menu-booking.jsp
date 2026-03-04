@@ -95,13 +95,25 @@
             font-weight: 600;
             cursor: pointer;
             white-space: nowrap;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+        }
+        
+        .category-tab:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--md-primary);
+            color: var(--md-text);
+            transform: translateY(-2px);
         }
         
         .category-tab.active {
             background: var(--md-primary);
             color: #0a0a0a;
             border-color: var(--md-primary);
+            transform: translateY(0);
+        }
+        
+        .category-tab.active:hover {
+            background: var(--md-primary-light);
         }
         
         .search-box {
@@ -116,6 +128,14 @@
             border-radius: var(--md-radius);
             color: var(--md-text);
             font-size: 0.875rem;
+            transition: all 0.3s;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--md-primary);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 0 3px rgba(212, 175, 53, 0.1);
         }
         
         .search-box .material-symbols-outlined {
@@ -125,6 +145,11 @@
             transform: translateY(-50%);
             color: var(--md-text-muted);
             font-size: 20px;
+            transition: color 0.3s;
+        }
+        
+        .search-box input:focus + .material-symbols-outlined {
+            color: var(--md-primary);
         }
         
         .menu-list {
@@ -152,6 +177,16 @@
             font-style: italic;
             color: var(--md-primary);
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .category-title::before {
+            content: '';
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--md-primary), transparent);
         }
         
         .menu-item {
@@ -162,17 +197,34 @@
             border: 1px solid transparent;
             margin-bottom: 16px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .menu-item:hover {
             background: rgba(255, 255, 255, 0.02);
             border-color: var(--md-border);
+            transform: translateX(4px);
         }
         
         .menu-item.selected {
             background: rgba(212, 175, 53, 0.1);
             border-color: var(--md-primary);
+        }
+        
+        .menu-item.selected:hover {
+            transform: translateX(0);
         }
         
         .item-image {
@@ -434,52 +486,79 @@
                 
                 <!-- Categories -->
                 <div class="category-tabs">
-                    <button class="category-tab active" data-category="all">
+                    <button class="category-tab active" data-category="all" onclick="filterByCategory('all', this)">
+                        <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle; margin-right: 4px;">restaurant_menu</span>
+                        Tất cả
+                    </button>
+                    <button class="category-tab" data-category="appetizer" onclick="filterByCategory('appetizer', this)">
                         <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle; margin-right: 4px;">tapas</span>
                         Khai vị
                     </button>
-                    <button class="category-tab" data-category="main">
+                    <button class="category-tab" data-category="main" onclick="filterByCategory('main', this)">
                         <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle; margin-right: 4px;">restaurant</span>
                         Món chính
                     </button>
-                    <button class="category-tab" data-category="dessert">
+                    <button class="category-tab" data-category="dessert" onclick="filterByCategory('dessert', this)">
                         <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle; margin-right: 4px;">icecream</span>
                         Tráng miệng
+                    </button>
+                    <button class="category-tab" data-category="beverage" onclick="filterByCategory('beverage', this)">
+                        <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle; margin-right: 4px;">local_bar</span>
+                        Đồ uống
                     </button>
                 </div>
                 
                 <!-- Search -->
                 <div class="search-box">
                     <span class="material-symbols-outlined">search</span>
-                    <input type="text" placeholder="Tìm kiếm món ăn...">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm món ăn... (Ctrl+K)" oninput="filterMenu()">
+                    <button type="button" id="clearSearch" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--md-text-muted); cursor: pointer; display: none; padding: 4px;" onclick="clearSearch()">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">close</span>
+                    </button>
                 </div>
             </div>
             
             <!-- Menu List -->
-            <div class="menu-list">
-                <h3 class="category-title">Khai vị hảo hạng</h3>
+            <div class="menu-list" id="menuList">
+                <h3 class="category-title" id="categoryTitle">Tất cả món ăn</h3>
                 
-                <c:forEach var="item" items="${menuItems}" varStatus="status">
-                    <c:if test="${status.index < 5}">
-                        <!-- Menu Item -->
-                        <div class="menu-item" data-id="${item.menuItemId}" data-name="${item.name}" data-price="${item.price}">
-                            <div class="item-image">
-                                <img src="${pageContext.request.contextPath}/assets/images/pizza.jpg" alt="${item.name}">
-                            </div>
-                            <div class="item-info">
-                                <h4 class="item-name">${item.name}</h4>
-                                <p class="item-description">Món ăn cao cấp được chế biến từ nguyên liệu tươi ngon</p>
-                                <div class="item-footer">
-                                    <span class="item-price">${item.price}₫</span>
-                                    <button class="add-btn" onclick="addItem(this, ${item.menuItemId}, '${item.name}', ${item.price})">
-                                        <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">add</span>
-                                        Thêm món
-                                    </button>
-                                </div>
+                <c:forEach var="item" items="${menuItems}">
+                    <!-- Menu Item -->
+                    <div class="menu-item" 
+                         data-id="${item.menuItemId}" 
+                         data-name="${item.name}" 
+                         data-price="${item.price}"
+                         data-category="${item.name.contains('Sò') || item.name.contains('Gan') || item.name.contains('Salad') || item.name.contains('Súp') || item.name.contains('Bò Wagyu Carpaccio') ? 'appetizer' : 
+                                       item.name.contains('Bò') || item.name.contains('Tôm') || item.name.contains('Thăn') || item.name.contains('Tomahawk') || item.name.contains('Cá') || item.name.contains('Vịt') ? 'main' : 
+                                       item.name.contains('Tiramisu') || item.name.contains('Crème') || item.name.contains('Chocolate') || item.name.contains('Panna') || item.name.contains('Kem') ? 'dessert' : 
+                                       item.name.contains('Rượu') || item.name.contains('Champagne') || item.name.contains('Whisky') || item.name.contains('Nước') || item.name.contains('Trà') ? 'beverage' : 'main'}">
+                        <div class="item-image">
+                            <img src="${pageContext.request.contextPath}/assets/images/pizza.jpg" alt="${item.name}">
+                        </div>
+                        <div class="item-info">
+                            <h4 class="item-name">${item.name}</h4>
+                            <p class="item-description">Món ăn cao cấp được chế biến từ nguyên liệu tươi ngon</p>
+                            <div class="item-footer">
+                                <span class="item-price">${item.price}₫</span>
+                                <button class="add-btn" onclick="addItem(this, ${item.menuItemId}, '${item.name}', ${item.price})">
+                                    <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">add</span>
+                                    Thêm món
+                                </button>
                             </div>
                         </div>
-                    </c:if>
+                    </div>
                 </c:forEach>
+                
+                <!-- Empty State -->
+                <div id="emptyState" style="display: none; text-align: center; padding: 60px 20px;">
+                    <span class="material-symbols-outlined" style="font-size: 64px; color: var(--md-text-muted); opacity: 0.3;">search_off</span>
+                    <p style="color: var(--md-text-muted); margin-top: 16px; font-size: 1rem;">
+                        Không tìm thấy món ăn phù hợp
+                    </p>
+                    <p style="color: var(--md-text-muted); font-size: 0.875rem; margin-top: 8px;">
+                        Thử tìm kiếm với từ khóa khác
+                    </p>
+                </div>
                 
                 <c:if test="${empty menuItems}">
                     <p style="color: var(--md-text-muted); text-align: center; padding: 40px;">
@@ -528,8 +607,9 @@
                     <div class="total-value" id="cartTotal">0₫</div>
                 </div>
             </div>
-            <form action="${pageContext.request.contextPath}/checkout" method="get">
-                <button type="submit" class="md-btn md-btn-primary" style="padding: 16px 32px;" onclick="return validateCart()">
+            <form action="${pageContext.request.contextPath}/checkout" method="get" id="checkoutForm">
+                <!-- Hidden inputs will be added by JavaScript -->
+                <button type="submit" class="md-btn md-btn-primary" style="padding: 16px 32px;" onclick="return prepareCheckout()">
                     Tiếp Tục Đến Hoàn Tất
                     <span class="material-symbols-outlined" style="margin-left: 8px; font-size: 20px;">check_circle</span>
                 </button>
@@ -539,6 +619,102 @@
     
     <script>
         let cart = {};
+        let currentCategory = 'all';
+        let searchQuery = '';
+        
+        // Category titles
+        const categoryTitles = {
+            'all': 'Tất cả món ăn',
+            'appetizer': 'Khai vị hảo hạng',
+            'main': 'Món chính đặc sắc',
+            'dessert': 'Tráng miệng tinh tế',
+            'beverage': 'Đồ uống cao cấp'
+        };
+        
+        function filterByCategory(category, button) {
+            currentCategory = category;
+            
+            // Update active tab
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            button.classList.add('active');
+            
+            // Update category title
+            document.getElementById('categoryTitle').textContent = categoryTitles[category] || 'Tất cả món ăn';
+            
+            // Apply filter
+            filterMenu();
+        }
+        
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            filterMenu();
+            document.getElementById('searchInput').focus();
+        }
+        
+        function filterMenu() {
+            searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+            
+            // Show/hide clear button
+            const clearBtn = document.getElementById('clearSearch');
+            if (searchQuery !== '') {
+                clearBtn.style.display = 'block';
+            } else {
+                clearBtn.style.display = 'none';
+            }
+            
+            const menuItems = document.querySelectorAll('.menu-item');
+            let visibleCount = 0;
+            
+            menuItems.forEach(item => {
+                const itemName = item.dataset.name.toLowerCase();
+                const itemCategory = item.dataset.category;
+                
+                // Check category filter
+                const categoryMatch = currentCategory === 'all' || itemCategory === currentCategory;
+                
+                // Check search filter
+                const searchMatch = searchQuery === '' || itemName.includes(searchQuery);
+                
+                // Show/hide item with animation
+                if (categoryMatch && searchMatch) {
+                    item.style.display = 'flex';
+                    visibleCount++;
+                    
+                    // Highlight search term
+                    if (searchQuery !== '') {
+                        const nameElement = item.querySelector('.item-name');
+                        const originalName = item.dataset.name;
+                        const regex = new RegExp('(' + searchQuery + ')', 'gi');
+                        nameElement.innerHTML = originalName.replace(regex, '<mark style="background: rgba(212, 175, 53, 0.3); color: var(--md-primary); padding: 2px 4px; border-radius: 3px;">$1</mark>');
+                    } else {
+                        const nameElement = item.querySelector('.item-name');
+                        nameElement.textContent = item.dataset.name;
+                    }
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Update category title with count
+            const categoryTitle = document.getElementById('categoryTitle');
+            const baseTitle = categoryTitles[currentCategory] || 'Tất cả món ăn';
+            
+            if (searchQuery !== '') {
+                categoryTitle.innerHTML = baseTitle + ' <span style="color: var(--md-text-muted); font-size: 0.875rem; font-weight: normal;">(' + visibleCount + ' kết quả)</span>';
+            } else {
+                categoryTitle.textContent = baseTitle;
+            }
+            
+            // Show/hide empty state
+            const emptyState = document.getElementById('emptyState');
+            if (visibleCount === 0) {
+                emptyState.style.display = 'block';
+            } else {
+                emptyState.style.display = 'none';
+            }
+        }
         
         function addItem(button, id, name, price) {
             if (cart[id]) {
@@ -633,39 +809,67 @@
                 cartData[id] = cart[id].quantity;
             }
             
+            console.log('Saving cart to session:', cartData);
+            
             // Send to server
-            fetch('${pageContext.request.contextPath}/booking?action=saveCart', {
+            return fetch('${pageContext.request.contextPath}/booking?action=saveCart', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: 'cartData=' + encodeURIComponent(JSON.stringify(cartData))
-            }).catch(function(error) {
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Cart saved:', data);
+                return data;
+            })
+            .catch(function(error) {
                 console.error('Error saving cart:', error);
+                throw error;
             });
         }
         
-        function validateCart() {
+        function prepareCheckout() {
             if (Object.keys(cart).length === 0) {
-                alert('Vui lòng chọn ít nhất 1 món ăn!');
+                alert('Vui long chon it nhat 1 mon an!');
                 return false;
             }
+            
+            // Clear old hidden inputs
+            const form = document.getElementById('checkoutForm');
+            const oldInputs = form.querySelectorAll('input[name^="item_"]');
+            oldInputs.forEach(input => input.remove());
+            
+            // Add hidden input for each cart item
+            for (let menuItemId in cart) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'item_' + menuItemId;
+                input.value = cart[menuItemId];
+                form.appendChild(input);
+                console.log('Added item:', menuItemId, '=', cart[menuItemId]);
+            }
+            
+            console.log('Cart prepared with', Object.keys(cart).length, 'items');
             return true;
         }
         
-        // Category tabs
+        // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.category-tab').forEach(function(tab) {
-                tab.addEventListener('click', function() {
-                    document.querySelectorAll('.category-tab').forEach(function(t) {
-                        t.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                });
-            });
-            
             // Initialize cart
             updateCart();
+            
+            // Show all items initially
+            filterMenu();
+            
+            // Add keyboard shortcut for search (Ctrl+K or Cmd+K)
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    document.getElementById('searchInput').focus();
+                }
+            });
         });
     </script>
 </body>

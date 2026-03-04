@@ -39,6 +39,9 @@ public class BookingController extends HttpServlet {
             case "menu":
                 showMenuSelection(request, response);
                 break;
+            case "filterTables":
+                filterTablesAjax(request, response);
+                break;
             default:
                 showBookingPage(request, response);
                 break;
@@ -66,22 +69,55 @@ public class BookingController extends HttpServlet {
     private void showBookingPage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String area = request.getParameter("area");
-        String capacityStr = request.getParameter("capacity");
-        
-        List<Tables> tables;
-        
-        if (area != null && !area.isEmpty()) {
-            tables = bookingService.getAvailableTablesByArea(area);
-        } else if (capacityStr != null && !capacityStr.isEmpty()) {
-            int capacity = Integer.parseInt(capacityStr);
-            tables = bookingService.getAvailableTablesByCapacity(capacity);
-        } else {
-            tables = bookingService.getAvailableTables();
-        }
+        // Load ALL tables (we'll filter on frontend based on date/time)
+        List<Tables> tables = bookingService.getAllTables();
         
         request.setAttribute("tables", tables);
         request.getRequestDispatcher("/views/custumer/booking/booking.jsp").forward(request, response);
+    }
+    
+    /**
+     * AJAX endpoint to filter tables by date/time/capacity
+     */
+    private void filterTablesAjax(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String dateStr = request.getParameter("date");
+        String timeStr = request.getParameter("time");
+        String guestCountStr = request.getParameter("guestCount");
+        
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        
+        try {
+            if (dateStr == null || timeStr == null || guestCountStr == null) {
+                response.getWriter().write("{\"success\":false,\"error\":\"Missing parameters\"}");
+                return;
+            }
+            
+            // Parse date and time
+            String dateTimeStr = dateStr + " " + timeStr + ":00";
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            java.util.Date reservationTime = sdf.parse(dateTimeStr);
+            int guestCount = Integer.parseInt(guestCountStr);
+            
+            // Get available tables for this date/time
+            List<Tables> availableTables = bookingService.getAvailableTablesForDateTime(reservationTime, guestCount);
+            
+            // Build JSON response with available table IDs
+            StringBuilder json = new StringBuilder("{\"success\":true,\"availableTableIds\":[");
+            for (int i = 0; i < availableTables.size(); i++) {
+                if (i > 0) json.append(",");
+                json.append(availableTables.get(i).getTableId());
+            }
+            json.append("]}");
+            
+            response.getWriter().write(json.toString());
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().write("{\"success\":false,\"error\":\"" + e.getMessage() + "\"}");
+        }
     }
     
     /**

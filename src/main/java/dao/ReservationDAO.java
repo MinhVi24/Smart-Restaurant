@@ -63,6 +63,30 @@ public class ReservationDAO extends GenericDAO<Reservations> {
             em.close();
         }
     }
+    
+    /**
+     * Find reservations by specific date/time (within 2 hour window)
+     */
+    public List<Reservations> findByDateTime(Date reservationTime) {
+        EntityManager em = JPAConfig.getEntityManager();
+        try {
+            // Create 2-hour window (1 hour before, 1 hour after)
+            long oneHour = 60 * 60 * 1000;
+            Date startTime = new Date(reservationTime.getTime() - oneHour);
+            Date endTime = new Date(reservationTime.getTime() + oneHour);
+            
+            TypedQuery<Reservations> query = em.createQuery(
+                "SELECT r FROM Reservations r WHERE r.reservationTime BETWEEN :startTime AND :endTime " +
+                "AND r.status IN ('BOOKED', 'CONFIRMED') ORDER BY r.reservationTime",
+                Reservations.class
+            );
+            query.setParameter("startTime", startTime);
+            query.setParameter("endTime", endTime);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
 
     /**
      * Create new reservation with table

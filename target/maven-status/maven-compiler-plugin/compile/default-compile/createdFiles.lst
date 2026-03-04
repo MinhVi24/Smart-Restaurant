@@ -12,6 +12,7 @@ dao\UserDAO.class
 filter\EncodingFilter.class
 model\Shifts.class
 controller\auth\LoginController.class
+controller\payment\PaymentController.class
 controller\admin\AdminBookingController.class
 controller\auth\RegisterController.class
 model\Customers.class
@@ -29,6 +30,7 @@ controller\profile\ProfileController.class
 service\EmailService.class
 dao\TableDAO.class
 model\StaffShiftsPK.class
+models\User.class
 service\UserService.class
 dao\ReservationDAO.class
 model\Staff.class
