@@ -29,6 +29,17 @@ public class BookingSuccessController extends HttpServlet {
         request.setAttribute("order", bookingResult.getOrder());
         request.setAttribute("payment", bookingResult.getPayment());
         
+        // Clear all booking session data after showing success
+        session.removeAttribute("bookingResult");
+        session.removeAttribute("reservation");
+        session.removeAttribute("order");
+        session.removeAttribute("payment");
+        session.removeAttribute("selectedTableId");
+        session.removeAttribute("bookingDate");
+        session.removeAttribute("bookingTime");
+        session.removeAttribute("guestCount");
+        session.removeAttribute("cart");
+        
         request.getRequestDispatcher("/views/custumer/booking/success-booking.jsp").forward(request, response);
     }
 }

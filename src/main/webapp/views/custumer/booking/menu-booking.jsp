@@ -607,8 +607,9 @@
                     <div class="total-value" id="cartTotal">0₫</div>
                 </div>
             </div>
-            <form action="${pageContext.request.contextPath}/checkout" method="get">
-                <button type="submit" class="md-btn md-btn-primary" style="padding: 16px 32px;" onclick="return validateCart()">
+            <form action="${pageContext.request.contextPath}/checkout" method="get" id="checkoutForm">
+                <!-- Hidden inputs will be added by JavaScript -->
+                <button type="submit" class="md-btn md-btn-primary" style="padding: 16px 32px;" onclick="return prepareCheckout()">
                     Tiếp Tục Đến Hoàn Tất
                     <span class="material-symbols-outlined" style="margin-left: 8px; font-size: 20px;">check_circle</span>
                 </button>
@@ -808,23 +809,49 @@
                 cartData[id] = cart[id].quantity;
             }
             
+            console.log('Saving cart to session:', cartData);
+            
             // Send to server
-            fetch('${pageContext.request.contextPath}/booking?action=saveCart', {
+            return fetch('${pageContext.request.contextPath}/booking?action=saveCart', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: 'cartData=' + encodeURIComponent(JSON.stringify(cartData))
-            }).catch(function(error) {
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Cart saved:', data);
+                return data;
+            })
+            .catch(function(error) {
                 console.error('Error saving cart:', error);
+                throw error;
             });
         }
         
-        function validateCart() {
+        function prepareCheckout() {
             if (Object.keys(cart).length === 0) {
-                alert('Vui lòng chọn ít nhất 1 món ăn!');
+                alert('Vui long chon it nhat 1 mon an!');
                 return false;
             }
+            
+            // Clear old hidden inputs
+            const form = document.getElementById('checkoutForm');
+            const oldInputs = form.querySelectorAll('input[name^="item_"]');
+            oldInputs.forEach(input => input.remove());
+            
+            // Add hidden input for each cart item
+            for (let menuItemId in cart) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'item_' + menuItemId;
+                input.value = cart[menuItemId];
+                form.appendChild(input);
+                console.log('Added item:', menuItemId, '=', cart[menuItemId]);
+            }
+            
+            console.log('Cart prepared with', Object.keys(cart).length, 'items');
             return true;
         }
         

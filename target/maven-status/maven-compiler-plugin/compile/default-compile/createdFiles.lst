@@ -12,6 +12,7 @@ dao\UserDAO.class
 filter\EncodingFilter.class
 model\Shifts.class
 controller\auth\LoginController.class
+controller\payment\PaymentController.class
 controller\admin\AdminBookingController.class
 controller\auth\RegisterController.class
 model\Customers.class
