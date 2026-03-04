@@ -70,6 +70,28 @@ public class BookingService {
     }
     
     /**
+     * Get available tables for specific date/time and guest count
+     * Checks against existing reservations
+     */
+    public List<Tables> getAvailableTablesForDateTime(Date reservationTime, int guestCount) {
+        // Get all tables with sufficient capacity
+        List<Tables> tables = tableDAO.findAvailableByCapacity(guestCount);
+        
+        // Filter out tables that have reservations at the same time
+        // (within 2 hours window)
+        List<Reservations> reservations = reservationDAO.findByDateTime(reservationTime);
+        
+        for (Reservations reservation : reservations) {
+            if (reservation.getTableId() != null && 
+                !"CANCELLED".equals(reservation.getStatus())) {
+                tables.removeIf(t -> t.getTableId().equals(reservation.getTableId().getTableId()));
+            }
+        }
+        
+        return tables;
+    }
+    
+    /**
      * Create reservation with table
      */
     public Reservations createReservation(Customers customer, Integer tableId, Date reservationTime, int guestCount) {

@@ -991,38 +991,93 @@
                 return;
             }
             
-            // Display tables for current zone
-            displayTables();
+            // Show loading state
+            const findBtn = document.querySelector('.find-btn');
+            const originalText = findBtn.textContent;
+            findBtn.textContent = 'Đang tìm...';
+            findBtn.disabled = true;
             
-            // Filter by capacity
-            const capacity = parseInt(guestCount);
-            document.querySelectorAll('.table-item').forEach(table => {
-                const tableCapacity = parseInt(table.dataset.capacity);
-                if (table.style.display === 'flex') {
-                    if (tableCapacity < capacity) {
-                        table.style.opacity = '0.5';
-                        table.style.pointerEvents = 'none';
+            // Call AJAX to get available tables
+            fetch('${pageContext.request.contextPath}/booking?action=filterTables&date=' + encodeURIComponent(date) + 
+                  '&time=' + encodeURIComponent(time) + '&guestCount=' + encodeURIComponent(guestCount))
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const availableTableIds = data.availableTableIds || [];
+                        
+                        // Update all tables based on availability
+                        document.querySelectorAll('.table-item').forEach(table => {
+                            const tableId = parseInt(table.dataset.tableId);
+                            const tableCapacity = parseInt(table.dataset.capacity);
+                            const capacity = parseInt(guestCount);
+                            
+                            // Remove all status classes first
+                            table.classList.remove('available', 'occupied', 'reserved');
+                            
+                            // Check if table is available for this date/time
+                            if (availableTableIds.includes(tableId)) {
+                                // Check capacity
+                                if (tableCapacity >= capacity) {
+                                    table.classList.add('available');
+                                    table.style.opacity = '1';
+                                    table.style.pointerEvents = 'auto';
+                                } else {
+                                    // Not enough capacity
+                                    table.classList.add('occupied');
+                                    table.style.opacity = '0.4';
+                                    table.style.pointerEvents = 'none';
+                                }
+                            } else {
+                                // Table is reserved/occupied at this time
+                                table.classList.add('reserved');
+                                table.style.opacity = '0.4';
+                                table.style.pointerEvents = 'none';
+                            }
+                        });
+                        
+                        // Display tables for current zone
+                        displayTables();
+                        
+                        // Show success message
+                        const availableCount = availableTableIds.filter(id => {
+                            const table = document.querySelector('[data-table-id="' + id + '"]');
+                            return table && parseInt(table.dataset.capacity) >= capacity;
+                        }).length;
+                        
+                        if (availableCount === 0) {
+                            alert('Không có bàn trống phù hợp. Vui lòng chọn thời gian khác.');
+                        }
                     } else {
-                        table.style.opacity = '1';
-                        table.style.pointerEvents = 'auto';
+                        alert('Lỗi: ' + (data.error || 'Không thể tìm bàn'));
                     }
-                }
-            });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi tìm bàn. Vui lòng thử lại.');
+                })
+                .finally(() => {
+                    findBtn.textContent = originalText;
+                    findBtn.disabled = false;
+                });
         }
         
         // Initialize on page load
         window.addEventListener('load', function() {
+            // Show all tables initially (mark all as available until user filters)
+            document.querySelectorAll('.table-item').forEach(table => {
+                // Set initial state based on database status
+                const hasAvailable = table.classList.contains('available');
+                const hasOccupied = table.classList.contains('occupied');
+                const hasReserved = table.classList.contains('reserved');
+                
+                // If no status class, default to available
+                if (!hasAvailable && !hasOccupied && !hasReserved) {
+                    table.classList.add('available');
+                }
+            });
+            
             displayTables();
             displayDecorations();
-            
-            // Auto-filter if form has values
-            const date = document.querySelector('input[name="date"]').value;
-            const time = document.querySelector('select[name="time"]').value;
-            const guestCount = document.querySelector('select[name="guestCount"]').value;
-            
-            if (date && time && guestCount) {
-                filterTables();
-            }
         });
         
         // Form validation
