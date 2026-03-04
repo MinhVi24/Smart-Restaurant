@@ -12,7 +12,7 @@ import model.Users;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "AdminBookingController", urlPatterns = {"/admin/bookings"})
+@WebServlet(name = "AdminBookingController", urlPatterns = {"/admin/booking", "/admin/bookings"})
 public class AdminBookingController extends HttpServlet {
     
     private BookingService bookingService;
@@ -85,7 +85,7 @@ public class AdminBookingController extends HttpServlet {
         }
         
         request.setAttribute("tables", tables);
-        request.getRequestDispatcher("/views/admin/booking/admin-booking-dashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/admin/booking/admin-booking.jsp").forward(request, response);
     }
     
     /**

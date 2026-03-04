@@ -102,4 +102,22 @@ public class OrderDAO extends GenericDAO<Orders> {
             em.close();
         }
     }
+    
+    /**
+     * Get today's revenue
+     */
+    public Double getTodayRevenue(java.time.LocalDate date) {
+        EntityManager em = JPAConfig.getEntityManager();
+        try {
+            TypedQuery<Double> query = em.createQuery(
+                "SELECT COALESCE(SUM(o.totalAmount), 0.0) FROM Orders o " +
+                "WHERE CAST(o.orderTime AS date) = :date AND o.status != 'CANCELLED'",
+                Double.class
+            );
+            query.setParameter("date", java.sql.Date.valueOf(date));
+            return query.getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
 }

@@ -145,4 +145,21 @@ public class ReservationDAO extends GenericDAO<Reservations> {
             em.close();
         }
     }
+    
+    /**
+     * Get count of reservations by status
+     */
+    public int getReservationCountByStatus(String status) {
+        EntityManager em = JPAConfig.getEntityManager();
+        try {
+            TypedQuery<Long> query = em.createQuery(
+                "SELECT COUNT(r) FROM Reservations r WHERE r.status = :status",
+                Long.class
+            );
+            query.setParameter("status", status);
+            return query.getSingleResult().intValue();
+        } finally {
+            em.close();
+        }
+    }
 }
