@@ -47,85 +47,8 @@
 </head>
 <body class="text-stone-300 min-h-screen flex">
     <!-- Sidebar -->
-    <aside class="w-64 bg-black border-r border-stone-800 flex flex-col min-h-screen">
-        <div class="p-6">
-            <div class="flex items-center gap-3 mb-10">
-                <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-black font-bold text-xl font-display">
-                    M
-                </div>
-                <div>
-                    <h1 class="font-display text-base font-bold text-white uppercase tracking-tight">Maison D'Or</h1>
-                    <p class="text-[9px] tracking-[0.2em] uppercase text-primary font-bold">Executive Admin</p>
-                </div>
-            </div>
-            
-            <nav class="space-y-6">
-                <div>
-                    <p class="text-[10px] uppercase tracking-widest text-stone-500 mb-3 font-bold">Tổng Quan</p>
-                    <a class="flex items-center gap-3 px-4 py-2 sidebar-active text-primary rounded-r-lg" href="${pageContext.request.contextPath}/admin/home">
-                        <span class="material-icons-round text-xl">dashboard</span>
-                        <span class="font-medium">Dashboard</span>
-                    </a>
-                </div>
-                
-                <div>
-                    <p class="text-[10px] uppercase tracking-widest text-stone-500 mb-3 font-bold">Vận Hành</p>
-                    <div class="space-y-1">
-                        <a class="flex items-center gap-3 px-4 py-2 hover:text-primary transition-colors text-stone-400" href="${pageContext.request.contextPath}/admin/booking">
-                            <span class="material-icons-round text-xl">event_seat</span>
-                            <span>Đơn đặt bàn</span>
-                        </a>
-                        <a class="flex items-center gap-3 px-4 py-2 hover:text-primary transition-colors text-stone-400" href="#">
-                            <span class="material-icons-round text-xl">shopping_bag</span>
-                            <span>Đơn Online</span>
-                        </a>
-                        <a class="flex items-center gap-3 px-4 py-2 hover:text-primary transition-colors text-stone-400" href="${pageContext.request.contextPath}/admin/menu">
-                            <span class="material-icons-round text-xl">restaurant_menu</span>
-                            <span>Thực đơn</span>
-                        </a>
-                        <a class="flex items-center gap-3 px-4 py-2 hover:text-primary transition-colors text-stone-400" href="${pageContext.request.contextPath}/admin/inventory">
-                            <span class="material-icons-round text-xl">inventory_2</span>
-                            <span>Kho & Nguyên liệu</span>
-                        </a>
-                        <a class="flex items-center gap-3 px-4 py-2 hover:text-primary transition-colors text-stone-400" href="#">
-                            <span class="material-icons-round text-xl">receipt_long</span>
-                            <span>Recipe / BOM</span>
-                        </a>
-                    </div>
-                </div>
-                
-                <div>
-                    <p class="text-[10px] uppercase tracking-widest text-stone-500 mb-3 font-bold">Hệ Thống</p>
-                    <div class="space-y-1">
-                        <a class="flex items-center gap-3 px-4 py-2 hover:text-primary transition-colors text-stone-400" href="#">
-                            <span class="material-icons-round text-xl">group</span>
-                            <span>Nhân viên</span>
-                        </a>
-                        <a class="flex items-center gap-3 px-4 py-2 hover:text-primary transition-colors text-stone-400" href="#">
-                            <span class="material-icons-round text-xl">psychology</span>
-                            <span>Cấu hình AI</span>
-                        </a>
-                    </div>
-                </div>
-            </nav>
-        </div>
-        
-        <div class="mt-auto p-6 border-t border-stone-800">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-10 h-10 rounded-full bg-stone-800 flex items-center justify-center font-bold text-xs text-primary border border-primary/20">
-                    MD
-                </div>
-                <div>
-                    <p class="text-sm font-semibold text-white">Admin Minh</p>
-                    <p class="text-[10px] text-stone-500 uppercase tracking-wider">Quản trị viên cấp cao</p>
-                </div>
-            </div>
-            <button onclick="window.location.href='${pageContext.request.contextPath}/logout'" class="w-full flex items-center justify-center gap-2 py-2.5 border border-stone-800 rounded-lg text-sm font-medium hover:bg-stone-900 transition-all">
-                <span class="material-icons-round text-sm">logout</span>
-                ĐĂNG XUẤT
-            </button>
-        </div>
-    </aside>
+               <jsp:include page="/views/admin/includes/sidebar.jsp" />
+
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col">

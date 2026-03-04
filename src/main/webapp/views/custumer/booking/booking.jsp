@@ -441,7 +441,7 @@
             </div>
             <button type="submit" form="bookingForm" class="md-btn md-btn-primary" style="padding: 16px 32px;" disabled id="submitBtn">
                 <span class="material-symbols-outlined" style="font-size: 20px; margin-right: 8px;">arrow_forward</span>
-                Tiếp Tục Chọn Món
+                <span id="submitBtnText">Tiếp Tục Chọn Món</span>
             </button>
         </div>
     </div>
@@ -449,6 +449,23 @@
     <script>
         let selectedTableId = null;
         let currentZone = 'Khu Vực Cửa Sổ';
+        let hasMenuItems = false;
+        
+        // Check if cart exists in session
+        function checkCart() {
+            const savedCart = sessionStorage.getItem('restaurantCart');
+            if (savedCart) {
+                const cart = JSON.parse(savedCart);
+                if (cart && cart.length > 0) {
+                    hasMenuItems = true;
+                    document.getElementById('submitBtnText').textContent = 'Xác Nhận Đặt Bàn';
+                    return true;
+                }
+            }
+            hasMenuItems = false;
+            document.getElementById('submitBtnText').textContent = 'Tiếp Tục Chọn Món';
+            return false;
+        }
         
         // Layout positions for tables
         const tablePositions = {
@@ -552,14 +569,26 @@
         // Initialize
         window.addEventListener('load', function() {
             displayTables();
+            checkCart();
         });
         
-        // Form validation
+        // Form validation and submission
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
             if (!selectedTableId) {
-                e.preventDefault();
                 alert('Vui lòng chọn bàn');
                 return false;
+            }
+            
+            // If cart exists, go to confirmation page
+            if (hasMenuItems) {
+                // TODO: Navigate to booking confirmation page
+                alert('Đặt bàn thành công! Món ăn đã được lưu.');
+                // window.location.href = '${pageContext.request.contextPath}/booking/confirm';
+            } else {
+                // Go to menu selection page
+                window.location.href = '${pageContext.request.contextPath}/booking/menu';
             }
         });
     </script>

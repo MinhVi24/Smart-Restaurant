@@ -85,7 +85,7 @@ public class AdminBookingController extends HttpServlet {
         }
         
         request.setAttribute("tables", tables);
-        request.getRequestDispatcher("/views/admin/booking/admin-booking-dashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/admin/booking/admin-booking.jsp").forward(request, response);
     }
     
     /**
