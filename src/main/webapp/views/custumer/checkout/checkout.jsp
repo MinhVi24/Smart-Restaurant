@@ -11,6 +11,82 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    
+    <style>
+        #qrSection {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(212, 175, 53, 0.2);
+            border-top-color: var(--md-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .md-qr-container {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .md-qr-code {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 280px;
+            margin-bottom: 16px;
+            background: #ffffff;
+            border-radius: 8px;
+        }
+        
+        .md-radio-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            border: 2px solid var(--md-border);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .md-radio-item:hover {
+            border-color: var(--md-primary);
+            background: rgba(212, 175, 53, 0.05);
+        }
+        
+        .md-radio-item.selected {
+            border-color: var(--md-primary);
+            background: rgba(212, 175, 53, 0.1);
+            box-shadow: 0 0 0 3px rgba(212, 175, 53, 0.1);
+        }
+        
+        .md-radio-item input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--md-primary);
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            form > div {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
 </head>
 <body>
     <jsp:include page="/views/includes/header.jsp"/>
@@ -171,19 +247,63 @@
 
                     <!-- QR Code Section -->
                     <div id="qrSection" style="display: none;">
-                        <div class="md-card-header">
+                        <div class="md-card-header" style="margin-top: 24px;">
                             <h3 class="md-card-title" style="font-size: 14px;">Quét Mã QR Để Thanh Toán</h3>
+                            <p class="md-text-muted" style="font-size: 11px; margin-top: 4px;">
+                                Sử dụng ứng dụng ngân hàng để quét mã QR
+                            </p>
                         </div>
                         
                         <div class="md-qr-container">
                             <div class="md-qr-code" id="qrcode"></div>
-                            <div style="text-align: center;">
+                            
+                            <div style="text-align: center; margin-bottom: 16px;">
                                 <p class="md-text-muted" style="font-size: 12px; margin-bottom: 8px;">
                                     Số tiền cần thanh toán
                                 </p>
-                                <p class="md-text-gold" style="font-size: 24px; font-weight: 700;" id="paymentAmount">
+                                <p class="md-text-gold" style="font-size: 28px; font-weight: 700; font-family: var(--md-font-serif);" id="paymentAmount">
                                     0₫
                                 </p>
+                            </div>
+                            
+                            <!-- Payment Instructions -->
+                            <div style="background: rgba(212, 175, 53, 0.1); border: 1px solid var(--md-primary); border-radius: 8px; padding: 16px; margin-top: 16px;">
+                                <p style="font-weight: 600; margin-bottom: 12px; font-size: 13px; color: var(--md-text);">
+                                    <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle; margin-right: 4px;">info</span>
+                                    Hướng dẫn thanh toán:
+                                </p>
+                                <ol style="margin: 0; padding-left: 20px; color: var(--md-text-muted); font-size: 12px; line-height: 1.8;">
+                                    <li>Mở ứng dụng ngân hàng trên điện thoại</li>
+                                    <li>Chọn chức năng quét mã QR</li>
+                                    <li>Quét mã QR phía trên</li>
+                                    <li>Kiểm tra thông tin và xác nhận thanh toán</li>
+                                    <li>Sau khi thanh toán thành công, nhấn "Xác Nhận Đặt Bàn"</li>
+                                </ol>
+                            </div>
+                            
+                            <!-- Bank Info (Fallback) -->
+                            <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,0.1);">
+                                <p style="font-size: 11px; color: #666; text-align: center; margin-bottom: 8px;">
+                                    Hoặc chuyển khoản thủ công:
+                                </p>
+                                <div style="background: #f5f5f5; border-radius: 6px; padding: 12px; font-size: 12px; color: #333;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                                        <span style="color: #666;">Ngân hàng:</span>
+                                        <span style="font-weight: 600;" id="bankName">Vietcombank</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                                        <span style="color: #666;">Số TK:</span>
+                                        <span style="font-weight: 600; font-family: monospace;" id="accountNumber">1234567890</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                                        <span style="color: #666;">Chủ TK:</span>
+                                        <span style="font-weight: 600;" id="accountOwner">MAISON DOR</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="color: #666;">Nội dung:</span>
+                                        <span style="font-weight: 600; font-family: monospace; color: var(--md-primary);" id="transferNote">Dat ban MD...</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -207,6 +327,14 @@
     <jsp:include page="/views/includes/footer.jsp"/>
 
     <script>
+        // VietQR Configuration - THÔNG TIN NGÂN HÀNG THẬT
+        const BANK_CONFIG = {
+            bankId: 'TPB',               // TPBank
+            accountNo: '07318937999',    // Số tài khoản
+            accountName: 'TRAN MINH VI', // Tên chủ tài khoản
+            template: 'compact'          // Template: compact, print, qr_only
+        };
+        
         // Handle deposit percentage selection
         const radioItems = document.querySelectorAll('.md-radio-item');
         const qrSection = document.getElementById('qrSection');
@@ -232,12 +360,16 @@
                     // Update payment amount display
                     paymentAmountEl.textContent = depositAmount.toLocaleString('vi-VN') + '₫';
                     
-                    // Show QR section
+                    // Show QR section with animation
                     qrSection.style.display = 'block';
+                    setTimeout(() => {
+                        qrSection.style.opacity = '1';
+                        qrSection.style.transform = 'translateY(0)';
+                    }, 10);
                     
-                    // Generate QR code (only once or when amount changes)
+                    // Generate QR code
                     if (!qrCodeGenerated || window.lastPercentage !== percentage) {
-                        generateQRCode(depositAmount);
+                        generateVietQR(depositAmount);
                         window.lastPercentage = percentage;
                         qrCodeGenerated = true;
                     }
@@ -245,28 +377,94 @@
             });
         });
 
-        function generateQRCode(amount) {
+        function generateVietQR(amount) {
             // Clear previous QR code
-            document.getElementById('qrcode').innerHTML = '';
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = '<div style="text-align: center; padding: 20px;"><div class="loading-spinner"></div><p style="color: var(--md-text-muted); font-size: 12px; margin-top: 12px;">Đang tạo mã QR...</p></div>';
             
-            // Generate QR code with payment information
-            // Format: Bank transfer info or payment gateway URL
-            const paymentInfo = `MAISON_DOR|AMOUNT:${amount}|ORDER:${Date.now()}`;
+            // Generate order ID
+            const orderId = 'MD' + Date.now();
+            
+            // Create payment description
+            const description = 'Dat ban ' + orderId;
+            
+            // Update bank info display
+            updateBankInfo(orderId);
+            
+            // VietQR API URL (using img.vietqr.io service)
+            const qrUrl = `https://img.vietqr.io/image/${BANK_CONFIG.bankId}-${BANK_CONFIG.accountNo}-${BANK_CONFIG.template}.png?amount=${amount}&addInfo=${encodeURIComponent(description)}&accountName=${encodeURIComponent(BANK_CONFIG.accountName)}`;
+            
+            // Create image element
+            const img = new Image();
+            img.onload = function() {
+                qrContainer.innerHTML = '';
+                img.style.width = '100%';
+                img.style.height = 'auto';
+                img.style.borderRadius = '8px';
+                qrContainer.appendChild(img);
+            };
+            
+            img.onerror = function() {
+                // Fallback to canvas QR if API fails
+                qrContainer.innerHTML = '';
+                generateFallbackQR(amount, description);
+            };
+            
+            img.src = qrUrl;
+            
+            // Store order ID for reference
+            window.currentOrderId = orderId;
+        }
+        
+        function updateBankInfo(orderId) {
+            // Update bank name based on bank ID
+            const bankNames = {
+                'VCB': 'Vietcombank',
+                'TCB': 'Techcombank',
+                'MB': 'MB Bank',
+                'ACB': 'ACB',
+                'VPB': 'VPBank',
+                'TPB': 'TPBank',
+                'STB': 'Sacombank',
+                'VIB': 'VIB',
+                'MSB': 'MSB',
+                'BIDV': 'BIDV'
+            };
+            
+            document.getElementById('bankName').textContent = bankNames[BANK_CONFIG.bankId] || BANK_CONFIG.bankId;
+            document.getElementById('accountNumber').textContent = BANK_CONFIG.accountNo;
+            document.getElementById('accountOwner').textContent = BANK_CONFIG.accountName;
+            document.getElementById('transferNote').textContent = 'Dat ban ' + orderId;
+        }
+        
+        function generateFallbackQR(amount, description) {
+            // Fallback: Generate QR with payment info using QRCode.js
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = '';
+            
+            const canvas = document.createElement('canvas');
+            qrContainer.appendChild(canvas);
+            
+            // Create payment string (VietQR format)
+            const paymentData = `00020101021238570010A00000072701270006970454011${BANK_CONFIG.accountNo}0208QRIBFTTA53037045802VN62${('0' + description.length).slice(-2)}${description}6304`;
             
             QRCode.toCanvas(
-                document.getElementById('qrcode'),
-                paymentInfo,
+                canvas,
+                paymentData,
                 {
-                    width: 208,
-                    height: 208,
-                    margin: 1,
+                    width: 280,
+                    height: 280,
+                    margin: 2,
                     color: {
                         dark: '#000000',
                         light: '#ffffff'
                     }
                 },
                 function (error) {
-                    if (error) console.error(error);
+                    if (error) {
+                        console.error('QR generation error:', error);
+                        qrContainer.innerHTML = '<p style="color: #ef4444; text-align: center; padding: 20px;">Không thể tạo mã QR. Vui lòng thử lại.</p>';
+                    }
                 }
             );
         }
@@ -280,12 +478,28 @@
                 alert('Vui lòng chọn mức tiền cọc');
                 return false;
             }
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading-spinner" style="width: 20px; height: 20px; margin-right: 8px;"></span>Đang xử lý...';
+        });
+
+        // Auto-select 100% by default
+        window.addEventListener('load', function() {
+            const defaultRadio = document.querySelector('input[name="depositPercentage"][value="100"]');
+            if (defaultRadio) {
+                defaultRadio.checked = true;
+                defaultRadio.dispatchEvent(new Event('change'));
+            }
         });
 
         // Responsive handling
         if (window.innerWidth < 768) {
             const form = document.querySelector('form > div');
-            form.style.gridTemplateColumns = '1fr';
+            if (form) {
+                form.style.gridTemplateColumns = '1fr';
+            }
         }
     </script>
 </body>
