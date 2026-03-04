@@ -1,6 +1,7 @@
 D:\git\Smart-Restaurant\src\main\java\controller\orders\MyOrdersController.java
 D:\git\Smart-Restaurant\src\main\java\model\Sysdiagrams.java
 D:\git\Smart-Restaurant\src\main\java\model\StaffShifts.java
+D:\git\Smart-Restaurant\src\main\java\models\User.java
 D:\git\Smart-Restaurant\src\main\java\model\MenuIngredients.java
 D:\git\Smart-Restaurant\src\main\java\model\Payments.java
 D:\git\Smart-Restaurant\src\main\java\controller\auth\RegisterController.java
@@ -32,6 +33,7 @@ D:\git\Smart-Restaurant\src\main\java\controller\admin\AdminAccountController.ja
 D:\git\Smart-Restaurant\src\main\java\model\MenuItems.java
 D:\git\Smart-Restaurant\src\main\java\model\Customers.java
 D:\git\Smart-Restaurant\src\main\java\model\OrderItems.java
+D:\git\Smart-Restaurant\src\main\java\controller\payment\PaymentController.java
 D:\git\Smart-Restaurant\src\main\java\configs\JPAConfig.java
 D:\git\Smart-Restaurant\src\main\java\model\Ingredients.java
 D:\git\Smart-Restaurant\src\main\java\dao\MenuItemDAO.java

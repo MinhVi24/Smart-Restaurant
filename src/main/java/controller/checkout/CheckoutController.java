@@ -43,6 +43,33 @@ public class CheckoutController extends HttpServlet {
         
         HttpSession session = request.getSession();
         
+        // Parse cart from individual item parameters (item_1=2, item_3=1, etc.)
+        Map<Integer, Integer> cart = new java.util.HashMap<>();
+        java.util.Enumeration<String> paramNames = request.getParameterNames();
+        while (paramNames.hasMoreElements()) {
+            String paramName = paramNames.nextElement();
+            if (paramName.startsWith("item_")) {
+                try {
+                    Integer menuItemId = Integer.parseInt(paramName.substring(5));
+                    Integer quantity = Integer.parseInt(request.getParameter(paramName));
+                    cart.put(menuItemId, quantity);
+                    System.out.println("Parsed cart item: " + menuItemId + " = " + quantity);
+                } catch (Exception e) {
+                    System.out.println("Error parsing item: " + paramName);
+                    e.printStackTrace();
+                }
+            }
+        }
+        
+        // Save cart to session if we got items
+        if (!cart.isEmpty()) {
+            session.setAttribute("cart", cart);
+            System.out.println("=== CART LOADED FROM PARAMETERS ===");
+            System.out.println("Total items: " + cart.size());
+        } else {
+            System.out.println("=== NO CART ITEMS IN PARAMETERS ===");
+        }
+        
         // Check if user is logged in - REQUIRED for checkout
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) {
@@ -55,7 +82,12 @@ public class CheckoutController extends HttpServlet {
         // Check if user has selected table and menu
         Integer tableId = (Integer) session.getAttribute("selectedTableId");
         @SuppressWarnings("unchecked")
-        Map<Integer, Integer> cart = (Map<Integer, Integer>) session.getAttribute("cart");
+        Map<Integer, Integer> sessionCart = (Map<Integer, Integer>) session.getAttribute("cart");
+        
+        // Use cart from parameters if available, otherwise use session cart
+        if (cart.isEmpty() && sessionCart != null) {
+            cart = sessionCart;
+        }
         
         if (tableId == null) {
             response.sendRedirect(request.getContextPath() + "/booking");
@@ -63,8 +95,19 @@ public class CheckoutController extends HttpServlet {
         }
         
         if (cart == null || cart.isEmpty()) {
-            response.sendRedirect(request.getContextPath() + "/booking?action=menu");
+            System.out.println("ERROR: Cart is empty! Redirecting to menu...");
+            System.out.println("Session ID: " + session.getId());
+            System.out.println("Customer ID: " + customerId);
+            System.out.println("Table ID: " + tableId);
+            response.sendRedirect(request.getContextPath() + "/booking?action=menu&error=cart_empty");
             return;
+        }
+        
+        // DEBUG: Log cart contents
+        System.out.println("=== CHECKOUT DEBUG ===");
+        System.out.println("Cart size: " + cart.size());
+        for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
+            System.out.println("Item ID: " + entry.getKey() + ", Quantity: " + entry.getValue());
         }
         
         // Load menu items for display
@@ -77,8 +120,15 @@ public class CheckoutController extends HttpServlet {
                 cartItems.add(menuItem);
                 BigDecimal itemTotal = menuItem.getPrice().multiply(new BigDecimal(entry.getValue()));
                 totalAmount = totalAmount.add(itemTotal);
+                System.out.println("Added: " + menuItem.getName() + " x " + entry.getValue() + " = " + itemTotal);
+            } else {
+                System.out.println("WARNING: Menu item not found for ID: " + entry.getKey());
             }
         }
+        
+        System.out.println("Total items: " + cartItems.size());
+        System.out.println("Total amount: " + totalAmount);
+        System.out.println("======================");
         
         request.setAttribute("cartItems", cartItems);
         request.setAttribute("totalAmount", totalAmount);
@@ -154,6 +204,22 @@ public class CheckoutController extends HttpServlet {
             );
             
             if (reservation == null) {
+                // Reload cart items for display
+                List<MenuItems> cartItems = new ArrayList<>();
+                BigDecimal totalAmount = BigDecimal.ZERO;
+                
+                for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
+                    MenuItems menuItem = menuService.getMenuItem(entry.getKey());
+                    if (menuItem != null) {
+                        cartItems.add(menuItem);
+                        BigDecimal itemTotal = menuItem.getPrice().multiply(new BigDecimal(entry.getValue()));
+                        totalAmount = totalAmount.add(itemTotal);
+                    }
+                }
+                
+                request.setAttribute("cartItems", cartItems);
+                request.setAttribute("totalAmount", totalAmount);
+                request.setAttribute("cart", cart);
                 request.setAttribute("error", "Failed to create reservation. Table may not be available.");
                 request.getRequestDispatcher("/views/custumer/checkout/checkout.jsp").forward(request, response);
                 return;
@@ -200,26 +266,62 @@ public class CheckoutController extends HttpServlet {
             );
             
             if (result.isSuccess()) {
-                // Store booking result in session
+                // Store booking result in session for payment page
                 session.setAttribute("bookingResult", result);
+                session.setAttribute("reservation", result.getReservation());
+                session.setAttribute("order", result.getOrder());
+                session.setAttribute("payment", result.getPayment());
                 
-                // Clear booking session data
-                session.removeAttribute("selectedTableId");
-                session.removeAttribute("bookingDate");
-                session.removeAttribute("bookingTime");
-                session.removeAttribute("guestCount");
-                session.removeAttribute("cart");
+                // DON'T clear booking session data yet - keep for payment page
                 
-                // Redirect to success page
-                response.sendRedirect(request.getContextPath() + "/booking/success");
+                // Redirect to payment QR page
+                response.sendRedirect(request.getContextPath() + "/payment/qr");
             } else {
+                // Reload cart items for display
+                List<MenuItems> cartItems = new ArrayList<>();
+                BigDecimal errorTotalAmount = BigDecimal.ZERO;
+                
+                for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
+                    MenuItems menuItem = menuService.getMenuItem(entry.getKey());
+                    if (menuItem != null) {
+                        cartItems.add(menuItem);
+                        BigDecimal itemTotal = menuItem.getPrice().multiply(new BigDecimal(entry.getValue()));
+                        errorTotalAmount = errorTotalAmount.add(itemTotal);
+                    }
+                }
+                
+                request.setAttribute("cartItems", cartItems);
+                request.setAttribute("totalAmount", errorTotalAmount);
+                request.setAttribute("cart", cart);
                 request.setAttribute("error", result.getMessage());
                 request.getRequestDispatcher("/views/custumer/checkout/checkout.jsp").forward(request, response);
             }
             
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "An error occurred while processing your booking.");
+            
+            // Reload cart items for display on error
+            @SuppressWarnings("unchecked")
+            Map<Integer, Integer> errorCart = (Map<Integer, Integer>) session.getAttribute("cart");
+            if (errorCart != null) {
+                List<MenuItems> cartItems = new ArrayList<>();
+                BigDecimal exceptionTotalAmount = BigDecimal.ZERO;
+                
+                for (Map.Entry<Integer, Integer> entry : errorCart.entrySet()) {
+                    MenuItems menuItem = menuService.getMenuItem(entry.getKey());
+                    if (menuItem != null) {
+                        cartItems.add(menuItem);
+                        BigDecimal itemTotal = menuItem.getPrice().multiply(new BigDecimal(entry.getValue()));
+                        exceptionTotalAmount = exceptionTotalAmount.add(itemTotal);
+                    }
+                }
+                
+                request.setAttribute("cartItems", cartItems);
+                request.setAttribute("totalAmount", exceptionTotalAmount);
+                request.setAttribute("cart", errorCart);
+            }
+            
+            request.setAttribute("error", "An error occurred while processing your booking: " + e.getMessage());
             request.getRequestDispatcher("/views/custumer/checkout/checkout.jsp").forward(request, response);
         }
     }

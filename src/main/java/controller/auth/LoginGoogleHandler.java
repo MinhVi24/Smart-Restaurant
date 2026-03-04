@@ -1,6 +1,13 @@
 package controller.auth;
 
 import configs.GoogleConfig;
+import dao.CustomerDAO;
+import model.Customers;
+import model.Users;
+import service.CustomerService;
+import service.EmailService;
+import service.UserService;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -15,6 +22,10 @@ import org.json.JSONObject;
 @WebServlet("/login-google")
 public class LoginGoogleHandler extends HttpServlet {
 
+    private final UserService userService = new UserService();
+    private final CustomerService customerService = new CustomerService();
+    private final EmailService emailService = new EmailService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -27,16 +38,42 @@ public class LoginGoogleHandler extends HttpServlet {
         }
 
         try {
-            String accessToken = getAccessToken(code);
+            // 1. Lấy access token từ Google
+            String accessToken = getAccessToken(code, request);
             JSONObject userInfo = getUserInfo(accessToken);
 
             String email = userInfo.optString("email");
             String name = userInfo.optString("name");
 
-            request.getSession().setAttribute("email", email);
-            request.getSession().setAttribute("name", name);
-            request.getSession().setAttribute("loginType", "GOOGLE");
+            // 2. Đăng ký / tìm user trong DB (nếu chưa có → tạo mới)
+            Users user = userService.registerGoogleUser(email, name);
 
+            // 3. Tạo Customer nếu chưa có
+            CustomerDAO customerDAO = new CustomerDAO();
+            Customers customer = customerDAO.findByUserId(user.getUserId());
+            if (customer == null) {
+                customer = customerService.createCustomer(name, null, user);
+            }
+
+            // 4. Set session đầy đủ (giống LoginController)
+            HttpSession session = request.getSession();
+            session.setAttribute("loggedInUser", user);
+            session.setAttribute("loginType", "GOOGLE");
+
+            if (customer != null) {
+                session.setAttribute("customerId", customer.getCustomerId());
+                session.setAttribute("customerPoints", customer.getTotalPoints() != null ? customer.getTotalPoints() : 0);
+                session.setAttribute("customerMembershipLevel", customer.getMembershipLevel() != null ? customer.getMembershipLevel() : "Thành viên");
+            }
+
+            // 5. Gửi email thông báo đăng nhập (chạy async để không chặn redirect)
+            final String finalEmail = email;
+            final String finalName = name;
+            new Thread(() -> {
+                emailService.sendLoginNotificationEmail(finalEmail, finalName);
+            }).start();
+
+            // 6. Redirect về trang chủ
             response.sendRedirect(request.getContextPath() + "/");
 
         } catch (Exception e) {
@@ -45,7 +82,10 @@ public class LoginGoogleHandler extends HttpServlet {
         }
     }
 
-    private String getAccessToken(String code) throws IOException {
+    private String getAccessToken(String code, HttpServletRequest request) throws IOException {
+        // Tạo redirect URI động
+        String redirectUri = request.getScheme() + "://" + request.getServerName()
+                + ":" + request.getServerPort() + request.getContextPath() + "/login-google";
 
         URL url = new URL(GoogleConfig.GOOGLE_LINK_GET_TOKEN);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -58,7 +98,7 @@ public class LoginGoogleHandler extends HttpServlet {
                 "code=" + URLEncoder.encode(code, "UTF-8") +
                 "&client_id=" + URLEncoder.encode(GoogleConfig.GOOGLE_CLIENT_ID, "UTF-8") +
                 "&client_secret=" + URLEncoder.encode(GoogleConfig.GOOGLE_CLIENT_SECRET, "UTF-8") +
-                "&redirect_uri=" + URLEncoder.encode(GoogleConfig.GOOGLE_REDIRECT_URI, "UTF-8") +
+                "&redirect_uri=" + URLEncoder.encode(redirectUri, "UTF-8") +
                 "&grant_type=authorization_code";
 
         OutputStream os = conn.getOutputStream();
@@ -67,21 +107,31 @@ public class LoginGoogleHandler extends HttpServlet {
         os.close();
 
         if (conn.getResponseCode() != 200) {
-            throw new RuntimeException("Failed to get access token");
+            // Đọc error response để debug
+            BufferedReader errorReader = new BufferedReader(
+                    new InputStreamReader(conn.getErrorStream())
+            );
+            StringBuilder errorResponse = new StringBuilder();
+            String errorLine;
+            while ((errorLine = errorReader.readLine()) != null) {
+                errorResponse.append(errorLine);
+            }
+            System.err.println("Google token error: " + errorResponse.toString());
+            throw new RuntimeException("Failed to get access token: " + conn.getResponseCode());
         }
 
         BufferedReader br = new BufferedReader(
                 new InputStreamReader(conn.getInputStream())
         );
 
-        StringBuilder response = new StringBuilder();
+        StringBuilder responseStr = new StringBuilder();
         String line;
 
         while ((line = br.readLine()) != null) {
-            response.append(line);
+            responseStr.append(line);
         }
 
-        JSONObject json = new JSONObject(response.toString());
+        JSONObject json = new JSONObject(responseStr.toString());
         return json.getString("access_token");
     }
 
@@ -103,13 +153,13 @@ public class LoginGoogleHandler extends HttpServlet {
                 new InputStreamReader(conn.getInputStream())
         );
 
-        StringBuilder response = new StringBuilder();
+        StringBuilder responseStr = new StringBuilder();
         String line;
 
         while ((line = br.readLine()) != null) {
-            response.append(line);
+            responseStr.append(line);
         }
 
-        return new JSONObject(response.toString());
+        return new JSONObject(responseStr.toString());
     }
 }

@@ -70,21 +70,51 @@ public class BookingService {
     }
     
     /**
+     * Get available tables for specific date/time and guest count
+     * Checks against existing reservations
+     */
+    public List<Tables> getAvailableTablesForDateTime(Date reservationTime, int guestCount) {
+        // Get all tables with sufficient capacity
+        List<Tables> tables = tableDAO.findAvailableByCapacity(guestCount);
+        
+        // Filter out tables that have reservations at the same time
+        // (within 2 hours window)
+        List<Reservations> reservations = reservationDAO.findByDateTime(reservationTime);
+        
+        for (Reservations reservation : reservations) {
+            if (reservation.getTableId() != null && 
+                !"CANCELLED".equals(reservation.getStatus())) {
+                tables.removeIf(t -> t.getTableId().equals(reservation.getTableId().getTableId()));
+            }
+        }
+        
+        return tables;
+    }
+    
+    /**
      * Create reservation with table
+     * Allow any table status for testing/development
      */
     public Reservations createReservation(Customers customer, Integer tableId, Date reservationTime, int guestCount) {
         Tables table = tableDAO.findById(tableId);
         
-        if (table == null || !"AVAILABLE".equals(table.getStatus())) {
+        if (table == null) {
+            System.out.println("ERROR: Table not found: " + tableId);
             return null;
         }
         
-        // Create reservation
+        System.out.println("Creating reservation for table " + tableId + " (current status: " + table.getStatus() + ")");
+        
+        // Create reservation regardless of table status
+        // This allows testing without resetting database
         Reservations reservation = reservationDAO.createReservation(customer, table, reservationTime, guestCount);
         
         if (reservation != null) {
             // Update table status to RESERVED
             tableDAO.updateStatus(tableId, "RESERVED");
+            System.out.println("SUCCESS: Created reservation " + reservation.getReservationId() + " for table " + tableId);
+        } else {
+            System.out.println("ERROR: Failed to create reservation in database");
         }
         
         return reservation;

@@ -94,4 +94,32 @@ public class UserService {
         user.setPasswordHash(BCrypt.hashpw(newRawPassword, BCrypt.gensalt()));
         userDAO.update(user);
     }
+
+    /**
+     * Đăng ký / tìm tài khoản Google.
+     * Nếu email chưa tồn tại trong DB → tạo mới Users.
+     * Nếu đã tồn tại → trả về user cũ.
+     * @return Users (mới hoặc cũ)
+     */
+    public Users registerGoogleUser(String email, String name) {
+        // Kiểm tra email đã tồn tại chưa
+        Users existingUser = userDAO.findByEmail(email);
+        if (existingUser != null) {
+            return existingUser; // Đã có tài khoản → trả về luôn
+        }
+
+        // Tạo user mới cho Google
+        Users newUser = new Users();
+        newUser.setUsername(email); // Dùng email làm username
+        newUser.setEmail(email);
+        newUser.setPasswordHash("GOOGLE_AUTH"); // Không cần mật khẩu thật
+        newUser.setRole("CUSTOMER");
+        newUser.setStatus("ACTIVE");
+        newUser.setCreatedAt(new Date());
+
+        userDAO.create(newUser);
+
+        // Trả về user đã lưu (có ID)
+        return userDAO.findByEmail(email);
+    }
 }
