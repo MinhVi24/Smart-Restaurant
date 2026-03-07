@@ -120,117 +120,64 @@
                         </tr>
                     </thead>
                     <tbody id="menuTableBody" class="divide-y divide-stone-200 dark:divide-stone-800">
-                        <!-- Sample Data -->
-                        <tr class="hover:bg-stone-50 dark:hover:bg-stone-900/30 transition-colors cursor-pointer" onclick="openEditModal('1')">
-                            <td class="px-6 py-4">
-                                <img src="${pageContext.request.contextPath}/assets/images/pizza.jpg" alt="Foie Gras" class="w-16 h-16 rounded-lg object-cover">
-                            </td>
-                            <td class="px-6 py-4">
-                                <div>
-                                    <p class="font-display font-bold text-lg dark:text-stone-100">Foie Gras Poêlé</p>
-                                    <p class="text-xs text-stone-500">Mã: APP-001</p>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full text-xs font-bold border border-blue-500/20">KHAI VỊ</span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <p class="font-display font-bold text-lg text-primary">850.000</p>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <button onclick="event.stopPropagation(); openEditModal('1')" class="text-primary hover:text-primary/80">
-                                    <span class="material-icons-round">edit</span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 dark:hover:bg-stone-900/30 transition-colors cursor-pointer" onclick="openEditModal('2')">
-                            <td class="px-6 py-4">
-                                <img src="${pageContext.request.contextPath}/assets/images/pizza.jpg" alt="Wagyu A5" class="w-16 h-16 rounded-lg object-cover">
-                            </td>
-                            <td class="px-6 py-4">
-                                <div>
-                                    <p class="font-display font-bold text-lg dark:text-stone-100">Wagyu A5 Kagoshima</p>
-                                    <p class="text-xs text-stone-500">Mã: MAIN-001</p>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-red-500/10 text-red-500 rounded-full text-xs font-bold border border-red-500/20">MÓN CHÍNH</span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <p class="font-display font-bold text-lg text-primary">4.500.000</p>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <button onclick="event.stopPropagation(); openEditModal('2')" class="text-primary hover:text-primary/80">
-                                    <span class="material-icons-round">edit</span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 dark:hover:bg-stone-900/30 transition-colors cursor-pointer" onclick="openEditModal('3')">
-                            <td class="px-6 py-4">
-                                <img src="${pageContext.request.contextPath}/assets/images/pizza.jpg" alt="Truffle Fries" class="w-16 h-16 rounded-lg object-cover">
-                            </td>
-                            <td class="px-6 py-4">
-                                <div>
-                                    <p class="font-display font-bold text-lg dark:text-stone-100">Truffle Parmesan Fries</p>
-                                    <p class="text-xs text-stone-500">Mã: SIDE-003</p>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-green-500/10 text-green-500 rounded-full text-xs font-bold border border-green-500/20">MÓN PHỤ</span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <p class="font-display font-bold text-lg text-primary">280.000</p>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <button onclick="event.stopPropagation(); openEditModal('3')" class="text-primary hover:text-primary/80">
-                                    <span class="material-icons-round">edit</span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 dark:hover:bg-stone-900/30 transition-colors cursor-pointer" onclick="openEditModal('4')">
-                            <td class="px-6 py-4">
-                                <img src="${pageContext.request.contextPath}/assets/images/pizza.jpg" alt="Crème Brûlée" class="w-16 h-16 rounded-lg object-cover">
-                            </td>
-                            <td class="px-6 py-4">
-                                <div>
-                                    <p class="font-display font-bold text-lg dark:text-stone-100">Crème Brûlée Vanille</p>
-                                    <p class="text-xs text-stone-500">Mã: DES-012</p>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-purple-500/10 text-purple-500 rounded-full text-xs font-bold border border-purple-500/20">TRÁNG MIỆNG</span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <p class="font-display font-bold text-lg text-primary">320.000</p>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <button onclick="event.stopPropagation(); openEditModal('4')" class="text-primary hover:text-primary/80">
-                                    <span class="material-icons-round">edit</span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-stone-50 dark:hover:bg-stone-900/30 transition-colors cursor-pointer" onclick="openEditModal('5')">
-                            <td class="px-6 py-4">
-                                <img src="${pageContext.request.contextPath}/assets/images/pizza.jpg" alt="Champagne" class="w-16 h-16 rounded-lg object-cover">
-                            </td>
-                            <td class="px-6 py-4">
-                                <div>
-                                    <p class="font-display font-bold text-lg dark:text-stone-100">Dom Pérignon 2012</p>
-                                    <p class="text-xs text-stone-500">Mã: BEV-088</p>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-amber-500/10 text-amber-500 rounded-full text-xs font-bold border border-amber-500/20">ĐỒ UỐNG</span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <p class="font-display font-bold text-lg text-primary">18.500.000</p>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <button onclick="event.stopPropagation(); openEditModal('5')" class="text-primary hover:text-primary/80">
-                                    <span class="material-icons-round">edit</span>
-                                </button>
-                            </td>
-                        </tr>
+                        <c:choose>
+                            <c:when test="${not empty menuItems}">
+                                <c:forEach var="item" items="${menuItems}">
+                                    <tr class="hover:bg-stone-50 dark:hover:bg-stone-900/30 transition-colors cursor-pointer menu-row" 
+                                        data-category="${item.category != null ? item.category : 'Món chính'}"
+                                        onclick="openEditModal('${item.menuItemId}')">
+                                        <td class="px-6 py-4">
+                                            <img src="${item.imageUrl != null && !item.imageUrl.isEmpty() ? item.imageUrl : pageContext.request.contextPath += '/assets/images/pizza.jpg'}" 
+                                                 alt="${item.name}" 
+                                                 class="w-16 h-16 rounded-lg object-cover">
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div>
+                                                <p class="font-display font-bold text-lg dark:text-stone-100">${item.name}</p>
+                                                <p class="text-xs text-stone-500">Mã: MENU-${item.menuItemId}</p>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <c:choose>
+                                                <c:when test="${item.category == 'Khai vị'}">
+                                                    <span class="px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full text-xs font-bold border border-blue-500/20">KHAI VỊ</span>
+                                                </c:when>
+                                                <c:when test="${item.category == 'Món chính'}">
+                                                    <span class="px-3 py-1 bg-red-500/10 text-red-500 rounded-full text-xs font-bold border border-red-500/20">MÓN CHÍNH</span>
+                                                </c:when>
+                                                <c:when test="${item.category == 'Món phụ'}">
+                                                    <span class="px-3 py-1 bg-green-500/10 text-green-500 rounded-full text-xs font-bold border border-green-500/20">MÓN PHỤ</span>
+                                                </c:when>
+                                                <c:when test="${item.category == 'Tráng miệng'}">
+                                                    <span class="px-3 py-1 bg-purple-500/10 text-purple-500 rounded-full text-xs font-bold border border-purple-500/20">TRÁNG MIỆNG</span>
+                                                </c:when>
+                                                <c:when test="${item.category == 'Đồ uống'}">
+                                                    <span class="px-3 py-1 bg-amber-500/10 text-amber-500 rounded-full text-xs font-bold border border-amber-500/20">ĐỒ UỐNG</span>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <span class="px-3 py-1 bg-gray-500/10 text-gray-500 rounded-full text-xs font-bold border border-gray-500/20">KHÁC</span>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <p class="font-display font-bold text-lg text-primary">${item.price.intValue()}</p>
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            <button onclick="event.stopPropagation(); openEditModal('${item.menuItemId}')" class="text-primary hover:text-primary/80">
+                                                <span class="material-icons-round">edit</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <tr>
+                                    <td colspan="5" class="px-6 py-12 text-center">
+                                        <p class="text-stone-500 dark:text-stone-400">Chưa có món ăn nào trong database. Vui lòng chạy script SQL để thêm dữ liệu.</p>
+                                    </td>
+                                </tr>
+                            </c:otherwise>
+                        </c:choose>
                     </tbody>
                 </table>
             </div>
@@ -300,6 +247,15 @@
             </div>
 
             <script>
+                const categoryMap = {
+                    'all': 'all',
+                    'khai-vi': 'Khai vị',
+                    'mon-chinh': 'Món chính',
+                    'mon-phu': 'Món phụ',
+                    'trang-mieng': 'Tráng miệng',
+                    'do-uong': 'Đồ uống'
+                };
+                
                 function filterCategory(category) {
                     // Remove active class from all tabs
                     document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -311,8 +267,18 @@
                     event.target.classList.add('active', 'border-primary', 'text-primary');
                     event.target.classList.remove('border-transparent', 'text-stone-500');
                     
-                    console.log('Filter by category:', category);
-                    // TODO: Add filtering logic
+                    // Filter rows
+                    const categoryName = categoryMap[category];
+                    const rows = document.querySelectorAll('.menu-row');
+                    
+                    rows.forEach(row => {
+                        const rowCategory = row.getAttribute('data-category');
+                        if (category === 'all' || rowCategory === categoryName) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
                 }
 
                 function openEditModal(id) {

@@ -29,13 +29,30 @@ public class MenuService {
     }
     
     /**
+     * Get all available menu items (for customer)
+     */
+    public List<MenuItems> getAllAvailableMenuItems() {
+        EntityManager em = JPAConfig.getEntityManager();
+        try {
+            // Get all menu items without status filter for now
+            TypedQuery<MenuItems> query = em.createQuery(
+                "SELECT m FROM MenuItems m ORDER BY m.menuItemId",
+                MenuItems.class
+            );
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
+    /**
      * Get available menu items
      */
     public List<MenuItems> getAvailableMenuItems() {
         EntityManager em = JPAConfig.getEntityManager();
         try {
             TypedQuery<MenuItems> query = em.createQuery(
-                "SELECT m FROM MenuItems m WHERE m.status = 'AVAILABLE'",
+                "SELECT m FROM MenuItems m WHERE m.status = 'AVAILABLE' ORDER BY m.menuItemId",
                 MenuItems.class
             );
             return query.getResultList();

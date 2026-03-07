@@ -21,11 +21,13 @@
         
         .menu-layout {
             display: flex;
-            height: calc(100vh - 72px);
+            height: 100vh;
+            padding: 0;
+            margin: 0;
         }
         
         .menu-sidebar {
-            width: 400px;
+            width: 380px;
             background: rgba(23, 22, 17, 0.98);
             border-right: 1px solid var(--md-border-gold);
             display: flex;
@@ -34,7 +36,7 @@
         }
         
         .menu-header {
-            padding: 24px;
+            padding: 20px;
             border-bottom: 1px solid var(--md-border);
         }
         
@@ -122,10 +124,10 @@
         
         .search-box input {
             width: 100%;
-            padding: 12px 12px 12px 40px;
+            padding: 12px 40px 12px 40px;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--md-border);
-            border-radius: var(--md-radius);
+            border-radius: 8px;
             color: var(--md-text);
             font-size: 0.875rem;
             transition: all 0.3s;
@@ -146,16 +148,49 @@
             color: var(--md-text-muted);
             font-size: 20px;
             transition: color 0.3s;
+            pointer-events: none;
         }
         
         .search-box input:focus + .material-symbols-outlined {
             color: var(--md-primary);
         }
         
+        .search-box #clearSearch {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            color: var(--md-text-muted);
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 4px;
+            display: none;
+            transition: all 0.3s;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .search-box #clearSearch:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--md-primary);
+        }
+        
+        .search-box #clearSearch .material-symbols-outlined {
+            font-size: 18px;
+            position: static;
+            transform: none;
+        }
+        
         .menu-list {
             flex: 1;
             overflow-y: auto;
-            padding: 24px;
+            padding: 20px;
+            padding-bottom: 140px;
         }
         
         .menu-list::-webkit-scrollbar {
@@ -320,16 +355,67 @@
         .menu-main {
             flex: 1;
             display: flex;
-            align-items: center;
+            align-items: stretch;
             justify-content: center;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), 
-                        url('${pageContext.request.contextPath}/assets/images/pizza.jpg') center/cover;
+            padding: 0;
+            background: #0a0a0a;
+            position: relative;
+            overflow: hidden;
         }
         
         .featured-dish {
-            max-width: 600px;
-            padding: 40px;
-            text-align: center;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+            position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        .featured-dish::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .featured-dish::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .featured-dish::-webkit-scrollbar-thumb {
+            background: var(--md-primary);
+            border-radius: 3px;
+        }
+        
+        .featured-dish::-webkit-scrollbar-thumb:hover {
+            background: #e5c158;
+        }
+        
+        .featured-image-container {
+            flex: 0 0 auto;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .featured-image {
+            width: 100%;
+            height: auto;
+            min-height: 100vh;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .featured-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.85) 35%, rgba(0,0,0,0.4) 65%, transparent 100%);
+            padding: 32px 40px 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
         }
         
         .featured-badge {
@@ -373,17 +459,18 @@
             position: fixed;
             bottom: 0;
             left: 0;
-            right: 0;
+            width: 100%;
             background: rgba(23, 22, 17, 0.98);
             border-top: 1px solid var(--md-border-gold);
-            padding: 20px;
+            padding: 16px 24px;
             backdrop-filter: blur(14px);
             z-index: 50;
         }
         
         .cart-content {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 100%;
+            padding: 0;
+            margin: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -528,16 +615,15 @@
                          data-id="${item.menuItemId}" 
                          data-name="${item.name}" 
                          data-price="${item.price}"
-                         data-category="${item.name.contains('Sò') || item.name.contains('Gan') || item.name.contains('Salad') || item.name.contains('Súp') || item.name.contains('Bò Wagyu Carpaccio') ? 'appetizer' : 
-                                       item.name.contains('Bò') || item.name.contains('Tôm') || item.name.contains('Thăn') || item.name.contains('Tomahawk') || item.name.contains('Cá') || item.name.contains('Vịt') ? 'main' : 
-                                       item.name.contains('Tiramisu') || item.name.contains('Crème') || item.name.contains('Chocolate') || item.name.contains('Panna') || item.name.contains('Kem') ? 'dessert' : 
-                                       item.name.contains('Rượu') || item.name.contains('Champagne') || item.name.contains('Whisky') || item.name.contains('Nước') || item.name.contains('Trà') ? 'beverage' : 'main'}">
+                         data-category="${item.category != null ? item.category : 'Món chính'}">
                         <div class="item-image">
-                            <img src="${pageContext.request.contextPath}/assets/images/pizza.jpg" alt="${item.name}">
+                            <img src="${item.imageUrl != null && !item.imageUrl.isEmpty() ? item.imageUrl : pageContext.request.contextPath += '/assets/images/pizza.jpg'}" 
+                                 alt="${item.name}"
+                                 onerror="this.src='${pageContext.request.contextPath}/assets/images/pizza.jpg'">
                         </div>
                         <div class="item-info">
                             <h4 class="item-name">${item.name}</h4>
-                            <p class="item-description">Món ăn cao cấp được chế biến từ nguyên liệu tươi ngon</p>
+                            <p class="item-description">${item.description != null && item.description.length() > 60 ? item.description.substring(0, 60) += '...' : item.description != null ? item.description : 'Món ăn cao cấp được chế biến từ nguyên liệu tươi ngon'}</p>
                             <div class="item-footer">
                                 <span class="item-price">${item.price}₫</span>
                                 <button class="add-btn" onclick="addItem(this, ${item.menuItemId}, '${item.name}', ${item.price})">
@@ -571,19 +657,55 @@
         <!-- Main Content -->
         <div class="menu-main">
             <div class="featured-dish">
-                <span class="featured-badge">Signature Dish</span>
-                <h2 class="featured-title">
-                    Gan Ngỗng Pháp<br>
-                    <span style="font-style: italic;">Áp Chảo</span>
-                </h2>
-                <p class="featured-description">
-                    Gan ngỗng béo ngậy nhập khẩu trực tiếp từ Pháp, áp chảo vàng giòn bên ngoài, mềm tan bên trong. Phục vụ cùng sốt quả mọng chua ngọt cân bằng vị giác.
-                </p>
-                <div class="featured-price">1.250.000₫</div>
-                <button class="md-btn md-btn-primary" style="padding: 16px 32px;" onclick="addItem(this, 2, 'Gan Ngỗng Pháp', 1250000)">
-                    Thêm vào thực đơn
-                    <span class="material-symbols-outlined" style="margin-left: 8px; font-size: 20px;">arrow_forward</span>
-                </button>
+                <c:choose>
+                    <c:when test="${not empty menuItems && menuItems.size() > 0}">
+                        <c:set var="featuredItem" value="${menuItems[0]}" />
+                        
+                        <!-- Featured Image with Overlay -->
+                        <div class="featured-image-container">
+                            <img src="${featuredItem.imageUrl != null && !featuredItem.imageUrl.isEmpty() ? featuredItem.imageUrl : pageContext.request.contextPath += '/assets/images/pizza.jpg'}" 
+                                 alt="${featuredItem.name}" 
+                                 class="featured-image"
+                                 onerror="this.src='${pageContext.request.contextPath}/assets/images/pizza.jpg'">
+                            
+                            <div class="featured-overlay">
+                                <span class="featured-badge">Best Seller</span>
+                                <h2 class="featured-title" style="margin-top: 12px; font-size: 2.5rem;">${featuredItem.name}</h2>
+                                <p class="featured-description" style="margin-top: 12px; margin-bottom: 20px; font-size: 1rem; line-height: 1.6;">
+                                    ${featuredItem.description != null ? featuredItem.description : 'Món ăn đặc biệt được chế biến từ nguyên liệu cao cấp nhất'}
+                                </p>
+                                
+                                <!-- Price and Button in Overlay -->
+                                <div style="display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;">
+                                    <div style="flex: 0 0 auto;">
+                                        <div style="color: rgba(245, 245, 240, 0.6); font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px;">
+                                            Giá món ăn
+                                        </div>
+                                        <div class="featured-price" style="margin: 0; font-size: 2rem;">${featuredItem.price}₫</div>
+                                    </div>
+                                    <button class="md-btn md-btn-primary" style="padding: 14px 28px; font-size: 0.875rem; white-space: nowrap; flex: 0 0 auto;" onclick="addItem(this, ${featuredItem.menuItemId}, '${featuredItem.name}', ${featuredItem.price})">
+                                        <span class="material-symbols-outlined" style="margin-right: 8px; font-size: 18px; vertical-align: middle;">add_shopping_cart</span>
+                                        THÊM MÓN
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="featured-image-container" style="display: flex; align-items: center; justify-content: center;">
+                            <div style="text-align: center;">
+                                <span class="featured-badge">Best Seller</span>
+                                <h2 class="featured-title" style="margin-top: 16px;">
+                                    Đang cập nhật<br>
+                                    <span style="font-style: italic;">thực đơn</span>
+                                </h2>
+                                <p class="featured-description" style="margin-top: 12px;">
+                                    Vui lòng chọn món từ danh sách bên trái
+                                </p>
+                            </div>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </div>
@@ -631,6 +753,14 @@
             'beverage': 'Đồ uống cao cấp'
         };
         
+        const categoryMapping = {
+            'all': 'all',
+            'appetizer': 'Khai vị',
+            'main': 'Món chính',
+            'dessert': 'Tráng miệng',
+            'beverage': 'Đồ uống'
+        };
+        
         function filterByCategory(category, button) {
             currentCategory = category;
             
@@ -672,7 +802,7 @@
                 const itemCategory = item.dataset.category;
                 
                 // Check category filter
-                const categoryMatch = currentCategory === 'all' || itemCategory === currentCategory;
+                const categoryMatch = currentCategory === 'all' || itemCategory === categoryMapping[currentCategory];
                 
                 // Check search filter
                 const searchMatch = searchQuery === '' || itemName.includes(searchQuery);
@@ -723,23 +853,74 @@
                 cart[id] = {name: name, price: price, quantity: 1};
             }
             
-            // Update UI
-            const menuItem = button.closest('.menu-item');
-            if (menuItem) {
-                menuItem.classList.add('selected');
+            // Check if this is the featured button (Best Seller)
+            const isFeatured = button.classList.contains('md-btn-primary');
+            
+            if (isFeatured) {
+                // Update featured button
+                button.innerHTML = '<button onclick="decreaseFeaturedQuantity(' + id + ', \'' + name + '\', ' + price + ', this)" style="width: 40px; height: 40px; border: none; background: rgba(0, 0, 0, 0.2); color: #fff; cursor: pointer; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; font-weight: 700; border-radius: 6px;">−</button>' +
+                    '<span id="qty-featured-' + id + '" style="flex: 1; text-align: center; color: #000; font-weight: 700; font-size: 1.25rem;">' + cart[id].quantity + '</span>' +
+                    '<button onclick="increaseFeaturedQuantity(' + id + ')" style="width: 40px; height: 40px; border: none; background: rgba(0, 0, 0, 0.2); color: #fff; cursor: pointer; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; font-weight: 700; border-radius: 6px;">+</button>';
                 
-                const footer = menuItem.querySelector('.item-footer');
-                if (footer) {
-                    footer.innerHTML = '<span class="item-price">' + price.toLocaleString() + '₫</span>' +
-                        '<div class="quantity-control">' +
-                        '<button class="quantity-btn" onclick="decreaseQuantity(' + id + ')">-</button>' +
-                        '<span class="quantity-value" id="qty-' + id + '">' + cart[id].quantity + '</span>' +
-                        '<button class="quantity-btn" onclick="increaseQuantity(' + id + ')">+</button>' +
-                        '</div>';
+                button.style.display = 'flex';
+                button.style.alignItems = 'center';
+                button.style.justifyContent = 'space-between';
+                button.style.gap = '12px';
+            } else {
+                // Update regular menu item
+                const menuItem = button.closest('.menu-item');
+                if (menuItem) {
+                    menuItem.classList.add('selected');
+                    
+                    const footer = menuItem.querySelector('.item-footer');
+                    if (footer) {
+                        footer.innerHTML = '<span class="item-price">' + price.toLocaleString() + '₫</span>' +
+                            '<div class="quantity-control">' +
+                            '<button class="quantity-btn" onclick="decreaseQuantity(' + id + ')">-</button>' +
+                            '<span class="quantity-value" id="qty-' + id + '">' + cart[id].quantity + '</span>' +
+                            '<button class="quantity-btn" onclick="increaseQuantity(' + id + ')">+</button>' +
+                            '</div>';
+                    }
                 }
             }
             
             updateCart();
+        }
+        
+        function increaseFeaturedQuantity(id) {
+            if (cart[id]) {
+                cart[id].quantity++;
+                const qtyElement = document.getElementById('qty-featured-' + id);
+                if (qtyElement) {
+                    qtyElement.textContent = cart[id].quantity;
+                }
+                updateCart();
+            }
+        }
+        
+        function decreaseFeaturedQuantity(id, name, price, button) {
+            if (cart[id]) {
+                cart[id].quantity--;
+                if (cart[id].quantity <= 0) {
+                    delete cart[id];
+                    
+                    // Restore featured button
+                    const featuredButton = button.closest('.md-btn-primary');
+                    if (featuredButton) {
+                        featuredButton.innerHTML = '<span class="material-symbols-outlined" style="margin-right: 8px; font-size: 18px; vertical-align: middle;">add_shopping_cart</span>THÊM MÓN';
+                        featuredButton.style.display = 'flex';
+                        featuredButton.style.alignItems = 'center';
+                        featuredButton.style.justifyContent = 'center';
+                        featuredButton.style.gap = '0';
+                    }
+                } else {
+                    const qtyElement = document.getElementById('qty-featured-' + id);
+                    if (qtyElement) {
+                        qtyElement.textContent = cart[id].quantity;
+                    }
+                }
+                updateCart();
+            }
         }
         
         function increaseQuantity(id) {
@@ -832,27 +1013,36 @@
         
         function prepareCheckout() {
             if (Object.keys(cart).length === 0) {
-                alert('Vui long chon it nhat 1 mon an!');
+                alert('Vui lòng chọn ít nhất 1 món ăn!');
                 return false;
             }
             
-            // Clear old hidden inputs
-            const form = document.getElementById('checkoutForm');
-            const oldInputs = form.querySelectorAll('input[name^="item_"]');
-            oldInputs.forEach(input => input.remove());
-            
-            // Add hidden input for each cart item
+            // Convert cart to array format for sessionStorage
+            const cartArray = [];
             for (let menuItemId in cart) {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'item_' + menuItemId;
-                input.value = cart[menuItemId];
-                form.appendChild(input);
-                console.log('Added item:', menuItemId, '=', cart[menuItemId]);
+                cartArray.push({
+                    name: cart[menuItemId].name,
+                    price: cart[menuItemId].price,
+                    priceDisplay: (cart[menuItemId].price / 1000) + 'k',
+                    quantity: cart[menuItemId].quantity
+                });
             }
             
+            // Save to sessionStorage
+            sessionStorage.setItem('restaurantCart', JSON.stringify(cartArray));
+            
+            // Get booking info
+            const bookingInfo = sessionStorage.getItem('bookingInfo');
+            if (bookingInfo) {
+                const booking = JSON.parse(bookingInfo);
+                alert('Đặt món thành công!\n\nBàn: ' + booking.tableId + '\nNgày: ' + booking.date + '\nGiờ: ' + booking.time + '\nSố khách: ' + booking.guestCount + '\nSố món: ' + cartArray.length);
+            }
+            
+            // TODO: Navigate to payment page
+            // window.location.href = '${pageContext.request.contextPath}/checkout';
+            
             console.log('Cart prepared with', Object.keys(cart).length, 'items');
-            return true;
+            return false; // Prevent form submission for now
         }
         
         // Initialize on page load

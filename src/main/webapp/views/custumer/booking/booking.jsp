@@ -805,7 +805,7 @@
                 <div class="selected-details" id="selectedDetails">Khu Vực Cửa Sổ • 4 Người</div>
             </div>
             <button type="submit" form="bookingForm" class="md-btn md-btn-primary" style="padding: 16px 32px;" disabled id="submitBtn">
-                <span class="material-symbols-outlined" style="font-size: 20px; margin-right: 8px;">arrow_forward</span>
+                <span class="material-symbols-outlined" style="font-size: 20px; margin-right: 8px;" id="submitBtnIcon">arrow_forward</span>
                 <span id="submitBtnText">Tiếp Tục Chọn Món</span>
             </button>
         </div>
@@ -814,21 +814,17 @@
     <script>
         let selectedTableId = null;
         let currentZone = 'Khu Vực Cửa Sổ';
-        let hasMenuItems = false;
         
-        // Check if cart exists in session
+        // Check if cart exists in session (for display purposes only)
         function checkCart() {
             const savedCart = sessionStorage.getItem('restaurantCart');
             if (savedCart) {
                 const cart = JSON.parse(savedCart);
                 if (cart && cart.length > 0) {
-                    hasMenuItems = true;
-                    document.getElementById('submitBtnText').textContent = 'Xác Nhận Đặt Bàn';
+                    // Just for info, still go to menu page
                     return true;
                 }
             }
-            hasMenuItems = false;
-            document.getElementById('submitBtnText').textContent = 'Tiếp Tục Chọn Món';
             return false;
         }
         
@@ -1095,7 +1091,28 @@
             
             displayTables();
             checkCart();
+            updateButtonBasedOnCart(); // Cập nhật nút dựa vào giỏ hàng
         });
+        
+        // Cập nhật nút dựa vào giỏ hàng
+        function updateButtonBasedOnCart() {
+            const savedCart = sessionStorage.getItem('restaurantCart');
+            const cart = savedCart ? JSON.parse(savedCart) : [];
+            const hasCart = cart && cart.length > 0;
+            
+            const submitBtnText = document.getElementById('submitBtnText');
+            const submitBtnIcon = document.getElementById('submitBtnIcon');
+            
+            if (hasCart) {
+                // LUỒNG 1: Đã chọn món → Nút "THANH TOÁN"
+                submitBtnText.textContent = 'Thanh Toán';
+                submitBtnIcon.textContent = 'payments';
+            } else {
+                // LUỒNG 2: Chưa chọn món → Nút "TIẾP TỤC CHỌN MÓN"
+                submitBtnText.textContent = 'Tiếp Tục Chọn Món';
+                submitBtnIcon.textContent = 'arrow_forward';
+            }
+        }
         
         // Form validation and submission
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
@@ -1106,14 +1123,31 @@
                 return false;
             }
             
-            // If cart exists, go to confirmation page
-            if (hasMenuItems) {
-                // TODO: Navigate to booking confirmation page
-                alert('Đặt bàn thành công! Món ăn đã được lưu.');
-                // window.location.href = '${pageContext.request.contextPath}/booking/confirm';
+            // Check if came from menu page (already has cart)
+            const savedCart = sessionStorage.getItem('restaurantCart');
+            const cart = savedCart ? JSON.parse(savedCart) : [];
+            const hasCart = cart && cart.length > 0;
+            
+            // Get form data
+            const formData = {
+                tableId: selectedTableId,
+                date: document.querySelector('input[name="date"]').value,
+                time: document.querySelector('select[name="time"]').value,
+                guestCount: document.querySelector('select[name="guestCount"]').value
+            };
+            
+            // Save booking info to sessionStorage (client-side)
+            sessionStorage.setItem('bookingInfo', JSON.stringify(formData));
+            
+            if (hasCart) {
+                // LUỒNG 1: Đã chọn món → Đi thẳng THANH TOÁN
+                alert('Đặt bàn thành công!\n\nBàn: ' + formData.tableId + '\nNgày: ' + formData.date + '\nGiờ: ' + formData.time + '\nSố khách: ' + formData.guestCount + '\nSố món: ' + cart.length + '\n\n→ Chuyển đến trang thanh toán');
+                // TODO: Submit to payment
+                // window.location.href = '${pageContext.request.contextPath}/checkout';
             } else {
-                // Go to menu selection page
-                window.location.href = '${pageContext.request.contextPath}/booking/menu';
+                // LUỒNG 2: Chưa chọn món → Đi đến menu-booking
+                console.log('No cart found, submitting form to save session and redirect to menu-booking');
+                this.submit(); // Let form submit naturally
             }
         });
     </script>

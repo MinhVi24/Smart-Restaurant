@@ -76,18 +76,28 @@
             </div>
 
             <!-- Filter Tabs -->
-            <div style="display: flex; justify-content: center; gap: 32px; margin-bottom: 48px; flex-wrap: wrap; border-bottom: 1px solid #333; padding-bottom: 16px;">
-                <a href="#" class="category-tab active" data-category="all" style="color: var(--md-primary); text-decoration: none; font-weight: 700; border-bottom: 2px solid var(--md-primary); padding-bottom: 8px; transition: all 0.3s;">Tất Cả</a>
-                <a href="#" class="category-tab" data-category="Khai vị" style="color: #999; text-decoration: none; padding-bottom: 8px; transition: all 0.3s;">Khai Vị</a>
-                <a href="#" class="category-tab" data-category="Món chính" style="color: #999; text-decoration: none; padding-bottom: 8px; transition: all 0.3s;">Món Chính</a>
-                <a href="#" class="category-tab" data-category="Món phụ" style="color: #999; text-decoration: none; padding-bottom: 8px; transition: all 0.3s;">Món Phụ</a>
-                <a href="#" class="category-tab" data-category="Tráng miệng" style="color: #999; text-decoration: none; padding-bottom: 8px; transition: all 0.3s;">Tráng Miệng</a>
-                <a href="#" class="category-tab" data-category="Đồ uống" style="color: #999; text-decoration: none; padding-bottom: 8px; transition: all 0.3s;">Đồ Uống</a>
+            <div style="display: flex; justify-content: center; gap: 24px; margin-bottom: 48px; flex-wrap: wrap; border-bottom: 1px solid #333; padding-bottom: 16px;">
+                <a href="#" class="category-tab active" data-category="all" style="color: var(--md-primary); text-decoration: none; font-weight: 600; font-size: 0.9375rem; border-bottom: 2px solid var(--md-primary); padding-bottom: 8px; transition: all 0.3s;">Tất Cả</a>
+                <a href="#" class="category-tab" data-category="Khai vị" style="color: #999; text-decoration: none; font-size: 0.9375rem; padding-bottom: 8px; transition: all 0.3s;">Khai Vị</a>
+                <a href="#" class="category-tab" data-category="Món chính" style="color: #999; text-decoration: none; font-size: 0.9375rem; padding-bottom: 8px; transition: all 0.3s;">Món Chính</a>
+                <a href="#" class="category-tab" data-category="Món phụ" style="color: #999; text-decoration: none; font-size: 0.9375rem; padding-bottom: 8px; transition: all 0.3s;">Món Phụ</a>
+                <a href="#" class="category-tab" data-category="Tráng miệng" style="color: #999; text-decoration: none; font-size: 0.9375rem; padding-bottom: 8px; transition: all 0.3s;">Tráng Miệng</a>
+                <a href="#" class="category-tab" data-category="Đồ uống" style="color: #999; text-decoration: none; font-size: 0.9375rem; padding-bottom: 8px; transition: all 0.3s;">Đồ Uống</a>
             </div>
 
             <!-- Menu Grid -->
             <div id="featuredItem" style="margin-bottom: 48px;"></div>
-            <div id="menuGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 24px;"></div>
+            
+            <!-- Divider Section -->
+            <div style="text-align: center; margin: 64px 0 48px 0;">
+                <div style="display: inline-block; padding: 0 32px; position: relative;">
+                    <div style="position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: linear-gradient(90deg, transparent, var(--md-border-gold), transparent);"></div>
+                    <span style="position: relative; background: #0a0a0a; padding: 0 24px; color: var(--md-primary); font-size: 0.875rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;">Thực Đơn Đầy Đủ</span>
+                </div>
+                <p style="color: #999; font-size: 1rem; margin-top: 16px; font-style: italic;">Khám phá bộ sưu tập món ăn tinh tế của chúng tôi</p>
+            </div>
+            
+            <div id="menuGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;"></div>
         </div>
     </main>
 
@@ -99,11 +109,11 @@
                     MÓN ĐÃ CHỌN
                 </div>
                 <div style="font-family: var(--md-font-serif); font-size: 1.125rem; color: #fff;">
-                    <span id="cartItemCount">0</span> phần steak thượng hạng
+                    <span id="cartItemCount">0</span> món
                 </div>
             </div>
             
-            <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="display: flex; align-items: center; gap: 24px; margin-left: auto;">
                 <div style="text-align: right;">
                     <div style="color: var(--md-text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">
                         TỔNG CỘNG
@@ -113,13 +123,15 @@
                     </div>
                 </div>
                 
-                <button onclick="viewCart()" style="padding: 16px 32px; background: rgba(212, 175, 55, 0.1); color: var(--md-primary); border: 1px solid var(--md-border-gold); border-radius: 8px; font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all 0.3s; white-space: nowrap;">
-                    XEM ĐƠN HÀNG
-                </button>
-                
-                <button onclick="proceedToCheckout()" style="padding: 16px 32px; background: var(--md-primary); color: #000; border: none; border-radius: 8px; font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all 0.3s; white-space: nowrap;">
-                    TIẾP TỤC ĐẶT BÀN
-                </button>
+                <div style="display: flex; gap: 12px;">
+                    <button onclick="viewCart()" style="padding: 14px 24px; background: rgba(212, 175, 55, 0.1); color: var(--md-primary); border: 1px solid var(--md-border-gold); border-radius: 8px; font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all 0.3s; white-space: nowrap;">
+                        XEM ĐƠN HÀNG
+                    </button>
+                    
+                    <button onclick="proceedToCheckout()" style="padding: 14px 28px; background: var(--md-primary); color: #000; border: none; border-radius: 8px; font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all 0.3s; white-space: nowrap;">
+                        TIẾP TỤC ĐẶT BÀN
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -175,40 +187,26 @@
         // Cart state
         let cart = [];
         
-        // Menu data
+        // Menu data from database
         const menuItems = [
-            // Khai vị
-            { name: 'Foie Gras Poêlé', category: 'Khai vị', badgeColor: '#d4af37', detail: 'Gan ngỗng Pháp áp chảo với sốt vang đỏ và bánh mì nướng giòn.', price: '850k', optionLabel: 'Phụ Kiện Kèm Theo', options: ['Sốt Nấm', 'Sốt Vang Đỏ'], defaultOption: 1, image: 'https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=800&q=80' },
-            { name: 'Carpaccio Bò Wagyu', category: 'Khai vị', badgeColor: '#d4af37', detail: 'Thịt bò Wagyu thái mỏng với dầu truffle, phô mai Parmesan và rau arugula.', price: '680k', image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80' },
-            { name: 'Tôm Hùm Nướng Bơ', category: 'Khai vị', badgeColor: '#d4af37', detail: 'Tôm hùm Boston nướng với bơ tỏi thơm lừng và chanh vàng.', price: '1.200k', image: 'https://images.unsplash.com/photo-1625944525533-473f1a3d54e7?w=800&q=80' },
-            { name: 'Salad Caesar', category: 'Khai vị', badgeColor: '#d4af37', detail: 'Rau xà lách romaine, phô mai Parmesan, bánh mì nướng và sốt Caesar.', price: '280k', image: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=800&q=80' },
-            
-            // Món chính
-            { name: 'Wagyu A5 Miyazaki', category: 'Món chính', badgeColor: '#d4af37', detail: 'Marble Score 12, kết cấu mềm mại như bơ với hương thơm đặc trưng của hạt dẻ.', price: '3.800k', optionLabel: 'Trọng Lượng', options: ['200g', '300g', '500g'], defaultOption: 1, isBestseller: true, bestsellerNote: 'Bò Wagyu A5 thượng hạng từ tỉnh Miyazaki, Nhật Bản. Vân mỡ cẩm thạch hoàn hảo (BMS 11-12), tan chảy ngay trong miệng với hương vị umami đậm đà khó quên.', wineRecommend: 'Gợi ý: Cabernet Sauvignon 2015', image: 'https://images.unsplash.com/photo-1558030006-450675393462?w=800&q=80' },
-            { name: 'Black Angus Ribeye', category: 'Món chính', badgeColor: '#d4af37', detail: 'Bò ăn ngũ cốc 200 ngày từ vùng Úc, hương vị đậm đà, độ ngọt thịt vượt trội.', price: '1.450k', optionLabel: 'Độ Chín', options: ['Medium Rare', 'Medium', 'Well Done'], defaultOption: 0, image: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=800&q=80' },
-            { name: 'Dry-Aged Tenderloin', category: 'Món chính', badgeColor: '#d4af37', detail: 'Ủ khô 45 ngày trong hầm chuyên dụng, thịt cực mềm với hương thơm nấm và phô mai.', price: '2.100k', optionLabel: 'Phụ Kiện Kèm Theo', options: ['Sốt Nấm', 'Sốt Vang Đỏ'], defaultOption: 0, image: 'https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=800&q=80' },
-            { name: 'Tomahawk Dát Vàng', category: 'Món chính', badgeColor: '#d4af37', detail: 'Sườn bò Wagyu F1 nguyên xương phủ vàng lá 24K sang trọng.', price: '4.500k', optionLabel: 'Độ Chín', options: ['Medium Rare', 'Medium', 'Well Done'], defaultOption: 0, image: 'https://images.unsplash.com/photo-1615937722923-67f6deaf2cc9?w=800&q=80' },
-            { name: 'Sườn Cừu New Zealand', category: 'Món chính', badgeColor: '#d4af37', detail: 'Lamb Rack nướng với lớp vỏ thảo mộc thơm ngon đặc trưng.', price: '1.350k', image: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=800&q=80' },
-            { name: 'Bò Kobe Nhật Bản', category: 'Món chính', badgeColor: '#d4af37', detail: 'Kobe Beef A5 chính hiệu từ Hyogo với vân mỡ cẩm thạch hoàn hảo.', price: '5.200k', optionLabel: 'Trọng Lượng', options: ['200g', '300g', '500g'], defaultOption: 1, image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80' },
-            
-            // Món phụ
-            { name: 'Khoai Tây Truffle', category: 'Món phụ', badgeColor: '#8b7355', detail: 'Khoai tây nghiền mịn với nấm truffle đen và bơ Pháp thơm béo.', price: '180k', image: 'https://images.unsplash.com/photo-1585238341710-4a8fa9b5e8b7?w=800&q=80' },
-            { name: 'Măng Tây Nướng', category: 'Món phụ', badgeColor: '#8b7355', detail: 'Măng tây xanh nướng than hoa với phô mai Parmesan bào và dầu oliu.', price: '150k', image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=800&q=80' },
-            { name: 'Rau Chân Vịt Xào', category: 'Món phụ', badgeColor: '#8b7355', detail: 'Rau chân vịt baby xào kem tươi với tỏi phi giòn tan.', price: '140k', image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=800&q=80' },
-            { name: 'Nấm Portobello', category: 'Món phụ', badgeColor: '#8b7355', detail: 'Nấm Portobello nướng với bơ tỏi và thảo mộc tươi.', price: '160k', image: 'https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?w=800&q=80' },
-            
-            // Tráng miệng
-            { name: 'Tiramisu Classic', category: 'Tráng miệng', badgeColor: '#c9a961', detail: 'Tiramisu truyền thống Ý với mascarpone, cà phê espresso và bột cacao.', price: '180k', image: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=800&q=80' },
-            { name: 'Chocolate Lava', category: 'Tráng miệng', badgeColor: '#c9a961', detail: 'Bánh chocolate chảy lòng nóng hổi với kem vani Madagascar.', price: '220k', image: 'https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=800&q=80' },
-            { name: 'Panna Cotta Berry', category: 'Tráng miệng', badgeColor: '#c9a961', detail: 'Panna cotta mềm mịn với sốt dâu tây tươi và bạc hà.', price: '190k', image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800&q=80' },
-            { name: 'Crème Brûlée', category: 'Tráng miệng', badgeColor: '#c9a961', detail: 'Kem tươi vani với lớp đường caramel giòn tan đặc trưng.', price: '200k', image: 'https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?w=800&q=80' },
-            
-            // Đồ uống
-            { name: 'Cabernet Sauvignon', category: 'Đồ uống', badgeColor: '#a0522d', detail: 'Rượu vang đỏ cao cấp từ Napa Valley với hương vị phong phú.', price: '3.500k', image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80' },
-            { name: 'Dom Pérignon', category: 'Đồ uống', badgeColor: '#a0522d', detail: 'Champagne vintage 2012 sang trọng từ vùng Champagne, Pháp.', price: '12.000k', image: 'https://images.unsplash.com/photo-1547595628-c61a29f496f0?w=800&q=80' },
-            { name: 'Macallan 18', category: 'Đồ uống', badgeColor: '#a0522d', detail: 'Single Malt Scotch 18 năm tuổi với hương vị gỗ sồi đậm đà.', price: '4.800k', image: 'https://images.unsplash.com/photo-1527281400683-1aae777175f8?w=800&q=80' },
-            { name: 'Espresso Ý', category: 'Đồ uống', badgeColor: '#a0522d', detail: 'Cà phê espresso đậm đà từ hạt Arabica rang vừa.', price: '120k', image: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&q=80' },
-            { name: 'Trà Earl Grey', category: 'Đồ uống', badgeColor: '#a0522d', detail: 'Trà đen Earl Grey thơm lừng với hương bergamot tự nhiên.', price: '80k', image: 'https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=800&q=80' },
+            <c:forEach var="item" items="${menuItems}" varStatus="status">
+            {
+                menuItemId: ${item.menuItemId},
+                name: '${item.name}',
+                category: '<c:out value="${item.category != null ? item.category : 'Món chính'}" />',
+                badgeColor: '<c:choose><c:when test="${item.category == 'Khai vị'}">#d4af37</c:when><c:when test="${item.category == 'Món phụ'}">#8b7355</c:when><c:when test="${item.category == 'Tráng miệng'}">#c9a961</c:when><c:when test="${item.category == 'Đồ uống'}">#a0522d</c:when><c:otherwise>#d4af37</c:otherwise></c:choose>',
+                detail: '<c:out value="${item.description != null ? item.description : 'Món ăn cao cấp được chế biến từ nguyên liệu tươi ngon'}" />',
+                price: '${item.price.intValue() / 1000}k',
+                priceValue: ${item.price.intValue()},
+                image: '<c:choose><c:when test="${item.imageUrl != null && !item.imageUrl.isEmpty()}">${item.imageUrl}</c:when><c:otherwise>${pageContext.request.contextPath}/assets/images/pizza.jpg</c:otherwise></c:choose>',
+                <c:if test="${item.options != null && !item.options.isEmpty()}">
+                optionLabel: 'Loại Sốt',
+                options: ['Sốt Nấm', 'Sốt Vang Đỏ', 'Sốt Tiêu Đen'],
+                defaultOption: 0,
+                </c:if>
+                isBestseller: false
+            }<c:if test="${!status.last}">,</c:if>
+            </c:forEach>
         ];
 
         // Render menu items
@@ -219,15 +217,13 @@
             featuredItem.innerHTML = '';
             
             // Show featured item only on "all" category
-            if (category === 'all') {
-                const bestseller = menuItems.find(item => item.isBestseller);
-                if (bestseller) {
-                    renderFeaturedItem(bestseller);
-                }
+            if (category === 'all' && menuItems.length > 0) {
+                const bestseller = menuItems[0]; // First item from database
+                renderFeaturedItem(bestseller);
             }
             
             const filteredItems = category === 'all' 
-                ? menuItems.filter(item => !item.isBestseller)
+                ? menuItems.slice(1) // Skip first item (featured)
                 : menuItems.filter(item => item.category === category);
             
             filteredItems.forEach(item => {
@@ -240,7 +236,8 @@
                     btn.addEventListener('click', function() {
                         const itemName = this.dataset.item;
                         const itemPrice = this.dataset.price;
-                        addToCart(itemName, itemPrice);
+                        const priceValue = parseInt(this.dataset.priceValue);
+                        addToCartWithQuantity(this, itemName, itemPrice, priceValue);
                     });
                 });
             }, 100);
@@ -255,7 +252,7 @@
                 let optionButtons = '';
                 item.options.forEach((opt, idx) => {
                     const isDefault = idx === item.defaultOption;
-                    optionButtons += '<button style="padding: 12px 24px; background: ' + (isDefault ? 'var(--md-primary)' : 'rgba(255, 255, 255, 0.05)') + '; color: ' + (isDefault ? '#000' : '#999') + '; border: 1px solid ' + (isDefault ? 'var(--md-primary)' : 'var(--md-border)') + '; border-radius: 8px; font-size: 0.9375rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">' + opt + '</button>';
+                    optionButtons += '<button onclick="selectOption(this, \'' + item.name + '\', \'' + opt + '\')" class="sauce-option" data-selected="' + isDefault + '" style="padding: 12px 24px; background: ' + (isDefault ? 'var(--md-primary)' : 'rgba(255, 255, 255, 0.05)') + '; color: ' + (isDefault ? '#000' : '#999') + '; border: 1px solid ' + (isDefault ? 'var(--md-primary)' : 'var(--md-border)') + '; border-radius: 8px; font-size: 0.9375rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">' + opt + '</button>';
                 });
                 
                 optionsHtml = '<div style="margin-bottom: 24px;">' +
@@ -264,7 +261,7 @@
                     '</div>';
             }
             
-            const featuredCard = '<div style="background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%); border-radius: 16px; overflow: hidden; border: 1px solid var(--md-border-gold); box-shadow: 0 8px 32px rgba(212, 175, 55, 0.15);">' +
+            const featuredCard = '<div style="background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%); border-radius: 16px; overflow: hidden; border: 1px solid var(--md-border-gold); box-shadow: 0 8px 32px rgba(212, 175, 55, 0.15); margin-bottom: 48px;">' +
                 '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: 500px;">' +
                     '<div style="position: relative; overflow: hidden;">' +
                         '<img src="' + item.image + '" alt="' + item.name + '" style="width: 100%; height: 100%; object-fit: cover;">' +
@@ -274,22 +271,18 @@
                     '</div>' +
                     '<div style="padding: 48px; display: flex; flex-direction: column; justify-content: center;">' +
                         '<div style="margin-bottom: 16px;">' +
-                            '<span style="color: var(--md-primary); font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;">' + item.category + ', NHẬT BẢN</span>' +
+                            '<span style="color: var(--md-primary); font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;">' + item.category + '</span>' +
                         '</div>' +
                         '<h2 style="font-family: var(--md-font-serif); font-size: 3rem; color: #fff; line-height: 1.2; margin-bottom: 20px;">' + item.name + '</h2>' +
-                        '<p style="color: #ccc; font-size: 1rem; line-height: 1.7; margin-bottom: 24px;">' + item.bestsellerNote + '</p>' +
-                        '<div style="display: flex; align-items: center; gap: 12px; margin-bottom: 32px; padding: 16px; background: rgba(212, 175, 55, 0.05); border-radius: 8px; border: 1px solid var(--md-border-gold);">' +
-                            '<span style="font-size: 1.5rem;">🍷</span>' +
-                            '<span style="color: var(--md-text-muted); font-size: 0.9375rem;">' + item.wineRecommend + '</span>' +
-                        '</div>' +
+                        '<p style="color: #ccc; font-size: 1rem; line-height: 1.7; margin-bottom: 24px;">' + item.detail + '</p>' +
                         optionsHtml +
                         '<div style="display: flex; align-items: center; gap: 24px;">' +
                             '<div>' +
-                                '<p style="color: var(--md-text-muted); font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Giá theo trọng lượng</p>' +
-                                '<p style="font-family: var(--md-font-serif); font-size: 2.25rem; color: var(--md-primary); font-weight: 700;">' + item.price + ' <span style="font-size: 1.25rem;">/ 300g</span></p>' +
+                                '<p style="color: var(--md-text-muted); font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Giá món ăn</p>' +
+                                '<p style="font-family: var(--md-font-serif); font-size: 2.25rem; color: var(--md-primary); font-weight: 700;">' + item.price + '</p>' +
                             '</div>' +
-                            '<button class="add-to-cart-btn" data-item="' + item.name + '" data-price="' + item.price + '" style="flex: 1; padding: 18px 32px; background: var(--md-primary); color: #000; border: none; border-radius: 8px; font-size: 0.9375rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;">' +
-                                '<span style="font-size: 1.5rem;">+</span> THÊM VÀO BỮA TIỆC' +
+                            '<button class="add-to-cart-btn featured-btn" data-item="' + item.name + '" data-price="' + item.price + '" data-price-value="' + item.priceValue + '" style="flex: 1; padding: 18px 32px; background: var(--md-primary); color: #000; border: none; border-radius: 8px; font-size: 0.9375rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;">' +
+                                '<span style="font-size: 1.5rem;">+</span> THÊM MÓN' +
                             '</button>' +
                         '</div>' +
                     '</div>' +
@@ -299,6 +292,27 @@
             featuredItem.innerHTML = featuredCard;
         }
         
+        // Select sauce option
+        function selectOption(button, itemName, sauceName) {
+            const parent = button.parentElement;
+            parent.querySelectorAll('.sauce-option').forEach(btn => {
+                btn.dataset.selected = 'false';
+                btn.style.background = 'rgba(255, 255, 255, 0.05)';
+                btn.style.color = '#999';
+                btn.style.borderColor = 'var(--md-border)';
+            });
+            
+            button.dataset.selected = 'true';
+            button.style.background = 'var(--md-primary)';
+            button.style.color = '#000';
+            button.style.borderColor = 'var(--md-primary)';
+            
+            if (!window.sauceSelections) {
+                window.sauceSelections = {};
+            }
+            window.sauceSelections[itemName] = sauceName;
+        }
+        
         // Render regular menu item
         function renderMenuItem(item, container) {
             let optionsHtml = '';
@@ -306,31 +320,31 @@
                 let optionButtons = '';
                 item.options.forEach((opt, idx) => {
                     const isDefault = idx === item.defaultOption;
-                    optionButtons += '<button style="padding: 8px 16px; background: ' + (isDefault ? 'var(--md-primary)' : '#2a2a2a') + '; color: ' + (isDefault ? '#000' : '#999') + '; border: 1px solid ' + (isDefault ? 'var(--md-primary)' : '#3a3a3a') + '; border-radius: 6px; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">' + opt + '</button>';
+                    optionButtons += '<button onclick="selectOption(this, \'' + item.name + '\', \'' + opt + '\')" class="sauce-option" style="padding: 6px 12px; background: ' + (isDefault ? 'var(--md-primary)' : '#2a2a2a') + '; color: ' + (isDefault ? '#000' : '#999') + '; border: 1px solid ' + (isDefault ? 'var(--md-primary)' : '#3a3a3a') + '; border-radius: 6px; font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">' + opt + '</button>';
                 });
                 
-                optionsHtml = '<div style="margin-bottom: 20px;">' +
-                    '<p style="color: var(--md-primary); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">' + item.optionLabel + '</p>' +
-                    '<div style="display: flex; gap: 8px; flex-wrap: wrap;">' + optionButtons + '</div>' +
+                optionsHtml = '<div style="margin-bottom: 16px;">' +
+                    '<p style="color: var(--md-primary); font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;">' + item.optionLabel + '</p>' +
+                    '<div style="display: flex; gap: 6px; flex-wrap: wrap;">' + optionButtons + '</div>' +
                     '</div>';
             }
             
             const menuCard = '<div class="md-card menu-item" data-category="' + item.category + '" style="padding: 0; display: flex; flex-direction: column; overflow: hidden; background: #1a1a1a;">' +
-                '<div style="position: relative; width: 100%; height: 240px; overflow: hidden;">' +
+                '<div style="position: relative; width: 100%; height: 200px; overflow: hidden;">' +
                     '<img src="' + item.image + '" alt="' + item.name + '" style="width: 100%; height: 100%; object-fit: cover;">' +
-                    '<div style="position: absolute; top: 16px; right: 16px;">' +
-                        '<span style="display: inline-block; padding: 6px 16px; background: ' + item.badgeColor + '; border-radius: 20px; color: #000; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">' + item.category + '</span>' +
+                    '<div style="position: absolute; top: 12px; right: 12px;">' +
+                        '<span style="display: inline-block; padding: 4px 12px; background: ' + item.badgeColor + '; border-radius: 16px; color: #000; font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">' + item.category + '</span>' +
                     '</div>' +
                 '</div>' +
-                '<div style="padding: 24px; flex: 1; display: flex; flex-direction: column;">' +
-                    '<div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">' +
-                        '<h4 style="font-family: var(--md-font-serif); font-size: 1.5rem; color: #fff; line-height: 1.3; flex: 1;">' + item.name + '</h4>' +
-                        '<span style="color: var(--md-primary); font-weight: 700; font-size: 1.375rem; font-family: var(--md-font-serif); margin-left: 16px; white-space: nowrap;">' + item.price + '</span>' +
+                '<div style="padding: 18px; flex: 1; display: flex; flex-direction: column;">' +
+                    '<div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">' +
+                        '<h4 style="font-family: var(--md-font-serif); font-size: 1.25rem; color: #fff; line-height: 1.3; flex: 1;">' + item.name + '</h4>' +
+                        '<span style="color: var(--md-primary); font-weight: 700; font-size: 1.125rem; font-family: var(--md-font-serif); margin-left: 12px; white-space: nowrap;">' + item.price + '</span>' +
                     '</div>' +
-                    '<p style="color: #999; font-size: 0.875rem; line-height: 1.6; margin-bottom: 20px;">' + item.detail + '</p>' +
+                    '<p style="color: #999; font-size: 0.8125rem; line-height: 1.5; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">' + item.detail + '</p>' +
                     optionsHtml +
-                    '<button class="md-btn add-to-cart-btn" data-item="' + item.name + '" data-price="' + item.price + '" style="width: 100%; padding: 14px; background: rgba(212, 175, 55, 0.1); color: var(--md-primary); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px; font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: auto;">' +
-                        '<span style="font-size: 1.25rem;">+</span> Thêm Vào Đơn' +
+                    '<button class="md-btn add-to-cart-btn" data-item="' + item.name + '" data-price="' + item.price + '" data-price-value="' + item.priceValue + '" style="width: 100%; padding: 12px; background: rgba(212, 175, 55, 0.1); color: var(--md-primary); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px; font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: auto;">' +
+                        '<span style="font-size: 1.125rem;">+</span> THÊM MÓN' +
                     '</button>' +
                 '</div>' +
             '</div>';
@@ -366,9 +380,123 @@
         renderMenuItems('all');
         
         // Cart functions
+        function addToCartWithQuantity(button, itemName, itemPrice, priceValue) {
+            // Find the menu item
+            const menuItem = menuItems.find(item => item.name === itemName);
+            const actualPriceValue = priceValue || (menuItem ? menuItem.priceValue : (parseFloat(itemPrice.replace('k', '')) * 1000));
+            
+            // Check if item already in cart
+            const existingItem = cart.find(item => item.name === itemName);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: itemName,
+                    price: actualPriceValue,
+                    priceDisplay: itemPrice,
+                    quantity: 1
+                });
+            }
+            
+            // Update button to show quantity controls
+            const currentQuantity = cart.find(item => item.name === itemName).quantity;
+            const itemId = itemName.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
+            const isFeatured = button.classList.contains('featured-btn');
+            
+            // Different styles for featured vs regular buttons
+            if (isFeatured) {
+                button.innerHTML = '<button onclick="decreaseItemQuantity(\'' + itemName.replace(/'/g, "\\'") + '\', \'' + itemPrice + '\', ' + actualPriceValue + ', this)" style="width: 48px; height: 48px; border: none; background: rgba(0, 0, 0, 0.2); color: #fff; cursor: pointer; font-size: 1.75rem; display: flex; align-items: center; justify-content: center; font-weight: 700; border-radius: 8px;">−</button>' +
+                    '<span id="qty-' + itemId + '" style="flex: 1; text-align: center; color: #000; font-weight: 700; font-size: 1.5rem;">' + currentQuantity + '</span>' +
+                    '<button onclick="increaseItemQuantity(\'' + itemName.replace(/'/g, "\\'") + '\', \'' + itemPrice + '\', ' + actualPriceValue + ')" style="width: 48px; height: 48px; border: none; background: rgba(0, 0, 0, 0.2); color: #fff; cursor: pointer; font-size: 1.75rem; display: flex; align-items: center; justify-content: center; font-weight: 700; border-radius: 8px;">+</button>';
+                
+                button.style.background = 'var(--md-primary)';
+                button.style.gap = '12px';
+            } else {
+                button.innerHTML = '<button onclick="decreaseItemQuantity(\'' + itemName.replace(/'/g, "\\'") + '\', \'' + itemPrice + '\', ' + actualPriceValue + ', this)" style="width: 36px; height: 36px; border: none; background: transparent; color: var(--md-primary); cursor: pointer; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; font-weight: 700;">−</button>' +
+                    '<span id="qty-' + itemId + '" style="flex: 1; text-align: center; color: var(--md-text); font-weight: 700; font-size: 1.125rem;">' + currentQuantity + '</span>' +
+                    '<button onclick="increaseItemQuantity(\'' + itemName.replace(/'/g, "\\'") + '\', \'' + itemPrice + '\', ' + actualPriceValue + ')" style="width: 36px; height: 36px; border: none; background: transparent; color: var(--md-primary); cursor: pointer; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; font-weight: 700;">+</button>';
+                
+                button.style.background = 'rgba(212, 175, 55, 0.15)';
+                button.style.borderColor = 'var(--md-primary)';
+                button.style.gap = '0';
+            }
+            
+            button.style.display = 'flex';
+            button.style.alignItems = 'center';
+            button.style.justifyContent = 'space-between';
+            button.classList.add('quantity-active');
+            
+            updateCartDisplay();
+            showCartBar();
+            saveCartToSession();
+        }
+        
+        function increaseItemQuantity(itemName, itemPrice, priceValue) {
+            const existingItem = cart.find(item => item.name === itemName);
+            if (existingItem) {
+                existingItem.quantity += 1;
+                const itemId = itemName.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
+                const qtyElement = document.getElementById('qty-' + itemId);
+                if (qtyElement) {
+                    qtyElement.textContent = existingItem.quantity;
+                }
+                updateCartDisplay();
+                saveCartToSession();
+            }
+        }
+        
+        function decreaseItemQuantity(itemName, itemPrice, priceValue, button) {
+            const existingItem = cart.find(item => item.name === itemName);
+            if (existingItem) {
+                existingItem.quantity -= 1;
+                
+                if (existingItem.quantity <= 0) {
+                    // Remove from cart
+                    cart = cart.filter(item => item.name !== itemName);
+                    
+                    // Find the button and restore it
+                    const addButton = button.closest('.add-to-cart-btn');
+                    if (addButton) {
+                        const isFeatured = addButton.classList.contains('featured-btn');
+                        
+                        if (isFeatured) {
+                            addButton.innerHTML = '<span style="font-size: 1.5rem;">+</span> THÊM MÓN';
+                            addButton.style.background = 'var(--md-primary)';
+                            addButton.style.color = '#000';
+                            addButton.style.gap = '10px';
+                        } else {
+                            addButton.innerHTML = '<span style="font-size: 1.125rem;">+</span> THÊM MÓN';
+                            addButton.style.background = 'rgba(212, 175, 55, 0.1)';
+                            addButton.style.borderColor = 'rgba(212, 175, 55, 0.3)';
+                            addButton.style.gap = '6px';
+                        }
+                        
+                        addButton.style.display = 'flex';
+                        addButton.style.alignItems = 'center';
+                        addButton.style.justifyContent = 'center';
+                        addButton.classList.remove('quantity-active');
+                    }
+                } else {
+                    const itemId = itemName.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
+                    const qtyElement = document.getElementById('qty-' + itemId);
+                    if (qtyElement) {
+                        qtyElement.textContent = existingItem.quantity;
+                    }
+                }
+                
+                updateCartDisplay();
+                saveCartToSession();
+                
+                if (cart.length === 0) {
+                    showCartBar();
+                }
+            }
+        }
+        
         function addToCart(itemName, itemPrice) {
-            // Parse price (remove 'k' and convert to number)
-            const priceValue = parseFloat(itemPrice.replace('k', '')) * 1000;
+            // Find the menu item to get the actual price value
+            const menuItem = menuItems.find(item => item.name === itemName);
+            const priceValue = menuItem ? menuItem.priceValue : (parseFloat(itemPrice.replace('k', '')) * 1000);
             
             // Check if item already in cart
             const existingItem = cart.find(item => item.name === itemName);
@@ -516,10 +644,23 @@
                 alert('Vui lòng chọn món ăn trước khi đặt bàn');
                 return;
             }
-            // Save cart to session storage before navigating
+            
+            // Save cart to session storage
             saveCartToSession();
-            // Navigate to booking page
-            window.location.href = '${pageContext.request.contextPath}/booking';
+            
+            // Check if booking info exists (came from booking page)
+            const bookingInfo = sessionStorage.getItem('bookingInfo');
+            
+            if (bookingInfo) {
+                // LUỒNG 2: Đã chọn bàn → Đi thẳng thanh toán
+                const booking = JSON.parse(bookingInfo);
+                alert('Đặt món thành công!\n\nBàn: ' + booking.tableId + '\nNgày: ' + booking.date + '\nGiờ: ' + booking.time + '\nSố khách: ' + booking.guestCount + '\nSố món: ' + cart.length);
+                // TODO: Navigate to payment page
+                // window.location.href = '${pageContext.request.contextPath}/checkout';
+            } else {
+                // LUỒNG 1: Chưa chọn bàn → Đi đến booking
+                window.location.href = '${pageContext.request.contextPath}/booking';
+            }
         }
         
         // Close modal when clicking outside
@@ -531,6 +672,16 @@
         
         // Load cart from session on page load
         loadCartFromSession();
+        
+        // Check if came from booking page
+        const bookingInfo = sessionStorage.getItem('bookingInfo');
+        if (bookingInfo) {
+            // Update button text in cart bar and modal
+            const checkoutButtons = document.querySelectorAll('button[onclick="proceedToCheckout()"]');
+            checkoutButtons.forEach(btn => {
+                btn.innerHTML = btn.innerHTML.replace('TIẾP TỤC ĐẶT BÀN', 'XÁC NHẬN ĐẶT BÀN');
+            });
+        }
     </script>
 </body>
 </html>
