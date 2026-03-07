@@ -229,6 +229,21 @@ document.addEventListener('DOMContentLoaded', function() {
             menu.style.pointerEvents = 'none';
         });
     }
+    
+    // Clear cart when user changes (check userId in sessionStorage vs current user)
+    <c:if test="${not empty sessionScope.loggedInUser}">
+        const currentUserId = '${sessionScope.loggedInUser.userId}';
+        const storedUserId = sessionStorage.getItem('currentUserId');
+        
+        if (storedUserId && storedUserId !== currentUserId) {
+            // User changed, clear cart and booking info
+            sessionStorage.removeItem('restaurantCart');
+            sessionStorage.removeItem('bookingInfo');
+        }
+        
+        // Store current user ID
+        sessionStorage.setItem('currentUserId', currentUserId);
+    </c:if>
 });
 </script>
 

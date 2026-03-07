@@ -48,6 +48,14 @@ public class MenuItems implements Serializable {
     private BigDecimal price;
     @Column(name = "status")
     private String status;
+    @Column(name = "description")
+    private String description;
+    @Column(name = "category")
+    private String category;
+    @Column(name = "image_url")
+    private String imageUrl;
+    @Column(name = "options")
+    private String options;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "menuItems")
     private Collection<MenuIngredients> menuIngredientsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "menuItemId")
@@ -96,6 +104,38 @@ public class MenuItems implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getOptions() {
+        return options;
+    }
+
+    public void setOptions(String options) {
+        this.options = options;
     }
 
     public Collection<MenuIngredients> getMenuIngredientsCollection() {

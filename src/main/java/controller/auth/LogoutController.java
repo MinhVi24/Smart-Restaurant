@@ -21,7 +21,7 @@ public class LogoutController extends HttpServlet {
             session.invalidate();
         }
         
-        // Trở về trang Đăng nhập
-        response.sendRedirect(request.getContextPath() + "/login");
+        // Forward to logout page to clear sessionStorage
+        request.getRequestDispatcher("/views/custumer/auth/logout.jsp").forward(request, response);
     }
 }
