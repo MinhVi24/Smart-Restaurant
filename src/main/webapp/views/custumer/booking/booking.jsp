@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -630,9 +630,12 @@
             <div class="booking-filters">
                 <div class="filter-item">
                     <span class="material-symbols-outlined">calendar_today</span>
+                    <%
+                        String todayDate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
+                    %>
                     <input type="date" name="date" required 
-                           min="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>"
-                           value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
+                           min="<%= todayDate %>"
+                           value="<%= todayDate %>">
                 </div>
                 
                 <div class="filter-item">

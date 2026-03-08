@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+﻿<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <header class="md-glass" style="position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--md-border);">

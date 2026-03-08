@@ -1,5 +1,6 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+﻿<%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -41,41 +42,84 @@
         .step-indicator {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding: 0 8px;
         }
         
         .step {
             display: flex;
+            flex-direction: column;
             align-items: center;
             gap: 8px;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
+            flex: 1;
+            position: relative;
         }
         
         .step-number {
-            width: 24px;
-            height: 24px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
         }
         
         .step.completed .step-number {
             background: rgba(40, 209, 124, 0.2);
+            border: 2px solid #28d17c;
             color: #28d17c;
         }
         
         .step.active .step-number {
             background: var(--md-primary);
+            border: 2px solid var(--md-primary);
             color: #0a0a0a;
+            box-shadow: 0 0 20px rgba(212, 175, 53, 0.4);
         }
         
         .step.inactive .step-number {
             background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--md-border);
             color: var(--md-text-muted);
+        }
+        
+        .step-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+            white-space: nowrap;
+        }
+        
+        .step.completed .step-label {
+            color: #28d17c;
+        }
+        
+        .step.active .step-label {
+            color: var(--md-primary);
+        }
+        
+        .step.inactive .step-label {
+            color: var(--md-text-muted);
+        }
+        
+        .step-divider {
+            flex: 1;
+            height: 2px;
+            background: var(--md-border);
+            margin: 0 -8px;
+            margin-bottom: 32px;
+            position: relative;
+        }
+        
+        .step.completed + .step-divider {
+            background: #28d17c;
         }
         
         .category-tabs {
@@ -468,19 +512,19 @@
                 <div class="step-indicator">
                     <div class="step completed">
                         <div class="step-number">
-                            <span class="material-symbols-outlined" style="font-size: 14px;">check</span>
+                            <span class="material-symbols-outlined" style="font-size: 20px;">check</span>
                         </div>
-                        <span>1. Chọn Bàn</span>
+                        <span class="step-label">Chọn Bàn</span>
                     </div>
-                    <span style="color: var(--md-text-muted);">/</span>
+                    <div class="step-divider"></div>
                     <div class="step active">
                         <div class="step-number">2</div>
-                        <span>2. Chọn Thực Đơn</span>
+                        <span class="step-label">Chọn Thực Đơn</span>
                     </div>
-                    <span style="color: var(--md-text-muted);">/</span>
+                    <div class="step-divider"></div>
                     <div class="step inactive">
                         <div class="step-number">3</div>
-                        <span>3. Xác Nhận</span>
+                        <span class="step-label">Xác Nhận</span>
                     </div>
                 </div>
                 
@@ -539,8 +583,8 @@
                             <h4 class="item-name">${item.name}</h4>
                             <p class="item-description">Món ăn cao cấp được chế biến từ nguyên liệu tươi ngon</p>
                             <div class="item-footer">
-                                <span class="item-price">${item.price}₫</span>
-                                <button class="add-btn" onclick="addItem(this, ${item.menuItemId}, '${item.name}', ${item.price})">
+                                <span class="item-price"><fmt:formatNumber value="${item.price}" pattern="#,###"/>đ</span>
+                                <button class="add-btn" onclick="addItem(this, ${item.menuItemId}, '${item.name}', ${item.price})">>
                                     <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">add</span>
                                     Thêm món
                                 </button>
@@ -579,7 +623,7 @@
                 <p class="featured-description">
                     Gan ngỗng béo ngậy nhập khẩu trực tiếp từ Pháp, áp chảo vàng giòn bên ngoài, mềm tan bên trong. Phục vụ cùng sốt quả mọng chua ngọt cân bằng vị giác.
                 </p>
-                <div class="featured-price">1.250.000₫</div>
+                <div class="featured-price">1.250.000đ</div>
                 <button class="md-btn md-btn-primary" style="padding: 16px 32px;" onclick="addItem(this, 2, 'Gan Ngỗng Pháp', 1250000)">
                     Thêm vào thực đơn
                     <span class="material-symbols-outlined" style="margin-left: 8px; font-size: 20px;">arrow_forward</span>
@@ -604,7 +648,7 @@
                 </div>
                 <div class="cart-total">
                     <div class="total-label">Tạm tính</div>
-                    <div class="total-value" id="cartTotal">0₫</div>
+                    <div class="total-value" id="cartTotal">0đ</div>
                 </div>
             </div>
             <form action="${pageContext.request.contextPath}/checkout" method="get" id="checkoutForm">
@@ -730,7 +774,7 @@
                 
                 const footer = menuItem.querySelector('.item-footer');
                 if (footer) {
-                    footer.innerHTML = '<span class="item-price">' + price.toLocaleString() + '₫</span>' +
+                    footer.innerHTML = '<span class="item-price">' + formatCurrency(price) + '</span>' +
                         '<div class="quantity-control">' +
                         '<button class="quantity-btn" onclick="decreaseQuantity(' + id + ')">-</button>' +
                         '<span class="quantity-value" id="qty-' + id + '">' + cart[id].quantity + '</span>' +
@@ -765,7 +809,7 @@
                         const price = menuItem.dataset.price;
                         const name = menuItem.dataset.name;
                         if (footer) {
-                            footer.innerHTML = '<span class="item-price">' + parseInt(price).toLocaleString() + '₫</span>' +
+                            footer.innerHTML = '<span class="item-price">' + formatCurrency(parseInt(price)) + '</span>' +
                                 '<button class="add-btn" onclick="addItem(this, ' + id + ', \'' + name + '\', ' + price + ')">' +
                                 '<span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">add</span>' +
                                 'Thêm món</button>';
@@ -779,6 +823,11 @@
                 }
                 updateCart();
             }
+        }
+        
+        // Format number with thousand separators
+        function formatCurrency(amount) {
+            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + 'đ';
         }
         
         function updateCart() {
@@ -796,7 +845,7 @@
             
             if (cartCountElement) cartCountElement.textContent = count;
             if (cartItemsElement) cartItemsElement.textContent = count + ' món ăn';
-            if (cartTotalElement) cartTotalElement.textContent = total.toLocaleString() + '₫';
+            if (cartTotalElement) cartTotalElement.textContent = formatCurrency(total);
             
             // Save cart to session via AJAX
             saveCartToSession();

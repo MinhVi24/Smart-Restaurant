@@ -1,15 +1,18 @@
 service\EmailService$2.class
 dao\OrderDAO.class
 service\BookingService.class
+controller\AboutController.class
 service\BookingService$BookingResult.class
 dao\CustomerDAO.class
 model\Orders.class
 model\StaffShifts.class
 controller\auth\ForgotPasswordController.class
 controller\booking\BookingSuccessController.class
+controller\payment\DirectPaymentTestController.class
 model\Users.class
 dao\UserDAO.class
 filter\EncodingFilter.class
+service\PaymentService.class
 model\Shifts.class
 controller\auth\LoginController.class
 controller\payment\PaymentController.class
@@ -21,9 +24,11 @@ create\GenerateHash.class
 model\QueueTickets.class
 model\Ingredients.class
 controller\checkout\CheckoutController.class
+controller\payment\TestSepayController.class
 controller\auth\LogoutController.class
 controller\AddFoodController.class
 model\Food.class
+controller\payment\TestConfirmPaymentController.class
 controller\MenuController.class
 dao\FoodDAO.class
 controller\profile\ProfileController.class
@@ -32,6 +37,7 @@ dao\TableDAO.class
 model\StaffShiftsPK.class
 models\User.class
 service\UserService.class
+controller\payment\PaymentConfirmController.class
 dao\ReservationDAO.class
 model\Staff.class
 dao\MenuItemDAO.class
@@ -40,6 +46,8 @@ filter\AuthFilter.class
 model\DailyStats.class
 model\Predictions.class
 model\Payments.class
+configs\PaymentConfig.class
+controller\payment\PaymentCheckController.class
 model\Sysdiagrams.class
 controller\booking\BookingController.class
 controller\orders\MyOrdersController.class
@@ -61,3 +69,4 @@ dao\PaymentDAO.class
 service\MenuService.class
 controller\auth\LoginGoogleHandler.class
 controller\booking\BookingHistoryController.class
+service\SepayService.class

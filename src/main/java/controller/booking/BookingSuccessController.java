@@ -25,9 +25,19 @@ public class BookingSuccessController extends HttpServlet {
             return;
         }
         
+        // IMPORTANT: Query lại payment từ database để lấy status mới nhất
+        // Vì payment status có thể đã được update từ PENDING -> COMPLETED
+        dao.PaymentDAO paymentDAO = new dao.PaymentDAO();
+        model.Payments latestPayment = paymentDAO.findById(bookingResult.getPayment().getPaymentId());
+        
+        if (latestPayment != null) {
+            System.out.println("[BookingSuccess] Payment status updated: " + 
+                bookingResult.getPayment().getPaymentStatus() + " -> " + latestPayment.getPaymentStatus());
+        }
+        
         request.setAttribute("reservation", bookingResult.getReservation());
         request.setAttribute("order", bookingResult.getOrder());
-        request.setAttribute("payment", bookingResult.getPayment());
+        request.setAttribute("payment", latestPayment != null ? latestPayment : bookingResult.getPayment());
         
         // Clear all booking session data after showing success
         session.removeAttribute("bookingResult");

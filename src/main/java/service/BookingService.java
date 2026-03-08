@@ -71,24 +71,41 @@ public class BookingService {
     
     /**
      * Get available tables for specific date/time and guest count
-     * Checks against existing reservations
+     * Checks against existing ACTIVE reservations at that time
      */
     public List<Tables> getAvailableTablesForDateTime(Date reservationTime, int guestCount) {
-        // Get all tables with sufficient capacity
-        List<Tables> tables = tableDAO.findAvailableByCapacity(guestCount);
+        // Get ALL tables with sufficient capacity (không filter theo status)
+        List<Tables> allTables = tableDAO.findAll();
         
-        // Filter out tables that have reservations at the same time
-        // (within 2 hours window)
-        List<Reservations> reservations = reservationDAO.findByDateTime(reservationTime);
+        // Filter by capacity
+        allTables.removeIf(t -> t.getCapacity() < guestCount);
         
-        for (Reservations reservation : reservations) {
+        // Get active reservations at the requested time (within 2 hours window)
+        // Only check PENDING, BOOKED, CONFIRMED status (not CANCELLED or COMPLETED)
+        List<Reservations> activeReservations = reservationDAO.findByDateTime(reservationTime);
+        
+        System.out.println("=== CHECKING AVAILABLE TABLES ===");
+        System.out.println("Requested time: " + reservationTime);
+        System.out.println("Guest count: " + guestCount);
+        System.out.println("Total tables with capacity: " + allTables.size());
+        System.out.println("Active reservations at this time: " + activeReservations.size());
+        
+        // Remove tables that have active reservations at the same time
+        for (Reservations reservation : activeReservations) {
             if (reservation.getTableId() != null && 
-                !"CANCELLED".equals(reservation.getStatus())) {
-                tables.removeIf(t -> t.getTableId().equals(reservation.getTableId().getTableId()));
+                !"CANCELLED".equals(reservation.getStatus()) &&
+                !"COMPLETED".equals(reservation.getStatus())) {
+                
+                Integer reservedTableId = reservation.getTableId().getTableId();
+                System.out.println("  - Table " + reservedTableId + " is reserved (status: " + reservation.getStatus() + ")");
+                allTables.removeIf(t -> t.getTableId().equals(reservedTableId));
             }
         }
         
-        return tables;
+        System.out.println("Available tables: " + allTables.size());
+        System.out.println("==================================");
+        
+        return allTables;
     }
     
     /**
@@ -104,6 +121,7 @@ public class BookingService {
         }
         
         System.out.println("Creating reservation for table " + tableId + " (current status: " + table.getStatus() + ")");
+        System.out.println("Customer: " + customer.getFullName() + " (ID: " + customer.getCustomerId() + ")");
         
         // Create reservation regardless of table status
         // This allows testing without resetting database
@@ -115,6 +133,9 @@ public class BookingService {
             System.out.println("SUCCESS: Created reservation " + reservation.getReservationId() + " for table " + tableId);
         } else {
             System.out.println("ERROR: Failed to create reservation in database");
+            System.out.println("Check if customer and table objects are valid");
+            System.out.println("Customer ID: " + (customer != null ? customer.getCustomerId() : "null"));
+            System.out.println("Table ID: " + (table != null ? table.getTableId() : "null"));
         }
         
         return reservation;
@@ -150,12 +171,13 @@ public class BookingService {
             return new BookingResult(false, "Failed to create payment", null, null, null);
         }
         
-        // Update reservation status
-        reservationDAO.updateStatus(reservationId, "CONFIRMED");
+        // KHÔNG update reservation status ở đây
+        // Status sẽ được update từ PENDING -> BOOKED khi thanh toán thành công
+        // (xem PaymentCheckController)
         
-        // Update table status to OCCUPIED
+        // Update table status to RESERVED (chưa OCCUPIED vì chưa thanh toán)
         if (reservation.getTableId() != null) {
-            tableDAO.updateStatus(reservation.getTableId().getTableId(), "OCCUPIED");
+            tableDAO.updateStatus(reservation.getTableId().getTableId(), "RESERVED");
         }
         
         return new BookingResult(true, "Booking completed successfully", reservation, order, payment);

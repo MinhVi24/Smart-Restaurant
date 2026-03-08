@@ -89,30 +89,63 @@ public class ReservationDAO extends GenericDAO<Reservations> {
     }
 
     /**
-     * Create new reservation with table
+     * Create new reservation with table - SIMPLIFIED VERSION
      */
     public Reservations createReservation(Customers customer, Tables table, Date reservationTime, int guestCount) {
         EntityManager em = JPAConfig.getEntityManager();
         try {
+            System.out.println("=== ReservationDAO.createReservation ===");
+            System.out.println("Customer: " + (customer != null ? customer.getCustomerId() + " - " + customer.getFullName() : "NULL"));
+            System.out.println("Table: " + (table != null ? table.getTableId() + " - " + table.getStatus() : "NULL"));
+            System.out.println("Reservation Time: " + reservationTime);
+            System.out.println("Guest Count: " + guestCount);
+            
             em.getTransaction().begin();
             
+            // Find managed entities by ID to avoid detached entity issues
+            Customers managedCustomer = em.find(Customers.class, customer.getCustomerId());
+            Tables managedTable = em.find(Tables.class, table.getTableId());
+            
+            if (managedCustomer == null) {
+                System.err.println("ERROR: Customer not found in database: " + customer.getCustomerId());
+                em.getTransaction().rollback();
+                return null;
+            }
+            
+            if (managedTable == null) {
+                System.err.println("ERROR: Table not found in database: " + table.getTableId());
+                em.getTransaction().rollback();
+                return null;
+            }
+            
             Reservations reservation = new Reservations();
-            reservation.setCustomerId(customer);
-            reservation.setTableId(table);
+            reservation.setCustomerId(managedCustomer);
+            reservation.setTableId(managedTable);
             reservation.setReservationTime(reservationTime);
             reservation.setGuestCount(guestCount);
-            reservation.setStatus("CONFIRMED");
+            reservation.setStatus("PENDING"); // PENDING until payment is confirmed
             reservation.setCreatedAt(new Date());
             
+            System.out.println("Persisting reservation...");
             em.persist(reservation);
+            
+            System.out.println("Committing transaction...");
             em.getTransaction().commit();
+            
+            System.out.println("SUCCESS: Reservation created with ID: " + reservation.getReservationId());
+            System.out.println("========================================");
             
             return reservation;
         } catch (Exception e) {
+            System.err.println("ERROR in createReservation:");
+            System.err.println("Exception type: " + e.getClass().getName());
+            System.err.println("Message: " + e.getMessage());
+            e.printStackTrace();
+            
             if (em.getTransaction().isActive()) {
+                System.out.println("Rolling back transaction...");
                 em.getTransaction().rollback();
             }
-            e.printStackTrace();
             return null;
         } finally {
             em.close();

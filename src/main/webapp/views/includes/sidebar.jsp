@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+﻿<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <aside class="w-64 min-h-screen bg-slate-900 text-white p-6">
     <h2 class="text-2xl font-bold mb-8 text-primary">

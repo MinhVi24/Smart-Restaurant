@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+﻿<%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
@@ -66,7 +66,7 @@
                                 <div style="text-align: right;">
                                     <p class="md-text-muted" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Tổng tiền</p>
                                     <p style="font-size: 24px; font-weight: 700; color: var(--md-primary);">
-                                        <fmt:formatNumber value="${order.totalAmount}" type="number" groupingUsed="true" />đ
+                                        <fmt:formatNumber value="${order.totalAmount}" pattern="#,###"/>đ
                                     </p>
                                 </div>
                             </div>
@@ -105,7 +105,7 @@
                                                     <span>${item.menuItemId.itemName}</span>
                                                 </div>
                                                 <span style="font-weight: 600;">
-                                                    <fmt:formatNumber value="${item.price}" type="number" groupingUsed="true" />đ
+                                                    <fmt:formatNumber value="${item.price}" pattern="#,###"/>đ
                                                 </span>
                                             </div>
                                         </c:forEach>

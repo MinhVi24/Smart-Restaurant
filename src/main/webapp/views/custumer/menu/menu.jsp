@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+﻿<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -59,7 +59,7 @@
                     <div>
                         <span style="color: var(--md-text-muted); font-size: 0.875rem;">Giá theo trọng lượng</span>
                         <div style="color: var(--md-primary); font-family: var(--md-font-serif); font-size: 1.75rem; font-weight: 700; margin-top: 4px;">
-                            2.500.000₫ <span style="font-size: 0.875rem; font-weight: 400; color: var(--md-text-muted);">/ 100g</span>
+                            2.500.000đ <span style="font-size: 0.875rem; font-weight: 400; color: var(--md-text-muted);">/ 100g</span>
                         </div>
                     </div>
                     <button class="md-btn md-btn-primary">Thêm Vào Bữa Tiệc</button>
@@ -80,7 +80,7 @@
                     <p style="color: var(--md-text-muted); font-size: 0.875rem; margin-bottom: 4px;">Ribeye • USDA Prime • Dry-aged 45 ngày</p>
                     <p style="color: var(--md-text-muted); font-size: 0.875rem; margin-bottom: 16px;">Hương vị hạt dẻ đặc trưng nhờ quá trình ủ khô.</p>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--md-border);">
-                        <span style="color: var(--md-primary); font-weight: 700; font-size: 1.125rem;">1.200.000₫</span>
+                        <span style="color: var(--md-primary); font-weight: 700; font-size: 1.125rem;">1.200.000đ</span>
                         <button class="md-btn md-btn-secondary" style="padding: 8px 16px; font-size: 0.875rem;">Thêm</button>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                     <p style="color: var(--md-text-muted); font-size: 0.875rem; margin-bottom: 4px;">Chateaubriand • Úc • Grass-fed</p>
                     <p style="color: var(--md-text-muted); font-size: 0.875rem; margin-bottom: 16px;">Phần thịt mềm nhất, ít mỡ, hương vị thanh tao.</p>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--md-border);">
-                        <span style="color: var(--md-primary); font-weight: 700; font-size: 1.125rem;">1.450.000₫</span>
+                        <span style="color: var(--md-primary); font-weight: 700; font-size: 1.125rem;">1.450.000đ</span>
                         <button class="md-btn md-btn-secondary" style="padding: 8px 16px; font-size: 0.875rem;">Thêm</button>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                     <p style="color: var(--md-text-muted); font-size: 0.875rem; margin-bottom: 4px;">Wagyu F1 • Úc • Gold Leaf 24K</p>
                     <p style="color: var(--md-text-muted); font-size: 0.875rem; margin-bottom: 16px;">Sườn bò nguyên xương phủ vàng lá 24K.</p>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--md-border);">
-                        <span style="color: var(--md-primary); font-weight: 700; font-size: 1.125rem;">4.500.000₫</span>
+                        <span style="color: var(--md-primary); font-weight: 700; font-size: 1.125rem;">4.500.000đ</span>
                         <button class="md-btn md-btn-secondary" style="padding: 8px 16px; font-size: 0.875rem;">Thêm</button>
                     </div>
                 </div>
@@ -128,7 +128,7 @@
                     <p style="color: var(--md-text-muted); font-size: 0.875rem; margin-bottom: 4px;">New York Strip • Canada • Corn-fed</p>
                     <p style="color: var(--md-text-muted); font-size: 0.875rem; margin-bottom: 16px;">Cân bằng hoàn hảo giữa độ mềm và hương vị.</p>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--md-border);">
-                        <span style="color: var(--md-primary); font-weight: 700; font-size: 1.125rem;">950.000₫</span>
+                        <span style="color: var(--md-primary); font-weight: 700; font-size: 1.125rem;">950.000đ</span>
                         <button class="md-btn md-btn-secondary" style="padding: 8px 16px; font-size: 0.875rem;">Thêm</button>
                     </div>
                 </div>
@@ -145,21 +145,21 @@
                             <p style="color: var(--md-text); font-weight: 600;">Khoai tây nghiền Truffle</p>
                             <p style="color: var(--md-text-muted); font-size: 0.875rem;">Nấm Truffle đen, bơ Pháp</p>
                         </div>
-                        <span style="color: var(--md-primary); font-weight: 700;">180.000₫</span>
+                        <span style="color: var(--md-primary); font-weight: 700;">180.000đ</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--md-border);">
                         <div>
                             <p style="color: var(--md-text); font-weight: 600;">Măng tây nướng than hoa</p>
                             <p style="color: var(--md-text-muted); font-size: 0.875rem;">Parmesan bào, dầu oliu chanh</p>
                         </div>
-                        <span style="color: var(--md-primary); font-weight: 700;">150.000₫</span>
+                        <span style="color: var(--md-primary); font-weight: 700;">150.000đ</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--md-border);">
                         <div>
                             <p style="color: var(--md-text); font-weight: 600;">Rau chân vịt xào kem</p>
                             <p style="color: var(--md-text-muted); font-size: 0.875rem;">Kem tươi, tỏi phi</p>
                         </div>
-                        <span style="color: var(--md-primary); font-weight: 700;">140.000₫</span>
+                        <span style="color: var(--md-primary); font-weight: 700;">140.000đ</span>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+﻿<%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
@@ -71,7 +71,7 @@
                                     <p style="font-weight: 600;">
                                         <c:choose>
                                             <c:when test="${not empty reservation.tableId}">
-                                                ${reservation.tableId.tableNumber}
+                                                Bàn #${reservation.tableId.tableId}
                                             </c:when>
                                             <c:otherwise>
                                                 Chưa chọn bàn

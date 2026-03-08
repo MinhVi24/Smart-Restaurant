@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
@@ -214,7 +214,7 @@
         <div class="total-amount">
             <div class="total-label">Tong tien</div>
             <div class="total-value">
-                <fmt:formatNumber value="${payment.totalAmount}" type="currency" currencySymbol="d"/>
+                <fmt:formatNumber value="${payment.totalAmount}" pattern="#,###"/>đ
             </div>
             <p style="font-size: 0.75rem; color: var(--md-text-muted); margin-top: 8px;">
                 Phuong thuc: ${payment.paymentMethod} | 
@@ -228,7 +228,7 @@
                 <span class="material-symbols-outlined" style="font-size: 20px;">home</span>
                 Tro Ve Trang Chu
             </a>
-            <a href="${pageContext.request.contextPath}/booking/history" class="md-btn md-btn-secondary" style="text-decoration: none;">
+            <a href="${pageContext.request.contextPath}/bookings/history" class="md-btn md-btn-secondary" style="text-decoration: none;">
                 <span class="material-symbols-outlined" style="font-size: 20px;">history</span>
                 Xem Lich Su Dat Ban
             </a>

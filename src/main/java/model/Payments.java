@@ -171,4 +171,12 @@ public class Payments implements Serializable {
         return "model.Payments[ paymentId=" + paymentId + " ]";
     }
     
+    // Convenience method for JSP
+    public BigDecimal getTotalAmount() {
+        return amount;
+    }
+    
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.amount = totalAmount;
+    }
 }

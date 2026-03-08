@@ -72,31 +72,65 @@ public class OrderDAO extends GenericDAO<Orders> {
     public Orders createOrderFromReservation(Reservations reservation, List<OrderItems> items, BigDecimal totalAmount) {
         EntityManager em = JPAConfig.getEntityManager();
         try {
+            System.out.println("=== OrderDAO.createOrderFromReservation ===");
+            System.out.println("Reservation ID: " + reservation.getReservationId());
+            System.out.println("Total Amount: " + totalAmount);
+            System.out.println("Items count: " + items.size());
+            
             em.getTransaction().begin();
             
+            // Find managed entities by ID
+            Reservations managedReservation = em.find(Reservations.class, reservation.getReservationId());
+            if (managedReservation == null) {
+                System.err.println("ERROR: Reservation not found: " + reservation.getReservationId());
+                em.getTransaction().rollback();
+                return null;
+            }
+            
             Orders order = new Orders();
-            order.setCustomerId(reservation.getCustomerId());
-            order.setTableId(reservation.getTableId());
-            order.setReservationId(reservation);
+            order.setCustomerId(managedReservation.getCustomerId());
+            order.setTableId(managedReservation.getTableId());
+            order.setReservationId(managedReservation);
             order.setOrderTime(new Date());
             order.setTotalAmount(totalAmount);
-            order.setStatus("PENDING");
+            order.setStatus("OPEN");
             
+            // Set default staff for online orders (staff_id = 1 is system/online orders)
+            model.Staff defaultStaff = em.find(model.Staff.class, 1);
+            if (defaultStaff != null) {
+                order.setStaffId(defaultStaff);
+                System.out.println("Set default staff ID: 1 for online order");
+            } else {
+                System.err.println("WARNING: Default staff (ID=1) not found. Order may fail.");
+            }
+            
+            System.out.println("Persisting order...");
             em.persist(order);
             
             // Add order items
+            System.out.println("Adding " + items.size() + " order items...");
             for (OrderItems item : items) {
                 item.setOrderId(order);
                 em.persist(item);
             }
             
+            System.out.println("Committing transaction...");
             em.getTransaction().commit();
+            
+            System.out.println("SUCCESS: Order created with ID: " + order.getOrderId());
+            System.out.println("========================================");
+            
             return order;
         } catch (Exception e) {
+            System.err.println("ERROR in createOrderFromReservation:");
+            System.err.println("Exception type: " + e.getClass().getName());
+            System.err.println("Message: " + e.getMessage());
+            e.printStackTrace();
+            
             if (em.getTransaction().isActive()) {
+                System.out.println("Rolling back transaction...");
                 em.getTransaction().rollback();
             }
-            e.printStackTrace();
             return null;
         } finally {
             em.close();

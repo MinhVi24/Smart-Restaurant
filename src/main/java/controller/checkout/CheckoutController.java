@@ -29,12 +29,16 @@ public class CheckoutController extends HttpServlet {
     private BookingService bookingService;
     private MenuService menuService;
     private CustomerDAO customerDAO;
+    private dao.TableDAO tableDAO;
+    private dao.ReservationDAO reservationDAO;
     
     @Override
     public void init() throws ServletException {
         bookingService = new BookingService();
         menuService = new MenuService();
         customerDAO = new CustomerDAO();
+        tableDAO = new dao.TableDAO();
+        reservationDAO = new dao.ReservationDAO();
     }
     
     @Override
@@ -151,6 +155,10 @@ public class CheckoutController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        System.out.println("========================================");
+        System.out.println("=== CHECKOUT DOPOST CALLED ===");
+        System.out.println("========================================");
+        
         HttpSession session = request.getSession();
         
         // Parse cart data from form if present
@@ -180,9 +188,36 @@ public class CheckoutController extends HttpServlet {
         String depositPercentageStr = request.getParameter("depositPercentage");
         String paymentMethod = request.getParameter("paymentMethod");
         
-        if (tableId == null || cart == null || depositPercentageStr == null) {
-            response.sendRedirect(request.getContextPath() + "/checkout?error=missing_data");
+        // Debug logging
+        System.out.println("=== CHECKOUT DEBUG ===");
+        System.out.println("Table ID: " + tableId);
+        System.out.println("Booking Date: " + bookingDate);
+        System.out.println("Booking Time: " + bookingTime);
+        System.out.println("Guest Count: " + guestCount);
+        System.out.println("Cart size: " + (cart != null ? cart.size() : "null"));
+        System.out.println("Deposit %: " + depositPercentageStr);
+        System.out.println("Payment Method: " + paymentMethod);
+        
+        if (tableId == null) {
+            request.setAttribute("error", "Vui lòng chọn bàn trước khi thanh toán");
+            request.getRequestDispatcher("/views/custumer/checkout/checkout.jsp").forward(request, response);
             return;
+        }
+        
+        if (bookingDate == null || bookingTime == null) {
+            request.setAttribute("error", "Thiếu thông tin ngày giờ đặt bàn");
+            request.getRequestDispatcher("/views/custumer/checkout/checkout.jsp").forward(request, response);
+            return;
+        }
+        
+        if (cart == null || cart.isEmpty()) {
+            request.setAttribute("error", "Giỏ hàng trống");
+            request.getRequestDispatcher("/views/custumer/checkout/checkout.jsp").forward(request, response);
+            return;
+        }
+        
+        if (depositPercentageStr == null) {
+            depositPercentageStr = "100"; // Default 100%
         }
         
         try {
@@ -194,16 +229,11 @@ public class CheckoutController extends HttpServlet {
                 return;
             }
             
-            // Parse reservation time
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            Date reservationTime = sdf.parse(bookingDate + " " + bookingTime);
-            
-            // Create reservation
-            Reservations reservation = bookingService.createReservation(
-                customer, tableId, reservationTime, guestCount
-            );
-            
-            if (reservation == null) {
+            // Load table object
+            model.Tables table = tableDAO.findById(tableId);
+            if (table == null) {
+                System.err.println("ERROR: Table not found: " + tableId);
+                
                 // Reload cart items for display
                 List<MenuItems> cartItems = new ArrayList<>();
                 BigDecimal totalAmount = BigDecimal.ZERO;
@@ -220,29 +250,89 @@ public class CheckoutController extends HttpServlet {
                 request.setAttribute("cartItems", cartItems);
                 request.setAttribute("totalAmount", totalAmount);
                 request.setAttribute("cart", cart);
-                request.setAttribute("error", "Failed to create reservation. Table may not be available.");
+                request.setAttribute("error", "Bàn không tồn tại. Vui lòng chọn lại bàn.");
                 request.getRequestDispatcher("/views/custumer/checkout/checkout.jsp").forward(request, response);
                 return;
             }
+            
+            // Parse reservation time
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Date reservationTime = sdf.parse(bookingDate + " " + bookingTime);
+            
+            // Create reservation DIRECTLY using ReservationDAO
+            System.out.println("Creating reservation DIRECTLY...");
+            System.out.println("Customer ID: " + customer.getCustomerId());
+            System.out.println("Customer Name: " + customer.getFullName());
+            System.out.println("Table ID: " + table.getTableId());
+            System.out.println("Table Status: " + table.getStatus());
+            System.out.println("Reservation Time: " + reservationTime);
+            System.out.println("Guest Count: " + guestCount);
+            
+            // Create reservation directly without going through BookingService
+            Reservations reservation = reservationDAO.createReservation(
+                customer, table, reservationTime, guestCount
+            );
+            
+            if (reservation == null) {
+                System.err.println("ERROR: Failed to create reservation DIRECTLY!");
+                System.err.println("Check console log for detailed error from ReservationDAO");
+                
+                // Reload cart items for display
+                List<MenuItems> cartItems = new ArrayList<>();
+                BigDecimal totalAmount = BigDecimal.ZERO;
+                
+                for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
+                    MenuItems menuItem = menuService.getMenuItem(entry.getKey());
+                    if (menuItem != null) {
+                        cartItems.add(menuItem);
+                        BigDecimal itemTotal = menuItem.getPrice().multiply(new BigDecimal(entry.getValue()));
+                        totalAmount = totalAmount.add(itemTotal);
+                    }
+                }
+                
+                request.setAttribute("cartItems", cartItems);
+                request.setAttribute("totalAmount", totalAmount);
+                request.setAttribute("cart", cart);
+                request.setAttribute("error", "Không thể tạo đặt bàn. Vui lòng thử lại hoặc liên hệ quản trị viên.");
+                request.getRequestDispatcher("/views/custumer/checkout/checkout.jsp").forward(request, response);
+                return;
+            }
+            
+            System.out.println("SUCCESS: Reservation created with ID: " + reservation.getReservationId());
+            
+            // Update table status to RESERVED
+            tableDAO.updateStatus(tableId, "RESERVED");
             
             // Prepare order items
             List<OrderItems> orderItems = new ArrayList<>();
             BigDecimal totalAmount = BigDecimal.ZERO;
             
+            System.out.println("=== PREPARING ORDER ITEMS ===");
             for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
                 MenuItems menuItem = menuService.getMenuItem(entry.getKey());
                 if (menuItem != null) {
+                    System.out.println("Processing item: " + menuItem.getName() + " (ID: " + menuItem.getMenuItemId() + ")");
+                    System.out.println("  Price: " + menuItem.getPrice());
+                    System.out.println("  Quantity: " + entry.getValue());
+                    
                     OrderItems orderItem = new OrderItems();
                     orderItem.setMenuItemId(menuItem);
                     orderItem.setQuantity(entry.getValue());
                     orderItem.setPrice(menuItem.getPrice());
                     orderItems.add(orderItem);
                     
-                    totalAmount = totalAmount.add(
-                        menuItem.getPrice().multiply(new BigDecimal(entry.getValue()))
-                    );
+                    BigDecimal itemTotal = menuItem.getPrice().multiply(new BigDecimal(entry.getValue()));
+                    totalAmount = totalAmount.add(itemTotal);
+                    
+                    System.out.println("  Item total: " + itemTotal);
+                } else {
+                    System.err.println("ERROR: Menu item not found for ID: " + entry.getKey());
                 }
             }
+            
+            System.out.println("Total order items: " + orderItems.size());
+            System.out.println("Total amount: " + totalAmount);
+            System.out.println("=============================");
             
             // Parse deposit percentage
             Integer depositPercentage = Integer.parseInt(depositPercentageStr);
@@ -266,11 +356,24 @@ public class CheckoutController extends HttpServlet {
             );
             
             if (result.isSuccess()) {
-                // Store booking result in session for payment page
+                // IMPORTANT: Clear old payment data from session first
+                session.removeAttribute("payment");
+                session.removeAttribute("order");
+                session.removeAttribute("reservation");
+                session.removeAttribute("bookingResult");
+                
+                // Store NEW booking result in session for payment page
                 session.setAttribute("bookingResult", result);
                 session.setAttribute("reservation", result.getReservation());
                 session.setAttribute("order", result.getOrder());
                 session.setAttribute("payment", result.getPayment());
+                
+                System.out.println("=== STORED IN SESSION ===");
+                System.out.println("Reservation ID: " + result.getReservation().getReservationId());
+                System.out.println("Order ID: " + result.getOrder().getOrderId());
+                System.out.println("Payment ID: " + result.getPayment().getPaymentId());
+                System.out.println("Payment Status: " + result.getPayment().getPaymentStatus());
+                System.out.println("=========================");
                 
                 // DON'T clear booking session data yet - keep for payment page
                 
@@ -349,13 +452,24 @@ public class CheckoutController extends HttpServlet {
         // Try to get customer from session
         Integer customerId = (Integer) session.getAttribute("customerId");
         
+        System.out.println("=== GET CUSTOMER ===");
+        System.out.println("Customer ID from session: " + customerId);
+        
         if (customerId != null) {
-            return customerDAO.findById(customerId);
+            Customers customer = customerDAO.findById(customerId);
+            System.out.println("Customer found: " + (customer != null ? customer.getFullName() : "NULL"));
+            return customer;
         }
         
-        // For guest checkout, you might want to create a temporary customer
-        // or require login. This is a simplified version.
-        return null;
+        // FALLBACK: If no customer in session, try to use customer ID 1 for testing
+        System.out.println("WARNING: No customer in session, using customer ID 1 for testing");
+        Customers customer = customerDAO.findById(1);
+        if (customer != null) {
+            System.out.println("Fallback customer: " + customer.getFullName());
+            // Set to session for next time
+            session.setAttribute("customerId", customer.getCustomerId());
+        }
+        return customer;
     }
     
     /**
