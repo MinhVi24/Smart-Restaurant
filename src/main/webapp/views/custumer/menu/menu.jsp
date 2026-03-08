@@ -385,16 +385,30 @@
             const menuItem = menuItems.find(item => item.name === itemName);
             const actualPriceValue = priceValue || (menuItem ? menuItem.priceValue : (parseFloat(itemPrice.replace('k', '')) * 1000));
             
+            // Get selected sauce - check window.sauceSelections first, then get default from menu item
+            let selectedSauce = null;
+            if (window.sauceSelections && window.sauceSelections[itemName]) {
+                selectedSauce = window.sauceSelections[itemName];
+            } else if (menuItem && menuItem.options && menuItem.options.length > 0) {
+                // Get default sauce (first option or the one marked as default)
+                selectedSauce = menuItem.options[menuItem.defaultOption || 0];
+            }
+            
             // Check if item already in cart
             const existingItem = cart.find(item => item.name === itemName);
             if (existingItem) {
                 existingItem.quantity += 1;
+                // Update sauce if changed
+                if (selectedSauce) {
+                    existingItem.sauce = selectedSauce;
+                }
             } else {
                 cart.push({
                     name: itemName,
                     price: actualPriceValue,
                     priceDisplay: itemPrice,
-                    quantity: 1
+                    quantity: 1,
+                    sauce: selectedSauce || null
                 });
             }
             
@@ -435,6 +449,22 @@
             const existingItem = cart.find(item => item.name === itemName);
             if (existingItem) {
                 existingItem.quantity += 1;
+                
+                // Update sauce - check window.sauceSelections first, then get default
+                let selectedSauce = null;
+                if (window.sauceSelections && window.sauceSelections[itemName]) {
+                    selectedSauce = window.sauceSelections[itemName];
+                } else {
+                    const menuItem = menuItems.find(item => item.name === itemName);
+                    if (menuItem && menuItem.options && menuItem.options.length > 0) {
+                        selectedSauce = menuItem.options[menuItem.defaultOption || 0];
+                    }
+                }
+                
+                if (selectedSauce) {
+                    existingItem.sauce = selectedSauce;
+                }
+                
                 const itemId = itemName.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
                 const qtyElement = document.getElementById('qty-' + itemId);
                 if (qtyElement) {
@@ -577,10 +607,20 @@
             let cartHtml = '';
             cart.forEach((item, index) => {
                 const itemTotal = item.price * item.quantity;
+                
+                // Add sauce info if available
+                let sauceInfo = '';
+                if (item.sauce) {
+                    sauceInfo = '<p style="color: var(--md-primary); font-size: 0.8125rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">' +
+                        '<span style="background: rgba(212, 175, 55, 0.15); padding: 4px 10px; border-radius: 12px; border: 1px solid rgba(212, 175, 55, 0.3);">' + item.sauce + '</span>' +
+                        '</p>';
+                }
+                
                 cartHtml += '<div style="display: flex; gap: 20px; padding: 20px; background: rgba(255, 255, 255, 0.02); border-radius: 12px; margin-bottom: 16px; border: 1px solid var(--md-border);">' +
                     '<img src="' + (menuItems.find(m => m.name === item.name)?.image || 'https://images.unsplash.com/photo-1558030006-450675393462?w=800&q=80') + '" alt="' + item.name + '" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px;">' +
                     '<div style="flex: 1;">' +
                         '<h4 style="font-family: var(--md-font-serif); font-size: 1.25rem; color: #fff; margin-bottom: 8px;">' + item.name + '</h4>' +
+                        sauceInfo +
                         '<p style="color: var(--md-text-muted); font-size: 0.875rem; margin-bottom: 12px;">Giá: ' + item.priceDisplay + '</p>' +
                         '<div style="display: flex; align-items: center; gap: 12px;">' +
                             '<button onclick="decreaseQuantity(' + index + ')" style="width: 32px; height: 32px; border-radius: 6px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--md-border); color: #fff; cursor: pointer; font-size: 1.125rem; display: flex; align-items: center; justify-content: center;">−</button>' +
