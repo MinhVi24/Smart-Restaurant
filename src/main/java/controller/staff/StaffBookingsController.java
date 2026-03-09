@@ -1,7 +1,7 @@
 package controller.staff;
 
-import dao.ReservationDAO;
-import dao.TableDAO;
+import service.BookingService;
+import service.StaffActionLog;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,29 +9,27 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Reservations;
 import model.Users;
-import java.util.logging.Logger;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "StaffBookingsController", urlPatterns = {"/staff/bookings"})
+@WebServlet(name = "StaffBookingsController", urlPatterns = { "/staff/bookings" })
 public class StaffBookingsController extends HttpServlet {
 
-    private ReservationDAO reservationDAO;
-    private TableDAO tableDAO;
-    private static final Logger logger = Logger.getLogger(StaffBookingsController.class.getName());
+    private BookingService bookingService;
 
     @Override
     public void init() throws ServletException {
-        reservationDAO = new ReservationDAO();
-        tableDAO = new TableDAO();
+        bookingService = new BookingService();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String status = request.getParameter("status");
-        if (status == null || status.isBlank()) status = "PENDING";
-        List<Reservations> list = reservationDAO.findByStatus(status);
+        if (status == null || status.isBlank())
+            status = "BOOKED";
+
+        List<Reservations> list = bookingService.getReservationsByStatus(status);
         request.setAttribute("status", status);
         request.setAttribute("reservations", list);
         request.getRequestDispatcher("/views/staff/bookings.jsp").forward(request, response);
@@ -46,38 +44,68 @@ public class StaffBookingsController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/staff/bookings?error=missing_params");
             return;
         }
+
         try {
             Integer id = Integer.valueOf(idStr);
             Users staff = (Users) request.getSession().getAttribute("loggedInUser");
+            Integer staffUserId = staff != null ? staff.getUserId() : null;
+
             if ("confirm".equalsIgnoreCase(action)) {
-                boolean ok = reservationDAO.updateStatus(id, "CONFIRMED");
-                logger.info(String.format("AUDIT staff=%s action=confirm reservation=%d ok=%s time=%d",
-                        staff != null ? staff.getUserId() : "unknown", id, ok, System.currentTimeMillis()));
-                response.sendRedirect(request.getContextPath() + "/staff/bookings?status=PENDING" + (ok ? "&success=confirmed" : "&error=confirm_failed"));
+                boolean ok = bookingService.confirmReservation(id, staffUserId);
+                if (ok) {
+                    String staffName = staff != null ? staff.getUsername() : "unknown";
+                    StaffActionLog.record(staffName, "XÁC NHẬN ĐẶT BÀN", "RESERVATION", id,
+                            "Đặt bàn #" + id + " đã xác nhận");
+                }
+                response.sendRedirect(request.getContextPath() + "/staff/bookings?status=BOOKED"
+                        + (ok ? "&success=confirmed" : "&error=confirm_failed"));
                 return;
             }
+
             if ("cancel".equalsIgnoreCase(action)) {
-                boolean ok = reservationDAO.updateStatus(id, "CANCELLED");
-                Reservations r = reservationDAO.findById(id);
-                if (ok && r != null && r.getTableId() != null) {
-                    tableDAO.updateStatus(r.getTableId().getTableId(), "AVAILABLE");
+                String reason = request.getParameter("reason");
+                if (reason == null || reason.trim().isEmpty()) {
+                    response.sendRedirect(request.getContextPath() + "/staff/bookings?status=BOOKED&error=need_reason");
+                    return;
                 }
-                logger.info(String.format("AUDIT staff=%s action=cancel reservation=%d ok=%s time=%d",
-                        staff != null ? staff.getUserId() : "unknown", id, ok, System.currentTimeMillis()));
-                response.sendRedirect(request.getContextPath() + "/staff/bookings?status=PENDING" + (ok ? "&success=cancelled" : "&error=cancel_failed"));
+                boolean ok = bookingService.cancelReservationWithReason(id, reason, staffUserId);
+                if (ok) {
+                    String staffName = staff != null ? staff.getUsername() : "unknown";
+                    StaffActionLog.record(staffName, "HỦY ĐẶT BÀN", "RESERVATION", id, "Lý do: " + reason);
+                }
+                response.sendRedirect(request.getContextPath() + "/staff/bookings?status=BOOKED"
+                        + (ok ? "&success=cancelled" : "&error=cancel_failed"));
                 return;
             }
+
             if ("no_show".equalsIgnoreCase(action)) {
-                boolean ok = reservationDAO.updateStatus(id, "NO_SHOW");
-                Reservations r = reservationDAO.findById(id);
-                if (ok && r != null && r.getTableId() != null) {
-                    tableDAO.updateStatus(r.getTableId().getTableId(), "AVAILABLE");
+                boolean ok = bookingService.markNoShow(id, staffUserId);
+                if (ok) {
+                    String staffName = staff != null ? staff.getUsername() : "unknown";
+                    StaffActionLog.record(staffName, "KHÁCH KHÔNG ĐẾN", "RESERVATION", id,
+                            "Đặt bàn #" + id + " - khách không đến");
                 }
-                logger.info(String.format("AUDIT staff=%s action=no_show reservation=%d ok=%s time=%d",
-                        staff != null ? staff.getUserId() : "unknown", id, ok, System.currentTimeMillis()));
-                response.sendRedirect(request.getContextPath() + "/staff/bookings?status=PENDING" + (ok ? "&success=no_show" : "&error=no_show_failed"));
+                response.sendRedirect(request.getContextPath() + "/staff/bookings?status=BOOKED"
+                        + (ok ? "&success=no_show" : "&error=no_show_failed"));
                 return;
             }
+
+            if ("update".equalsIgnoreCase(action)) {
+                String newTime = request.getParameter("reservationTime");
+                String newTableIdStr = request.getParameter("tableId");
+                String result = bookingService.updateReservation(id, newTime, newTableIdStr, staffUserId);
+
+                if ("ok".equals(result)) {
+                    String staffName = staff != null ? staff.getUsername() : "unknown";
+                    StaffActionLog.record(staffName, "CẬP NHẬT ĐẶT BÀN", "RESERVATION", id,
+                            "Giờ: " + newTime + ", Bàn: " + newTableIdStr);
+                    response.sendRedirect(request.getContextPath() + "/staff/bookings?status=BOOKED&success=updated");
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/staff/bookings?status=BOOKED&error=" + result);
+                }
+                return;
+            }
+
             response.sendRedirect(request.getContextPath() + "/staff/bookings?error=unknown_action");
         } catch (NumberFormatException e) {
             response.sendRedirect(request.getContextPath() + "/staff/bookings?error=invalid_id");

@@ -83,6 +83,55 @@ public class ReservationDAO extends GenericDAO<Reservations> {
     }
 
     /**
+     * Find reservations by table and time range (for conflict check)
+     */
+    public List<Reservations> findByTableAndTimeRange(Integer tableId, Date start, Date end) {
+        EntityManager em = JPAConfig.getEntityManager();
+        try {
+            TypedQuery<Reservations> query = em.createQuery(
+                "SELECT r FROM Reservations r WHERE r.tableId.tableId = :tableId AND r.reservationTime BETWEEN :start AND :end",
+                Reservations.class
+            );
+            query.setParameter("tableId", tableId);
+            query.setParameter("start", start);
+            query.setParameter("end", end);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Update reservation basic info (time, table, guestCount, status)
+     */
+    public boolean updateReservation(Reservations updated) {
+        EntityManager em = JPAConfig.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            Reservations current = em.find(Reservations.class, updated.getReservationId());
+            if (current != null) {
+                current.setReservationTime(updated.getReservationTime());
+                current.setTableId(updated.getTableId());
+                current.setGuestCount(updated.getGuestCount());
+                current.setStatus(updated.getStatus());
+                em.merge(current);
+                em.getTransaction().commit();
+                return true;
+            }
+            em.getTransaction().rollback();
+            return false;
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
      * Create new reservation with table
      */
     public Reservations createReservation(Customers customer, Tables table, Date reservationTime, int guestCount) {

@@ -134,7 +134,7 @@
       </header>
       <div class="flex-1 flex flex-col items-center justify-center p-12 text-center relative z-20">
         <div class="max-w-2xl">
-          <h2 class="font-display text-6xl text-primary luxury-text-shadow mb-6">Chào buổi tối</h2>
+          <h2 class="font-display text-6xl text-primary luxury-text-shadow mb-6">Chào em</h2>
           <div class="flex items-center justify-center gap-4 mb-8">
             <div class="h-px w-16 bg-gradient-to-r from-transparent to-primary/50"></div>
             <span class="font-display text-xl tracking-[0.3em] text-slate-300 uppercase">Nhân viên Vesper</span>

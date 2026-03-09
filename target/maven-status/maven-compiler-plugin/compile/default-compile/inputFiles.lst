@@ -4,6 +4,7 @@ D:\GitHub\Smart-Restaurant\src\main\java\controller\admin\AdminBookingController
 D:\GitHub\Smart-Restaurant\src\main\java\model\QueueTickets.java
 D:\GitHub\Smart-Restaurant\src\main\java\service\FoodService.java
 D:\GitHub\Smart-Restaurant\src\main\java\configs\JPAConfig.java
+D:\GitHub\Smart-Restaurant\src\main\java\service\StaffTableService.java
 D:\GitHub\Smart-Restaurant\src\main\java\controller\auth\LogoutController.java
 D:\GitHub\Smart-Restaurant\src\main\java\controller\staff\StaffTablesController.java
 D:\GitHub\Smart-Restaurant\src\main\java\model\Suppliers.java
@@ -11,6 +12,7 @@ D:\GitHub\Smart-Restaurant\src\main\java\controller\booking\BookingSuccessContro
 D:\GitHub\Smart-Restaurant\src\main\java\filter\AuthFilter.java
 D:\GitHub\Smart-Restaurant\src\main\java\configs\GoogleConfig.java
 D:\GitHub\Smart-Restaurant\src\main\java\model\Customers.java
+D:\GitHub\Smart-Restaurant\src\main\java\service\StaffPaymentService.java
 D:\GitHub\Smart-Restaurant\src\main\java\controller\profile\ProfileController.java
 D:\GitHub\Smart-Restaurant\src\main\java\dao\FoodDAO.java
 D:\GitHub\Smart-Restaurant\src\main\java\controller\auth\RegisterController.java
@@ -23,10 +25,12 @@ D:\GitHub\Smart-Restaurant\src\main\java\controller\staff\KitchenBoardController
 D:\GitHub\Smart-Restaurant\src\main\java\model\Food.java
 D:\GitHub\Smart-Restaurant\src\main\java\controller\staff\StaffOrdersController.java
 D:\GitHub\Smart-Restaurant\src\main\java\model\Staff.java
+D:\GitHub\Smart-Restaurant\src\main\java\service\StaffActionLog.java
 D:\GitHub\Smart-Restaurant\src\main\java\controller\booking\BookingHistoryController.java
 D:\GitHub\Smart-Restaurant\src\main\java\model\Reservations.java
 D:\GitHub\Smart-Restaurant\src\main\java\controller\staff\StaffPaymentsController.java
 D:\GitHub\Smart-Restaurant\src\main\java\model\MenuItems.java
+D:\GitHub\Smart-Restaurant\src\main\java\controller\staff\StaffActionLogController.java
 D:\GitHub\Smart-Restaurant\src\main\java\dao\OrderDAO.java
 D:\GitHub\Smart-Restaurant\src\main\java\model\Predictions.java
 D:\GitHub\Smart-Restaurant\src\main\java\dao\TableDAO.java
@@ -34,6 +38,7 @@ D:\GitHub\Smart-Restaurant\src\main\java\model\StaffShifts.java
 D:\GitHub\Smart-Restaurant\src\main\java\dao\MenuItemDAO.java
 D:\GitHub\Smart-Restaurant\src\main\java\dao\CustomerDAO.java
 D:\GitHub\Smart-Restaurant\src\main\java\controller\booking\BookingController.java
+D:\GitHub\Smart-Restaurant\src\main\java\service\StaffOrderService.java
 D:\GitHub\Smart-Restaurant\src\main\java\model\DailyStats.java
 D:\GitHub\Smart-Restaurant\src\main\java\model\Sysdiagrams.java
 D:\GitHub\Smart-Restaurant\src\main\java\controller\AddFoodController.java
@@ -49,7 +54,6 @@ D:\GitHub\Smart-Restaurant\src\main\java\service\EmailService.java
 D:\GitHub\Smart-Restaurant\src\main\java\controller\auth\LoginGoogleHandler.java
 D:\GitHub\Smart-Restaurant\src\main\java\dao\GenericDAO.java
 D:\GitHub\Smart-Restaurant\src\main\java\service\MenuService.java
-D:\GitHub\Smart-Restaurant\src\main\java\models\User.java
 D:\GitHub\Smart-Restaurant\src\main\java\model\MenuIngredients.java
 D:\GitHub\Smart-Restaurant\src\main\java\listener\ScheduledTasksListener.java
 D:\GitHub\Smart-Restaurant\src\main\java\model\Orders.java
@@ -57,6 +61,7 @@ D:\GitHub\Smart-Restaurant\src\main\java\controller\orders\MyOrdersController.ja
 D:\GitHub\Smart-Restaurant\src\main\java\model\Users.java
 D:\GitHub\Smart-Restaurant\src\main\java\controller\auth\ForgotPasswordController.java
 D:\GitHub\Smart-Restaurant\src\main\java\model\Tables.java
+D:\GitHub\Smart-Restaurant\src\main\java\service\KitchenBoardService.java
 D:\GitHub\Smart-Restaurant\src\main\java\controller\staff\StaffBookingsController.java
 D:\GitHub\Smart-Restaurant\src\main\java\dao\ReservationDAO.java
 D:\GitHub\Smart-Restaurant\src\main\java\filter\EncodingFilter.java

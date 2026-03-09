@@ -58,6 +58,19 @@ public class TableDAO extends GenericDAO<Tables> {
     }
 
     /**
+     * Get all distinct area values
+     */
+    public List<String> findDistinctAreas() {
+        EntityManager em = JPAConfig.getEntityManager();
+        try {
+            return em.createQuery("SELECT DISTINCT t.area FROM Tables t WHERE t.area IS NOT NULL ORDER BY t.area", String.class)
+                     .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
      * Update table status
      */
     public boolean updateStatus(Integer tableId, String status) {
