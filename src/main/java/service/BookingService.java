@@ -81,28 +81,33 @@ public class BookingService {
         allTables.removeIf(t -> t.getCapacity() < guestCount);
         
         // Get active reservations at the requested time (within 2 hours window)
-        // Only check PENDING, BOOKED, CONFIRMED status (not CANCELLED or COMPLETED)
+        // Check PENDING, BOOKED, CONFIRMED status (not CANCELLED or COMPLETED)
         List<Reservations> activeReservations = reservationDAO.findByDateTime(reservationTime);
         
         System.out.println("=== CHECKING AVAILABLE TABLES ===");
         System.out.println("Requested time: " + reservationTime);
         System.out.println("Guest count: " + guestCount);
-        System.out.println("Total tables with capacity: " + allTables.size());
+        System.out.println("Total tables with capacity >= " + guestCount + ": " + allTables.size());
         System.out.println("Active reservations at this time: " + activeReservations.size());
         
         // Remove tables that have active reservations at the same time
         for (Reservations reservation : activeReservations) {
-            if (reservation.getTableId() != null && 
-                !"CANCELLED".equals(reservation.getStatus()) &&
-                !"COMPLETED".equals(reservation.getStatus())) {
-                
+            if (reservation.getTableId() != null) {
+                String status = reservation.getStatus();
                 Integer reservedTableId = reservation.getTableId().getTableId();
-                System.out.println("  - Table " + reservedTableId + " is reserved (status: " + reservation.getStatus() + ")");
-                allTables.removeIf(t -> t.getTableId().equals(reservedTableId));
+                
+                // Only block tables with PENDING, BOOKED, or CONFIRMED status
+                if ("PENDING".equals(status) || "BOOKED".equals(status) || "CONFIRMED".equals(status)) {
+                    System.out.println("  - Table " + reservedTableId + " is reserved (status: " + status + ", reservation ID: " + reservation.getReservationId() + ")");
+                    allTables.removeIf(t -> t.getTableId().equals(reservedTableId));
+                }
             }
         }
         
-        System.out.println("Available tables: " + allTables.size());
+        System.out.println("Available tables after filtering: " + allTables.size());
+        for (Tables table : allTables) {
+            System.out.println("  - Table " + table.getTableId() + " (capacity: " + table.getCapacity() + ", area: " + table.getArea() + ")");
+        }
         System.out.println("==================================");
         
         return allTables;

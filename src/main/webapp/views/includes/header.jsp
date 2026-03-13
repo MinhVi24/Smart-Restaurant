@@ -5,33 +5,33 @@
   <div class="md-container" style="display: flex; align-items: center; justify-content: space-between; height: 72px;">
     
     <!-- Logo -->
-    <a href="${pageContext.request.contextPath}/" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit;">
-      <div style="width: 36px; height: 36px; border-radius: 11px; background: radial-gradient(circle at 30% 0, #fff8da, #f0cf57 28%, #b48b20 65%, #765712 100%); color: #111; display: grid; place-items: center; font-weight: 800; letter-spacing: 0.16em; font-size: 13px; box-shadow: var(--md-glow);">
-        V
+    <a href="${pageContext.request.contextPath}/" style="display: flex; align-items: center; gap: 16px; text-decoration: none; color: inherit;">
+      <div style="width: 42px; height: 42px; border-radius: 8px; background: linear-gradient(135deg, #d4af37 0%, #f4e5b8 50%, #d4af37 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);">
+        <span style="font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: #1a1a1a; font-style: italic;">V</span>
       </div>
-      <div style="display: flex; flex-direction: column; line-height: 1.1;">
-        <span style="font-family: var(--md-font-serif); text-transform: uppercase; letter-spacing: 0.22em; font-size: 13px;">VESPER</span>
-        <span style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.32em; color: var(--md-text-muted);">Fine Dining Restaurant</span>
+      <div style="display: flex; flex-direction: column; line-height: 1.3;">
+        <span style="font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; letter-spacing: 0.05em; color: var(--md-text);">VESPER</span>
+        <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.25em; color: var(--md-primary); font-weight: 500;">Fine Dining Experience</span>
       </div>
     </a>
 
     <!-- Main Navigation -->
-    <nav style="display: flex; align-items: center; gap: 24px; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;">
+    <nav style="display: flex; align-items: center; gap: 40px; font-size: 13px; letter-spacing: 0.08em; font-weight: 500;">
       <a href="${pageContext.request.contextPath}/" 
-         style="color: rgba(255, 255, 255, 0.72); text-decoration: none; position: relative; transition: color 0.2s;">
-        Trang chủ
+         style="color: var(--md-text); text-decoration: none; position: relative; transition: all 0.3s; padding: 8px 0;">
+        Trang Chủ
       </a>
       <a href="${pageContext.request.contextPath}/menu" 
-         style="color: rgba(255, 255, 255, 0.72); text-decoration: none; position: relative; transition: color 0.2s;">
-        Thực đơn
+         style="color: var(--md-text); text-decoration: none; position: relative; transition: all 0.3s; padding: 8px 0;">
+        Thực Đơn
       </a>
       <a href="${pageContext.request.contextPath}/booking" 
-         style="color: rgba(255, 255, 255, 0.72); text-decoration: none; position: relative; transition: color 0.2s;">
-        Đặt bàn
+         style="color: var(--md-text); text-decoration: none; position: relative; transition: all 0.3s; padding: 8px 0;">
+        Đặt Bàn
       </a>
       <a href="${pageContext.request.contextPath}/about" 
-         style="color: rgba(255, 255, 255, 0.72); text-decoration: none; position: relative; transition: color 0.2s;">
-        Về chúng tôi
+         style="color: var(--md-text); text-decoration: none; position: relative; transition: all 0.3s; padding: 8px 0;">
+        Về Chúng Tôi
       </a>
     </nav>
 
@@ -149,19 +149,25 @@
 
 <style>
   /* Hover effects for navigation */
+  nav a {
+    opacity: 0.85;
+  }
+  
   nav a:hover {
     color: var(--md-primary) !important;
+    opacity: 1;
   }
   
   nav a::after {
     content: "";
     position: absolute;
-    left: 0;
-    bottom: -6px;
+    left: 50%;
+    bottom: 0;
     width: 0;
-    height: 1px;
-    background: var(--md-primary);
-    transition: width 0.2s ease-out;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--md-primary), transparent);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
   }
   
   nav a:hover::after {
@@ -171,7 +177,7 @@
   /* User dropdown hover */
   .user-dropdown:hover .user-dropdown-btn {
     border-color: var(--md-border-gold);
-    background: rgba(212, 175, 53, 0.05);
+    background: rgba(212, 175, 53, 0.08);
   }
   
   .user-dropdown:hover .user-dropdown-menu,
@@ -184,7 +190,7 @@
   
   /* Dropdown menu item hover */
   .user-dropdown-menu nav a:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(212, 175, 53, 0.08);
   }
   
   .user-dropdown-menu nav a:hover span:first-child {

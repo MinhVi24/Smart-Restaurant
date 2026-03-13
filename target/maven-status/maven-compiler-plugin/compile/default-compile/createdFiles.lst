@@ -9,6 +9,7 @@ model\StaffShifts.class
 controller\auth\ForgotPasswordController.class
 controller\booking\BookingSuccessController.class
 controller\payment\DirectPaymentTestController.class
+service\ReservationCleanupService.class
 model\Users.class
 dao\UserDAO.class
 filter\EncodingFilter.class
@@ -24,11 +25,9 @@ create\GenerateHash.class
 model\QueueTickets.class
 model\Ingredients.class
 controller\checkout\CheckoutController.class
-controller\payment\TestSepayController.class
 controller\auth\LogoutController.class
 controller\AddFoodController.class
 model\Food.class
-controller\payment\TestConfirmPaymentController.class
 controller\MenuController.class
 dao\FoodDAO.class
 controller\profile\ProfileController.class
@@ -54,6 +53,7 @@ controller\orders\MyOrdersController.class
 dao\GenericDAO.class
 model\Inventory.class
 controller\auth\ForgotPasswordController$TokenInfo.class
+controller\admin\CleanupController.class
 model\MenuIngredients.class
 model\MenuIngredientsPK.class
 model\Suppliers.class

@@ -66,6 +66,8 @@ public class ReservationDAO extends GenericDAO<Reservations> {
     
     /**
      * Find reservations by specific date/time (within 2 hour window)
+     * Includes PENDING, BOOKED, and CONFIRMED reservations (excludes CANCELLED and COMPLETED)
+     * FIXED: Only checks reservations on the SAME DATE to avoid conflicts with old reservations
      */
     public List<Reservations> findByDateTime(Date reservationTime) {
         EntityManager em = JPAConfig.getEntityManager();
@@ -75,13 +77,32 @@ public class ReservationDAO extends GenericDAO<Reservations> {
             Date startTime = new Date(reservationTime.getTime() - oneHour);
             Date endTime = new Date(reservationTime.getTime() + oneHour);
             
+            // IMPORTANT: Also filter by date to avoid matching old reservations at same time
+            // Extract date components for comparison
+            java.util.Calendar cal = java.util.Calendar.getInstance();
+            cal.setTime(reservationTime);
+            cal.set(java.util.Calendar.HOUR_OF_DAY, 0);
+            cal.set(java.util.Calendar.MINUTE, 0);
+            cal.set(java.util.Calendar.SECOND, 0);
+            cal.set(java.util.Calendar.MILLISECOND, 0);
+            Date dayStart = cal.getTime();
+            
+            cal.set(java.util.Calendar.HOUR_OF_DAY, 23);
+            cal.set(java.util.Calendar.MINUTE, 59);
+            cal.set(java.util.Calendar.SECOND, 59);
+            cal.set(java.util.Calendar.MILLISECOND, 999);
+            Date dayEnd = cal.getTime();
+            
             TypedQuery<Reservations> query = em.createQuery(
                 "SELECT r FROM Reservations r WHERE r.reservationTime BETWEEN :startTime AND :endTime " +
-                "AND r.status IN ('BOOKED', 'CONFIRMED') ORDER BY r.reservationTime",
+                "AND r.reservationTime BETWEEN :dayStart AND :dayEnd " +
+                "AND r.status IN ('PENDING', 'BOOKED', 'CONFIRMED') ORDER BY r.reservationTime",
                 Reservations.class
             );
             query.setParameter("startTime", startTime);
             query.setParameter("endTime", endTime);
+            query.setParameter("dayStart", dayStart);
+            query.setParameter("dayEnd", dayEnd);
             return query.getResultList();
         } finally {
             em.close();

@@ -994,6 +994,9 @@
                 return;
             }
             
+            // Parse guest count once at the top level
+            const requiredCapacity = parseInt(guestCount);
+            
             // Show loading state
             const findBtn = document.querySelector('.find-btn');
             const originalText = findBtn.textContent;
@@ -1005,25 +1008,38 @@
                   '&time=' + encodeURIComponent(time) + '&guestCount=' + encodeURIComponent(guestCount))
                 .then(response => response.json())
                 .then(data => {
+                    console.log('Backend response:', data);
+                    
                     if (data.success) {
                         const availableTableIds = data.availableTableIds || [];
+                        console.log('Available table IDs from backend:', availableTableIds);
+                        console.log('Required capacity:', requiredCapacity);
                         
                         // Update all tables based on availability
                         document.querySelectorAll('.table-item').forEach(table => {
                             const tableId = parseInt(table.dataset.tableId);
                             const tableCapacity = parseInt(table.dataset.capacity);
-                            const capacity = parseInt(guestCount);
+                            const tableZone = table.dataset.zone;
+                            
+                            // Skip tables that don't have a position defined (like table 0)
+                            if (!tablePositions[tableZone] || !tablePositions[tableZone][tableId]) {
+                                console.warn('Table ' + tableId + ' has no position defined, skipping');
+                                table.style.display = 'none';
+                                return;
+                            }
                             
                             // Remove all status classes first
                             table.classList.remove('available', 'occupied', 'reserved');
                             
+                            // Reset opacity and pointer events
+                            table.style.opacity = '1';
+                            table.style.pointerEvents = 'auto';
+                            
                             // Check if table is available for this date/time
                             if (availableTableIds.includes(tableId)) {
                                 // Check capacity
-                                if (tableCapacity >= capacity) {
+                                if (tableCapacity >= requiredCapacity) {
                                     table.classList.add('available');
-                                    table.style.opacity = '1';
-                                    table.style.pointerEvents = 'auto';
                                 } else {
                                     // Not enough capacity
                                     table.classList.add('occupied');
@@ -1038,13 +1054,13 @@
                             }
                         });
                         
-                        // Display tables for current zone
+                        // Display tables for current zone (this will set display: flex or none)
                         displayTables();
                         
                         // Show success message
                         const availableCount = availableTableIds.filter(id => {
                             const table = document.querySelector('[data-table-id="' + id + '"]');
-                            return table && parseInt(table.dataset.capacity) >= capacity;
+                            return table && parseInt(table.dataset.capacity) >= requiredCapacity;
                         }).length;
                         
                         if (availableCount === 0) {
@@ -1066,17 +1082,17 @@
         
         // Initialize on page load
         window.addEventListener('load', function() {
-            // Show all tables initially (mark all as available until user filters)
+            // On initial load, show all tables as "not yet searched"
+            // User must select date/time and click "Tìm Bàn" to see availability
             document.querySelectorAll('.table-item').forEach(table => {
-                // Set initial state based on database status
-                const hasAvailable = table.classList.contains('available');
-                const hasOccupied = table.classList.contains('occupied');
-                const hasReserved = table.classList.contains('reserved');
+                // Remove all status classes from server
+                table.classList.remove('available', 'occupied', 'reserved');
                 
-                // If no status class, default to available
-                if (!hasAvailable && !hasOccupied && !hasReserved) {
-                    table.classList.add('available');
-                }
+                // Add a neutral "not-searched" state
+                table.classList.add('available'); // Show as available but grayed out
+                table.style.opacity = '0.5';
+                table.style.pointerEvents = 'none';
+                table.title = 'Vui lòng chọn ngày/giờ và bấm "Tìm Bàn" để xem bàn trống';
             });
             
             displayTables();

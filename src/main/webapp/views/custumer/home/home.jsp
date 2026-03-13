@@ -5,10 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VESPER - Hương Vị Đánh Thức Mọi Giác Quan</title>
+    <title>VESPER - Nhà Hàng Ẩm Thực Cao Cấp</title>
     
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/maison-dor.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     
     <style>
@@ -29,32 +29,41 @@
         }
         
         .hero-subtitle {
-            font-size: 0.875rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
             color: var(--md-primary);
-            margin-bottom: 24px;
+            margin-bottom: 32px;
+            font-family: 'Cormorant Garamond', serif;
         }
         
         .hero-title {
-            font-family: var(--md-font-serif);
-            font-size: 4.5rem;
-            font-weight: 400;
-            line-height: 1.2;
+            font-family: 'Playfair Display', serif;
+            font-size: 5.5rem;
+            font-weight: 500;
+            line-height: 1.15;
             color: var(--md-text);
-            margin-bottom: 16px;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
         }
         
         .hero-title-italic {
             font-style: italic;
-            color: rgba(245, 245, 240, 0.9);
+            font-weight: 400;
+            color: var(--md-primary);
+            display: block;
+            margin-top: 8px;
         }
         
         .hero-description {
             font-size: 1.125rem;
-            color: rgba(245, 245, 240, 0.7);
-            margin-bottom: 40px;
+            color: rgba(245, 245, 240, 0.75);
+            margin-bottom: 48px;
+            line-height: 1.8;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            letter-spacing: 0.02em;
         }
         
         .scroll-indicator {
@@ -83,18 +92,21 @@
         }
         
         .section-subtitle {
-            font-size: 0.875rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
             color: var(--md-primary);
-            margin-bottom: 12px;
+            margin-bottom: 16px;
+            font-family: 'Cormorant Garamond', serif;
         }
         
         .section-title {
-            font-family: var(--md-font-serif);
-            font-size: 2.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 500;
             color: var(--md-text);
+            letter-spacing: -0.01em;
         }
         
         .dish-card {
@@ -161,23 +173,28 @@
         }
         
         .dish-name {
-            font-family: var(--md-font-serif);
-            font-size: 1.25rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.375rem;
+            font-weight: 500;
             color: var(--md-text);
             margin-bottom: 8px;
+            letter-spacing: -0.01em;
         }
         
         .dish-price {
             color: var(--md-primary);
-            font-weight: 700;
+            font-weight: 600;
             font-size: 1.125rem;
+            font-family: 'Cormorant Garamond', serif;
         }
         
         .dish-description {
-            color: var(--md-text-muted);
-            font-size: 0.875rem;
-            margin: 12px 0 16px;
-            line-height: 1.6;
+            color: rgba(245, 245, 240, 0.7);
+            font-size: 0.9375rem;
+            margin: 12px 0 20px;
+            line-height: 1.7;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
         }
         
         .testimonial-section {
@@ -193,13 +210,15 @@
         }
         
         .testimonial-text {
-            font-family: var(--md-font-serif);
-            font-size: 1.75rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.875rem;
             font-style: italic;
+            font-weight: 400;
             color: var(--md-text);
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto 32px;
+            line-height: 1.7;
+            max-width: 900px;
+            margin: 0 auto 40px;
+            letter-spacing: -0.01em;
         }
         
         .testimonial-author {
@@ -240,21 +259,22 @@
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="hero-content">
-            <p class="hero-subtitle">Nhà Hàng Ẩm Thực & Công Nghệ Tương Lai</p>
+            <p class="hero-subtitle">Trải Nghiệm Ẩm Thực Đẳng Cấp Quốc Tế</p>
             <h1 class="hero-title">
-                Hương Vị Đánh Thức<br>
-                <span class="hero-title-italic">Mọi Giác Quan</span>
+                Nghệ Thuật Ẩm Thực
+                <span class="hero-title-italic">Tinh Hoa Pháp</span>
             </h1>
             <p class="hero-description">
-                Trải nghiệm ẩm thực đẳng cấp - Đặt bàn trực tuyến dễ dàng
+                Nơi hương vị gặp gỡ nghệ thuật, mỗi món ăn là một kiệt tác được chế tác tỉ mỉ<br>
+                bởi đội ngũ đầu bếp đẳng cấp Michelin
             </p>
-            <a href="${pageContext.request.contextPath}/booking" class="md-btn md-btn-primary" style="text-decoration: none; font-size: 1.125rem; padding: 16px 40px;">
-                <span class="material-symbols-outlined" style="margin-right: 8px;">restaurant</span>
-                Trải Nghiệm Đặt Bàn
+            <a href="${pageContext.request.contextPath}/booking" class="md-btn md-btn-primary" style="text-decoration: none; font-size: 1rem; padding: 18px 48px; letter-spacing: 0.05em;">
+                <span class="material-symbols-outlined" style="margin-right: 10px;">restaurant_menu</span>
+                Đặt Bàn Ngay
             </a>
         </div>
         <div class="scroll-indicator">
-            <span class="material-symbols-outlined" style="color: rgba(255,255,255,0.5); font-size: 32px;">keyboard_arrow_down</span>
+            <span class="material-symbols-outlined" style="color: rgba(212, 175, 53, 0.6); font-size: 32px;">keyboard_arrow_down</span>
         </div>
     </section>
 
@@ -262,10 +282,11 @@
     <section style="padding: 80px 20px; background: var(--md-bg-dark);">
         <div class="md-container">
             <div class="section-header">
-                <p class="section-subtitle">PREMIUM SELECTION</p>
-                <h2 class="section-title">Thực Đơn Giới Hạn</h2>
-                <p style="color: var(--md-text-muted); max-width: 600px; margin: 16px auto 0;">
-                    Mỗi món ăn được chế biến từ nguyên liệu tươi ngon nhất, mang đến trải nghiệm ẩm thực đẳng cấp
+                <p class="section-subtitle">Bộ Sưu Tập Đặc Biệt</p>
+                <h2 class="section-title">Món Ăn Đặc Trưng</h2>
+                <p style="color: rgba(245, 245, 240, 0.65); max-width: 700px; margin: 20px auto 0; font-size: 1.0625rem; line-height: 1.8; font-family: 'Cormorant Garamond', serif; font-weight: 300;">
+                    Mỗi món ăn là một tác phẩm nghệ thuật, được chế biến từ nguyên liệu tươi ngon nhất,<br>
+                    kết hợp tinh hoa ẩm thực Pháp và hương vị Việt Nam đương đại
                 </p>
             </div>
             
@@ -366,10 +387,11 @@
     <section style="padding: 80px 20px; background: var(--md-bg-dark);">
         <div class="md-container">
             <div class="section-header">
-                <p class="section-subtitle">KHÔNG GIAN ĐẲNG CẤP</p>
-                <h2 class="section-title">Không Gian Đẳng Cấp</h2>
-                <p style="color: var(--md-text-muted); max-width: 600px; margin: 16px auto 0;">
-                    Tận hưởng không gian sang trọng với tầm nhìn tuyệt đẹp và phòng VIP riêng tư
+                <p class="section-subtitle">Không Gian Sang Trọng</p>
+                <h2 class="section-title">Trải Nghiệm Đẳng Cấp</h2>
+                <p style="color: rgba(245, 245, 240, 0.65); max-width: 700px; margin: 20px auto 0; font-size: 1.0625rem; line-height: 1.8; font-family: 'Cormorant Garamond', serif; font-weight: 300;">
+                    Không gian được thiết kế tinh tế với tầm nhìn panorama tuyệt đẹp,<br>
+                    mang đến trải nghiệm ẩm thực trọn vẹn cho mọi giác quan
                 </p>
             </div>
 
@@ -378,12 +400,12 @@
                 <div class="dish-card" style="cursor: pointer;">
                     <div class="dish-image" style="height: 400px;">
                         <img src="${pageContext.request.contextPath}/assets/images/pizza.jpg" alt="Sky Lounge & City View" style="filter: brightness(0.7);">
-                        <div style="position: absolute; bottom: 24px; left: 24px; right: 24px;">
-                            <h3 style="font-family: var(--md-font-serif); font-size: 2rem; color: white; margin-bottom: 8px;">Sky Lounge & City View</h3>
-                            <p style="color: rgba(255,255,255,0.8); margin-bottom: 16px;">Tầm nhìn toàn cảnh thành phố từ tầng cao, không gian mở thoáng đãng</p>
-                            <a href="${pageContext.request.contextPath}/booking" class="md-btn md-btn-ghost" style="text-decoration: none; border-color: rgba(255,255,255,0.3); color: white;">
-                                Đi tới đặt chỗ ngay
-                                <span class="material-symbols-outlined" style="margin-left: 8px; font-size: 16px;">arrow_forward</span>
+                        <div style="position: absolute; bottom: 32px; left: 32px; right: 32px;">
+                            <h3 style="font-family: 'Playfair Display', serif; font-size: 2.25rem; font-weight: 500; color: white; margin-bottom: 12px; letter-spacing: -0.01em;">Sky Lounge</h3>
+                            <p style="color: rgba(255,255,255,0.85); margin-bottom: 20px; font-size: 1.0625rem; line-height: 1.7; font-family: 'Cormorant Garamond', serif; font-weight: 300;">Tầm nhìn toàn cảnh thành phố từ tầng 45, không gian mở thoáng đãng với thiết kế hiện đại</p>
+                            <a href="${pageContext.request.contextPath}/booking" class="md-btn md-btn-ghost" style="text-decoration: none; border-color: rgba(255,255,255,0.4); color: white; font-size: 0.9375rem;">
+                                Khám Phá Ngay
+                                <span class="material-symbols-outlined" style="margin-left: 8px; font-size: 18px;">arrow_forward</span>
                             </a>
                         </div>
                     </div>
@@ -393,12 +415,12 @@
                 <div class="dish-card" style="cursor: pointer;">
                     <div class="dish-image" style="height: 400px;">
                         <img src="${pageContext.request.contextPath}/assets/images/pizza.jpg" alt="Private VIP Rooms" style="filter: brightness(0.7);">
-                        <div style="position: absolute; bottom: 24px; left: 24px; right: 24px;">
-                            <h3 style="font-family: var(--md-font-serif); font-size: 2rem; color: white; margin-bottom: 8px;">Private VIP Rooms</h3>
-                            <p style="color: rgba(255,255,255,0.8); margin-bottom: 16px;">Phòng riêng sang trọng cho các buổi gặp gỡ quan trọng</p>
-                            <a href="${pageContext.request.contextPath}/booking" class="md-btn md-btn-ghost" style="text-decoration: none; border-color: rgba(255,255,255,0.3); color: white;">
+                        <div style="position: absolute; bottom: 32px; left: 32px; right: 32px;">
+                            <h3 style="font-family: 'Playfair Display', serif; font-size: 2.25rem; font-weight: 500; color: white; margin-bottom: 12px; letter-spacing: -0.01em;">Private Dining</h3>
+                            <p style="color: rgba(255,255,255,0.85); margin-bottom: 20px; font-size: 1.0625rem; line-height: 1.7; font-family: 'Cormorant Garamond', serif; font-weight: 300;">Phòng riêng sang trọng cho các buổi gặp gỡ quan trọng, phục vụ tận tâm và riêng tư tuyệt đối</p>
+                            <a href="${pageContext.request.contextPath}/booking" class="md-btn md-btn-ghost" style="text-decoration: none; border-color: rgba(255,255,255,0.4); color: white; font-size: 0.9375rem;">
                                 Đặt Phòng VIP
-                                <span class="material-symbols-outlined" style="margin-left: 8px; font-size: 16px;">arrow_forward</span>
+                                <span class="material-symbols-outlined" style="margin-left: 8px; font-size: 18px;">arrow_forward</span>
                             </a>
                         </div>
                     </div>
