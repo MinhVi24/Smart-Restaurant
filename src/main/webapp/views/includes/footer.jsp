@@ -85,3 +85,6 @@
         color: var(--md-primary);
     }
 </style>
+
+<!-- AI Chatbot - appears on every page -->
+<jsp:include page="/views/includes/chatbot.jsp"/>

@@ -11,6 +11,7 @@ controller\booking\BookingSuccessController.class
 controller\payment\DirectPaymentTestController.class
 service\ReservationCleanupService.class
 model\Users.class
+controller\ChatBotController.class
 dao\UserDAO.class
 filter\EncodingFilter.class
 service\PaymentService.class
